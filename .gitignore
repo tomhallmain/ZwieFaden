@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+env/
+.env
+.env.*
+!.env.example
+
+# Project: configs (user data, API keys, store files)
+configs/*
+!configs/.gitkeep
+
+# Project: join/diff outputs and temp
+join_multi_analysis*
+join_multi_store*
+temp*
+*.pkl
+*.swp
+
+# App cache (user-specific, may contain context history)
+app_info_cache.enc*
+app_info_cache.json
+
+# IDE / editor
+.idea/
+.vscode/
+*.code-workspace
+*.sublime-*
+
+# Build / dist
+build/
+dist/
+*.egg-info/
+*.egg
