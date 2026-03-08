@@ -100,6 +100,8 @@ class DiffModeWidget(QWidget):
     SESSION_FILES_CACHE_KEY = "diff_mode_current_files"
     LAST_DIRECTORY_CACHE_KEY = "diff_mode_last_directory"
     HIGHLIGHT_WHITESPACE_CACHE_KEY = "diff_mode_highlight_whitespace"
+    GROUPING_HISTORY_CACHE_KEY = "diff_mode_grouping_history"
+    GROUPING_HISTORY_MAX_ENTRIES = 30
     
     def __init__(self):
         super().__init__()
@@ -124,6 +126,11 @@ class DiffModeWidget(QWidget):
         self.add_file_button.clicked.connect(self.add_file)
         top_layout.addWidget(self.add_file_button)
         
+        self.remove_file_button = QPushButton("Remove Selected")
+        self.remove_file_button.clicked.connect(self.remove_selected_files)
+        self.remove_file_button.setToolTip("Remove selected file(s) from current diff set")
+        top_layout.addWidget(self.remove_file_button)
+
         self.clear_files_button = QPushButton("Clear Files")
         self.clear_files_button.clicked.connect(self.clear_files)
         top_layout.addWidget(self.clear_files_button)
@@ -162,6 +169,21 @@ class DiffModeWidget(QWidget):
         )
         self.highlight_whitespace_checkbox.stateChanged.connect(self._on_whitespace_highlight_changed)
         top_layout.addWidget(self.highlight_whitespace_checkbox)
+
+        top_layout.addWidget(QLabel("Saved Grouping:"))
+        self.grouping_history_combo = QComboBox()
+        self.grouping_history_combo.setMinimumWidth(320)
+        self.grouping_history_combo.setToolTip("Load a previously used file grouping")
+        top_layout.addWidget(self.grouping_history_combo)
+
+        self.load_grouping_button = QPushButton("Load Grouping")
+        self.load_grouping_button.clicked.connect(self.load_selected_grouping)
+        top_layout.addWidget(self.load_grouping_button)
+
+        self.save_grouping_button = QPushButton("Save Grouping")
+        self.save_grouping_button.clicked.connect(self.save_current_grouping_to_history)
+        self.save_grouping_button.setToolTip("Store current file grouping for later quick restore")
+        top_layout.addWidget(self.save_grouping_button)
         
         top_layout.addStretch()
         
@@ -173,6 +195,7 @@ class DiffModeWidget(QWidget):
         
         self.file_list_widget = QListWidget()
         self.file_list_widget.setMaximumHeight(100)
+        self.file_list_widget.setSelectionMode(QListWidget.ExtendedSelection)
         self.file_list_widget.setToolTip("Files added for comparison. Shows filename and directory context.")
         layout.addWidget(self.file_list_widget)
         
@@ -241,6 +264,7 @@ class DiffModeWidget(QWidget):
         tabs.addTab(history_tab, "Request History")
         
         layout.addWidget(tabs)
+        self.update_grouping_history_combo()
     
     def add_file(self):
         """Add a file to compare."""
@@ -281,6 +305,26 @@ class DiffModeWidget(QWidget):
             self.generated_code.clear()
             self.update_file_groups()  # Update grouping tab
             self._cache_current_diff_session()
+
+    def remove_selected_files(self):
+        """Remove selected files from the current diff grouping."""
+        selected_items = self.file_list_widget.selectedItems()
+        if not selected_items:
+            QMessageBox.information(self, "Remove Selected", "Select one or more files to remove.")
+            return
+
+        selected_paths = {
+            item.toolTip()
+            for item in selected_items
+            if item.toolTip()
+        }
+        current_paths = self.diff_engine.get_file_names()
+        remaining_paths = [path for path in current_paths if path not in selected_paths]
+        removed_count = len(current_paths) - len(remaining_paths)
+        if removed_count <= 0:
+            return
+
+        self._apply_file_grouping(remaining_paths)
 
     def refresh_files(self):
         """Reload current files from disk and rerun the selected diff."""
@@ -398,6 +442,106 @@ class DiffModeWidget(QWidget):
         item.setToolTip(filepath)
         self.file_list_widget.addItem(item)
 
+    def _apply_file_grouping(self, file_paths: list):
+        """Replace current files with provided grouping paths."""
+        self.diff_engine.clear_files()
+        self.file_list_widget.clear()
+
+        existing_paths = []
+        for filepath in file_paths:
+            if not isinstance(filepath, str) or not os.path.exists(filepath):
+                continue
+            try:
+                self._add_file_to_engine_and_list(filepath)
+                existing_paths.append(filepath)
+            except Exception:
+                continue
+
+        self.update_file_combos()
+        self.update_base_file_combo()
+        self.update_file_groups()
+        self.update_diff()
+        if existing_paths:
+            self.last_selected_directory = os.path.dirname(existing_paths[0]) or self.last_selected_directory
+        self._cache_current_diff_session()
+
+    def save_current_grouping_to_history(self):
+        """Manually store the current file grouping for quick reload."""
+        file_paths = self.diff_engine.get_file_names()
+        if not file_paths:
+            QMessageBox.information(self, "Save Grouping", "No files in current grouping to save.")
+            return
+        self._cache_file_grouping_history(file_paths)
+        self._cache_current_diff_session()
+        QMessageBox.information(
+            self,
+            "Grouping Saved",
+            f"Saved grouping with {len(file_paths)} file(s)."
+        )
+
+    def load_selected_grouping(self):
+        """Load file grouping selected in the saved-grouping combo."""
+        entry_id = self.grouping_history_combo.currentData()
+        if not entry_id:
+            QMessageBox.information(self, "Load Grouping", "No saved grouping selected.")
+            return
+
+        history = app_info_cache.get(self.GROUPING_HISTORY_CACHE_KEY, {})
+        entry = history.get(entry_id) if isinstance(history, dict) else None
+        if not entry:
+            QMessageBox.warning(self, "Load Grouping", "Saved grouping entry was not found.")
+            return
+
+        file_paths = entry.get("file_paths", [])
+        if not file_paths:
+            QMessageBox.warning(self, "Load Grouping", "Saved grouping has no files.")
+            return
+
+        reply = QMessageBox.question(
+            self,
+            "Load Saved Grouping",
+            f"This will replace your current files with {len(file_paths)} saved file(s).\nContinue?",
+            QMessageBox.Yes | QMessageBox.No
+        )
+        if reply != QMessageBox.Yes:
+            return
+
+        self._apply_file_grouping(file_paths)
+
+    def update_grouping_history_combo(self):
+        """Refresh the saved-grouping combo entries."""
+        if not hasattr(self, "grouping_history_combo"):
+            return
+
+        self.grouping_history_combo.clear()
+        self.grouping_history_combo.addItem("Select saved grouping...", None)
+
+        history = app_info_cache.get(self.GROUPING_HISTORY_CACHE_KEY, {})
+        if not isinstance(history, dict) or not history:
+            return
+
+        sorted_entries = sorted(
+            history.items(),
+            key=lambda x: x[1].get("timestamp", ""),
+            reverse=True
+        )
+        for entry_id, entry in sorted_entries:
+            paths = entry.get("file_paths", [])
+            if not paths:
+                continue
+            timestamp = entry.get("timestamp", "")
+            try:
+                dt = datetime.fromisoformat(timestamp)
+                stamp = dt.strftime("%Y-%m-%d %H:%M")
+            except Exception:
+                stamp = timestamp or "unknown time"
+            basenames = [os.path.basename(path) for path in paths[:3]]
+            label = ", ".join(basenames)
+            if len(paths) > 3:
+                label += f" (+{len(paths)-3})"
+            display_text = f"[{stamp}] {len(paths)} file(s): {label}"
+            self.grouping_history_combo.addItem(display_text, entry_id)
+
     def _cache_current_diff_session(self):
         """Persist current diff session state (files and picker directory)."""
         file_paths = self.diff_engine.get_file_names()
@@ -407,6 +551,39 @@ class DiffModeWidget(QWidget):
             self.HIGHLIGHT_WHITESPACE_CACHE_KEY,
             self.highlight_whitespace_checkbox.isChecked()
         )
+        self._cache_file_grouping_history(file_paths)
+        self.update_grouping_history_combo()
+        try:
+            app_info_cache.store()
+        except Exception:
+            # Keep UI responsive even if cache persistence fails.
+            pass
+
+    def _cache_file_grouping_history(self, file_paths: list):
+        """Persist file grouping history independent of LLM request history."""
+        if not file_paths:
+            return
+
+        normalized_paths = sorted({os.path.normcase(path): path for path in file_paths}.values())
+        if not normalized_paths:
+            return
+        entry_id = hashlib.md5("||".join(sorted(os.path.normcase(path) for path in normalized_paths)).encode()).hexdigest()
+        history = app_info_cache.get(self.GROUPING_HISTORY_CACHE_KEY, {})
+        if not isinstance(history, dict):
+            history = {}
+
+        history[entry_id] = {
+            "timestamp": datetime.now().isoformat(),
+            "file_paths": normalized_paths
+        }
+
+        sorted_entries = sorted(
+            history.items(),
+            key=lambda x: x[1].get("timestamp", ""),
+            reverse=True
+        )
+        trimmed = dict(sorted_entries[:self.GROUPING_HISTORY_MAX_ENTRIES])
+        app_info_cache.set(self.GROUPING_HISTORY_CACHE_KEY, trimmed)
 
     def _restore_cached_diff_session(self):
         """Restore previously opened diff files and settings."""
