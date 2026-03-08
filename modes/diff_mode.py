@@ -118,47 +118,75 @@ class DiffModeWidget(QWidget):
         """Initialize the UI."""
         layout = QVBoxLayout(self)
         
-        # Top panel - File selection
+        # Top panel - controls (split across two rows for readability)
         top_panel = QWidget()
-        top_layout = QHBoxLayout(top_panel)
+        top_layout = QVBoxLayout(top_panel)
+        row_one_layout = QHBoxLayout()
+        row_two_layout = QHBoxLayout()
         
         self.add_file_button = QPushButton("Add File")
         self.add_file_button.clicked.connect(self.add_file)
-        top_layout.addWidget(self.add_file_button)
+        row_one_layout.addWidget(self.add_file_button)
         
         self.remove_file_button = QPushButton("Remove Selected")
         self.remove_file_button.clicked.connect(self.remove_selected_files)
         self.remove_file_button.setToolTip("Remove selected file(s) from current diff set")
-        top_layout.addWidget(self.remove_file_button)
+        row_one_layout.addWidget(self.remove_file_button)
+
+        self.move_up_button = QPushButton("↑")
+        self.move_up_button.clicked.connect(self.move_selected_files_up)
+        self.move_up_button.setToolTip("Move selected file(s) up")
+        row_one_layout.addWidget(self.move_up_button)
+
+        self.move_down_button = QPushButton("↓")
+        self.move_down_button.clicked.connect(self.move_selected_files_down)
+        self.move_down_button.setToolTip("Move selected file(s) down")
+        row_one_layout.addWidget(self.move_down_button)
 
         self.clear_files_button = QPushButton("Clear Files")
         self.clear_files_button.clicked.connect(self.clear_files)
-        top_layout.addWidget(self.clear_files_button)
+        row_one_layout.addWidget(self.clear_files_button)
 
         self.refresh_files_button = QPushButton("Refresh Files")
         self.refresh_files_button.clicked.connect(self.refresh_files)
         self.refresh_files_button.setToolTip("Reload file contents from disk and rerun diff")
-        top_layout.addWidget(self.refresh_files_button)
+        row_one_layout.addWidget(self.refresh_files_button)
         
-        top_layout.addWidget(QLabel("Compare:"))
+        row_one_layout.addWidget(QLabel("Compare:"))
         
         self.file_a_combo = QComboBox()
         self.file_a_combo.currentIndexChanged.connect(self.update_diff)
-        top_layout.addWidget(self.file_a_combo)
+        row_one_layout.addWidget(self.file_a_combo)
         
-        top_layout.addWidget(QLabel("vs"))
+        row_one_layout.addWidget(QLabel("vs"))
         
         self.file_b_combo = QComboBox()
         self.file_b_combo.currentIndexChanged.connect(self.update_diff)
-        top_layout.addWidget(self.file_b_combo)
+        row_one_layout.addWidget(self.file_b_combo)
+        row_one_layout.addStretch()
+
+        row_two_layout.addWidget(QLabel("Saved Grouping:"))
+        self.grouping_history_combo = QComboBox()
+        self.grouping_history_combo.setMinimumWidth(320)
+        self.grouping_history_combo.setToolTip("Load a previously used file grouping")
+        row_two_layout.addWidget(self.grouping_history_combo)
+
+        self.load_grouping_button = QPushButton("Load Grouping")
+        self.load_grouping_button.clicked.connect(self.load_selected_grouping)
+        row_two_layout.addWidget(self.load_grouping_button)
+
+        self.save_grouping_button = QPushButton("Save Grouping")
+        self.save_grouping_button.clicked.connect(self.save_current_grouping_to_history)
+        self.save_grouping_button.setToolTip("Store current file grouping for later quick restore")
+        row_two_layout.addWidget(self.save_grouping_button)
         
         self.unified_diff_button = QPushButton("Show Unified Diff")
         self.unified_diff_button.clicked.connect(self.show_unified_diff)
-        top_layout.addWidget(self.unified_diff_button)
+        row_two_layout.addWidget(self.unified_diff_button)
         
         self.html_diff_button = QPushButton("Show HTML Diff")
         self.html_diff_button.clicked.connect(self.show_html_diff)
-        top_layout.addWidget(self.html_diff_button)
+        row_two_layout.addWidget(self.html_diff_button)
 
         self.highlight_whitespace_checkbox = QCheckBox("Highlight Whitespace-Only Diffs")
         self.highlight_whitespace_checkbox.setChecked(
@@ -168,24 +196,11 @@ class DiffModeWidget(QWidget):
             "When disabled, trailing/blank-line whitespace-only changes are not highlighted."
         )
         self.highlight_whitespace_checkbox.stateChanged.connect(self._on_whitespace_highlight_changed)
-        top_layout.addWidget(self.highlight_whitespace_checkbox)
+        row_two_layout.addWidget(self.highlight_whitespace_checkbox)
 
-        top_layout.addWidget(QLabel("Saved Grouping:"))
-        self.grouping_history_combo = QComboBox()
-        self.grouping_history_combo.setMinimumWidth(320)
-        self.grouping_history_combo.setToolTip("Load a previously used file grouping")
-        top_layout.addWidget(self.grouping_history_combo)
-
-        self.load_grouping_button = QPushButton("Load Grouping")
-        self.load_grouping_button.clicked.connect(self.load_selected_grouping)
-        top_layout.addWidget(self.load_grouping_button)
-
-        self.save_grouping_button = QPushButton("Save Grouping")
-        self.save_grouping_button.clicked.connect(self.save_current_grouping_to_history)
-        self.save_grouping_button.setToolTip("Store current file grouping for later quick restore")
-        top_layout.addWidget(self.save_grouping_button)
-        
-        top_layout.addStretch()
+        row_two_layout.addStretch()
+        top_layout.addLayout(row_one_layout)
+        top_layout.addLayout(row_two_layout)
         
         layout.addWidget(top_panel)
         
@@ -205,7 +220,8 @@ class DiffModeWidget(QWidget):
         # Left side - Line-by-line diff
         left_widget = QWidget()
         left_layout = QVBoxLayout(left_widget)
-        left_layout.addWidget(QLabel("Line-by-Line Diff:"))
+        self.diff_section_label = QLabel("Line-by-Line Diff:")
+        left_layout.addWidget(self.diff_section_label)
         
         self.diff_text = DiffTextEdit()
         self.diff_text.setReadOnly(True)
@@ -304,6 +320,7 @@ class DiffModeWidget(QWidget):
             self.analysis_results.clear()
             self.generated_code.clear()
             self.update_file_groups()  # Update grouping tab
+            self._set_no_diff_indicator(False)
             self._cache_current_diff_session()
 
     def remove_selected_files(self):
@@ -325,6 +342,48 @@ class DiffModeWidget(QWidget):
             return
 
         self._apply_file_grouping(remaining_paths)
+
+    def move_selected_files_up(self):
+        """Move selected files up in grouping order."""
+        self._reorder_selected_files(direction=-1)
+
+    def move_selected_files_down(self):
+        """Move selected files down in grouping order."""
+        self._reorder_selected_files(direction=1)
+
+    def _reorder_selected_files(self, direction: int):
+        """Reorder selected files by one step up/down."""
+        selected_items = self.file_list_widget.selectedItems()
+        if not selected_items:
+            return
+
+        paths = self.diff_engine.get_file_names()
+        if len(paths) < 2:
+            return
+
+        selected_indices = sorted(self.file_list_widget.row(item) for item in selected_items)
+        selected_paths = [paths[i] for i in selected_indices if 0 <= i < len(paths)]
+        if not selected_paths:
+            return
+
+        reordered = list(paths)
+        if direction < 0:
+            for idx in selected_indices:
+                if idx > 0 and (idx - 1) not in selected_indices:
+                    reordered[idx - 1], reordered[idx] = reordered[idx], reordered[idx - 1]
+        else:
+            for idx in reversed(selected_indices):
+                if idx < len(reordered) - 1 and (idx + 1) not in selected_indices:
+                    reordered[idx + 1], reordered[idx] = reordered[idx], reordered[idx + 1]
+
+        if reordered == paths:
+            return
+
+        self._apply_file_grouping(
+            reordered,
+            select_paths=set(selected_paths),
+            preserve_selected_paths=False
+        )
 
     def refresh_files(self):
         """Reload current files from disk and rerun the selected diff."""
@@ -442,8 +501,15 @@ class DiffModeWidget(QWidget):
         item.setToolTip(filepath)
         self.file_list_widget.addItem(item)
 
-    def _apply_file_grouping(self, file_paths: list):
+    def _apply_file_grouping(
+        self,
+        file_paths: list,
+        select_paths: set = None,
+        preserve_selected_paths: bool = True
+    ):
         """Replace current files with provided grouping paths."""
+        selected_a_path = self._get_selected_combo_file_path(self.file_a_combo)
+        selected_b_path = self._get_selected_combo_file_path(self.file_b_combo)
         self.diff_engine.clear_files()
         self.file_list_widget.clear()
 
@@ -458,9 +524,17 @@ class DiffModeWidget(QWidget):
                 continue
 
         self.update_file_combos()
+        if preserve_selected_paths:
+            self._set_combo_selection_by_path(self.file_a_combo, selected_a_path)
+            self._set_combo_selection_by_path(self.file_b_combo, selected_b_path)
         self.update_base_file_combo()
         self.update_file_groups()
         self.update_diff()
+        if select_paths:
+            for idx in range(self.file_list_widget.count()):
+                item = self.file_list_widget.item(idx)
+                if item.toolTip() in select_paths:
+                    item.setSelected(True)
         if existing_paths:
             self.last_selected_directory = os.path.dirname(existing_paths[0]) or self.last_selected_directory
         self._cache_current_diff_session()
@@ -535,12 +609,97 @@ class DiffModeWidget(QWidget):
                 stamp = dt.strftime("%Y-%m-%d %H:%M")
             except Exception:
                 stamp = timestamp or "unknown time"
-            basenames = [os.path.basename(path) for path in paths[:3]]
-            label = ", ".join(basenames)
-            if len(paths) > 3:
-                label += f" (+{len(paths)-3})"
-            display_text = f"[{stamp}] {len(paths)} file(s): {label}"
+            short_label, full_label = self._build_grouping_display_labels(paths, max_items=3)
+            display_text = self._truncate_text(f"[{stamp}] {len(paths)} file(s): {short_label}", 120)
             self.grouping_history_combo.addItem(display_text, entry_id)
+            self.grouping_history_combo.setItemData(
+                self.grouping_history_combo.count() - 1,
+                f"[{stamp}] {len(paths)} file(s): {full_label}",
+                Qt.ToolTipRole
+            )
+
+    def _truncate_text(self, text: str, max_len: int) -> str:
+        """Truncate long display text while preserving readability."""
+        if len(text) <= max_len:
+            return text
+        return text[:max_len - 1] + "…"
+
+    def _build_grouping_path_labels(self, paths: list) -> dict:
+        """Build path labels with uncommon directory context for duplicate basenames."""
+        labels = {}
+        by_basename = {}
+        for path in paths:
+            basename = os.path.basename(path)
+            by_basename.setdefault(basename, []).append(path)
+
+        for basename, group_paths in by_basename.items():
+            if len(group_paths) == 1:
+                labels[group_paths[0]] = basename
+                continue
+            for path in group_paths:
+                context = self._find_uncommon_directory_context(path, group_paths)
+                labels[path] = f"{basename} ({context})" if context else basename
+        return labels
+
+    def _build_grouping_display_labels(self, paths: list, max_items: int = 3):
+        """
+        Build short/full grouping labels.
+        If all basenames are identical, display basename once with uncommon directory specifiers.
+        """
+        if not paths:
+            return "", ""
+
+        basenames = [os.path.basename(path) for path in paths]
+        if len(set(basenames)) == 1:
+            basename = basenames[0]
+            contexts = []
+            for path in paths:
+                context = self._find_uncommon_directory_context(path, paths)
+                if not context:
+                    context = os.path.dirname(path) or "."
+                if context not in contexts:
+                    contexts.append(context)
+            shown_contexts = contexts[:max_items]
+            short_label = f"{basename} ({', '.join(shown_contexts)})"
+            if len(contexts) > max_items:
+                short_label += f" (+{len(contexts) - max_items})"
+            full_label = f"{basename} ({', '.join(contexts)})"
+            return short_label, full_label
+
+        labels_by_path = self._build_grouping_path_labels(paths)
+        shown_paths = paths[:max_items]
+        short_label = ", ".join(labels_by_path.get(path, os.path.basename(path)) for path in shown_paths)
+        if len(paths) > max_items:
+            short_label += f" (+{len(paths) - max_items})"
+        full_label = ", ".join(labels_by_path.get(path, os.path.basename(path)) for path in paths)
+        return short_label, full_label
+
+    def _find_uncommon_directory_context(self, target_path: str, peer_paths: list) -> str:
+        """
+        Find the most specific uncommon directory from the right.
+        If the first rightmost directory is already uncommon, include two levels.
+        """
+        target_parts = os.path.normpath(target_path).split(os.sep)
+        target_dirs = target_parts[:-1][::-1]
+        all_dirs = [os.path.normpath(path).split(os.sep)[:-1][::-1] for path in peer_paths]
+        if not target_dirs:
+            return ""
+
+        max_depth = max(len(parts) for parts in all_dirs)
+        uncommon_idx = None
+        for idx in range(max_depth):
+            level_values = [parts[idx] if idx < len(parts) else None for parts in all_dirs]
+            if len(set(level_values)) > 1:
+                uncommon_idx = idx
+                break
+
+        if uncommon_idx is None:
+            uncommon_idx = min(len(target_dirs) - 1, 0)
+
+        if uncommon_idx == 0:
+            taken = target_dirs[:min(2, len(target_dirs))]
+            return "/".join(reversed(taken))
+        return target_dirs[uncommon_idx]
 
     def _cache_current_diff_session(self):
         """Persist current diff session state (files and picker directory)."""
@@ -646,12 +805,14 @@ class DiffModeWidget(QWidget):
         file_b_idx = self.file_b_combo.currentData()
         
         if file_a_idx is None or file_b_idx is None:
+            self._set_no_diff_indicator(False)
             return
         
         if file_a_idx == file_b_idx:
             self.diff_text.setPlainText("Select two different files to compare.")
             self.file_a_text.clear()
             self.file_b_text.clear()
+            self._set_no_diff_indicator(False)
             return
         
         try:
@@ -662,6 +823,8 @@ class DiffModeWidget(QWidget):
                 highlight_whitespace_only_diffs=self.highlight_whitespace_checkbox.isChecked()
             )
             self.current_diff_lines = diff_lines
+            has_diff = any(line.line_type != DiffType.EQUAL for line in diff_lines)
+            self._set_no_diff_indicator(not has_diff)
             
             # Update line-by-line diff
             diff_text_lines = []
@@ -726,6 +889,7 @@ class DiffModeWidget(QWidget):
         try:
             unified_diff = self.diff_engine.get_unified_diff(file_a_idx, file_b_idx)
             self.diff_text.setPlainText(unified_diff)
+            self._set_no_diff_indicator(False)
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Failed to generate unified diff: {str(e)}")
     
@@ -760,6 +924,13 @@ class DiffModeWidget(QWidget):
             )
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Failed to generate HTML diff: {str(e)}")
+
+    def _set_no_diff_indicator(self, no_diff: bool):
+        """Update header indicator for identical file contents."""
+        if no_diff:
+            self.diff_section_label.setText("Line-by-Line Diff: ✅ No differences")
+        else:
+            self.diff_section_label.setText("Line-by-Line Diff:")
     
     def create_llm_analysis_tab(self) -> QWidget:
         """Create the LLM analysis tab."""
