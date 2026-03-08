@@ -97,6 +97,9 @@ class DiffTextEdit(QTextEdit):
 
 class DiffModeWidget(QWidget):
     """Widget for diff mode."""
+    SESSION_FILES_CACHE_KEY = "diff_mode_current_files"
+    LAST_DIRECTORY_CACHE_KEY = "diff_mode_last_directory"
+    HIGHLIGHT_WHITESPACE_CACHE_KEY = "diff_mode_highlight_whitespace"
     
     def __init__(self):
         super().__init__()
@@ -105,7 +108,9 @@ class DiffModeWidget(QWidget):
         self.llm_analyzer = DiffLLMAnalyzer()
         self.llm_analysis_worker = None
         self.llm_generation_worker = None
+        self.last_selected_directory = app_info_cache.get(self.LAST_DIRECTORY_CACHE_KEY, "")
         self.init_ui()
+        self._restore_cached_diff_session()
     
     def init_ui(self):
         """Initialize the UI."""
@@ -149,11 +154,13 @@ class DiffModeWidget(QWidget):
         top_layout.addWidget(self.html_diff_button)
 
         self.highlight_whitespace_checkbox = QCheckBox("Highlight Whitespace-Only Diffs")
-        self.highlight_whitespace_checkbox.setChecked(False)
+        self.highlight_whitespace_checkbox.setChecked(
+            bool(app_info_cache.get(self.HIGHLIGHT_WHITESPACE_CACHE_KEY, False))
+        )
         self.highlight_whitespace_checkbox.setToolTip(
             "When disabled, trailing/blank-line whitespace-only changes are not highlighted."
         )
-        self.highlight_whitespace_checkbox.stateChanged.connect(self.update_diff)
+        self.highlight_whitespace_checkbox.stateChanged.connect(self._on_whitespace_highlight_changed)
         top_layout.addWidget(self.highlight_whitespace_checkbox)
         
         top_layout.addStretch()
@@ -237,21 +244,19 @@ class DiffModeWidget(QWidget):
     
     def add_file(self):
         """Add a file to compare."""
+        start_directory = self._get_dialog_start_directory()
         filename, _ = QFileDialog.getOpenFileName(
-            self, "Select file to compare", "", "All Files (*)"
+            self, "Select file to compare", start_directory, "All Files (*)"
         )
         if filename:
             try:
-                self.diff_engine.add_file(filename)
-                # Show filename with directory context
-                dir_context = os.path.dirname(filename) or "."
-                display_name = f"{os.path.basename(filename)} ({dir_context})"
-                item = QListWidgetItem(display_name)
-                item.setToolTip(filename)  # Full path in tooltip
-                self.file_list_widget.addItem(item)
+                self._add_file_to_engine_and_list(filename)
+                self.last_selected_directory = os.path.dirname(filename) or self.last_selected_directory
                 self.update_file_combos()
                 self.update_base_file_combo()
                 self.update_file_groups()  # Update grouping tab
+                self._cache_current_diff_session()
+                dir_context = os.path.dirname(filename) or "."
                 QMessageBox.information(self, "Success", f"Added file: {os.path.basename(filename)}\nFrom: {dir_context}")
             except Exception as e:
                 QMessageBox.critical(self, "Error", f"Failed to add file: {str(e)}")
@@ -275,6 +280,7 @@ class DiffModeWidget(QWidget):
             self.analysis_results.clear()
             self.generated_code.clear()
             self.update_file_groups()  # Update grouping tab
+            self._cache_current_diff_session()
 
     def refresh_files(self):
         """Reload current files from disk and rerun the selected diff."""
@@ -299,12 +305,7 @@ class DiffModeWidget(QWidget):
         self.diff_engine.clear_files()
         self.file_list_widget.clear()
         for filepath in existing_paths:
-            self.diff_engine.add_file(filepath)
-            dir_context = os.path.dirname(filepath) or "."
-            display_name = f"{os.path.basename(filepath)} ({dir_context})"
-            item = QListWidgetItem(display_name)
-            item.setToolTip(filepath)
-            self.file_list_widget.addItem(item)
+            self._add_file_to_engine_and_list(filepath)
 
         self.update_file_combos()
         self.update_base_file_combo()
@@ -313,6 +314,9 @@ class DiffModeWidget(QWidget):
         self._set_combo_selection_by_path(self.file_a_combo, selected_a_path)
         self._set_combo_selection_by_path(self.file_b_combo, selected_b_path)
         self.update_diff()
+        if existing_paths:
+            self.last_selected_directory = os.path.dirname(existing_paths[0]) or self.last_selected_directory
+        self._cache_current_diff_session()
 
         if missing_paths:
             QMessageBox.warning(
@@ -375,6 +379,64 @@ class DiffModeWidget(QWidget):
             if normalized_cached == normalized_current:
                 return True
         return False
+
+    def _get_dialog_start_directory(self) -> str:
+        """Return the best directory to open file dialogs."""
+        if self.last_selected_directory and os.path.isdir(self.last_selected_directory):
+            return self.last_selected_directory
+        cached_dir = app_info_cache.get(self.LAST_DIRECTORY_CACHE_KEY, "")
+        if cached_dir and os.path.isdir(cached_dir):
+            return cached_dir
+        return os.getcwd()
+
+    def _add_file_to_engine_and_list(self, filepath: str):
+        """Add file to diff engine and visible list."""
+        self.diff_engine.add_file(filepath)
+        dir_context = os.path.dirname(filepath) or "."
+        display_name = f"{os.path.basename(filepath)} ({dir_context})"
+        item = QListWidgetItem(display_name)
+        item.setToolTip(filepath)
+        self.file_list_widget.addItem(item)
+
+    def _cache_current_diff_session(self):
+        """Persist current diff session state (files and picker directory)."""
+        file_paths = self.diff_engine.get_file_names()
+        app_info_cache.set(self.SESSION_FILES_CACHE_KEY, file_paths)
+        app_info_cache.set(self.LAST_DIRECTORY_CACHE_KEY, self.last_selected_directory or "")
+        app_info_cache.set(
+            self.HIGHLIGHT_WHITESPACE_CACHE_KEY,
+            self.highlight_whitespace_checkbox.isChecked()
+        )
+
+    def _restore_cached_diff_session(self):
+        """Restore previously opened diff files and settings."""
+        cached_paths = app_info_cache.get(self.SESSION_FILES_CACHE_KEY, [])
+        if not isinstance(cached_paths, list):
+            cached_paths = []
+
+        self.last_selected_directory = app_info_cache.get(self.LAST_DIRECTORY_CACHE_KEY, self.last_selected_directory)
+        existing_paths = [path for path in cached_paths if isinstance(path, str) and os.path.exists(path)]
+        if not existing_paths:
+            self._cache_current_diff_session()
+            return
+
+        self.diff_engine.clear_files()
+        self.file_list_widget.clear()
+        for filepath in existing_paths:
+            try:
+                self._add_file_to_engine_and_list(filepath)
+            except Exception:
+                continue
+
+        self.update_file_combos()
+        self.update_base_file_combo()
+        self.update_file_groups()
+        self._cache_current_diff_session()
+
+    def _on_whitespace_highlight_changed(self, *_args):
+        """Update diff and cache whitespace highlight preference."""
+        self._cache_current_diff_session()
+        self.update_diff()
     
     def update_file_combos(self):
         """Update the file selection combos."""
@@ -1278,12 +1340,7 @@ class DiffModeWidget(QWidget):
             for filepath in file_paths:
                 if os.path.exists(filepath):
                     try:
-                        self.diff_engine.add_file(filepath)
-                        dir_context = os.path.dirname(filepath) or "."
-                        display_name = f"{os.path.basename(filepath)} ({dir_context})"
-                        list_item = QListWidgetItem(display_name)
-                        list_item.setToolTip(filepath)
-                        self.file_list_widget.addItem(list_item)
+                        self._add_file_to_engine_and_list(filepath)
                     except Exception as e:
                         QMessageBox.warning(
                             self, "Warning",
@@ -1299,6 +1356,9 @@ class DiffModeWidget(QWidget):
             self.update_file_combos()
             self.update_base_file_combo()
             self.update_file_groups()
+            if file_paths:
+                self.last_selected_directory = os.path.dirname(file_paths[0]) or self.last_selected_directory
+            self._cache_current_diff_session()
             
             # Restore target context and requirements
             target_context = entry.get('target_context')
