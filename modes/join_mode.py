@@ -12,6 +12,7 @@ from PySide6.QtCore import Qt, QThread, Signal
 from PySide6.QtGui import QKeySequence, QShortcut
 
 from join.join import JoinMulti
+from utils.app_info_cache import app_info_cache
 
 
 class SortBy(Enum):
@@ -54,6 +55,9 @@ class JoinWorker(QThread):
 
 class JoinModeWidget(QWidget):
     """Widget for join/grouping mode."""
+    LAST_DIRECTORY_CACHE_KEY = "join_mode_last_directory"
+    SORT_BY_CACHE_KEY = "join_mode_sort_by"
+    UNCONFIRMED_VIEW_CACHE_KEY = "join_mode_unconfirmed_view"
     
     def __init__(self):
         super().__init__()
@@ -64,6 +68,7 @@ class JoinModeWidget(QWidget):
         self.groupings = {}
         self.unconfirmed_list_mode = False
         self.file_list = []
+        self.last_selected_directory = app_info_cache.get(self.LAST_DIRECTORY_CACHE_KEY, "")
         self.worker = None
         
         self.init_ui()
@@ -73,6 +78,8 @@ class JoinModeWidget(QWidget):
             self.update_file_list_display()
             self.fill_grouping_lists()
             self.set_name()
+
+        self._restore_join_ui_state()
     
     def init_ui(self):
         """Initialize the UI."""
@@ -216,8 +223,9 @@ class JoinModeWidget(QWidget):
     
     def add_file(self):
         """Add files via file dialog."""
+        start_directory = self._get_dialog_start_directory()
         filenames, _ = QFileDialog.getOpenFileNames(
-            self, "Select files", "", "All Files (*)"
+            self, "Select files", start_directory, "All Files (*)"
         )
         added_count = 0
         for file_path in filenames:
@@ -228,8 +236,12 @@ class JoinModeWidget(QWidget):
         
         if added_count > 0:
             self.join.file_paths = self.file_list
+            # Track last picked directory so next picker opens nearby.
+            self.last_selected_directory = os.path.dirname(filenames[0]) or self.last_selected_directory
             self.set_name()
             self.update_file_list_display()
+            self.store_data()
+            self._cache_join_ui_state()
             QMessageBox.information(
                 self, "Files Added",
                 f"Added {added_count} file(s). Total: {len(self.file_list)}"
@@ -285,6 +297,7 @@ class JoinModeWidget(QWidget):
             self.u_listbox.setVisible(True)
         self.unconfirmed_list_mode = not self.unconfirmed_list_mode
         self.update_unconfirmed_button_states()
+        self._cache_join_ui_state()
     
     def do_join(self):
         """Start the join analysis."""
@@ -367,11 +380,13 @@ class JoinModeWidget(QWidget):
         elif sort_by == SortBy.MOST_COMMON:
             for grouping in self.join.groupings:
                 self.g_listbox.addItem(grouping)
+        self._cache_join_ui_state()
     
     def store_data(self):
         """Store the join data."""
         if self.join:
             self.join.store()
+        self._cache_join_ui_state()
     
     def reset_data(self):
         """Reset all data."""
@@ -389,6 +404,7 @@ class JoinModeWidget(QWidget):
             self.clear_info_text()
             self.file_list_widget.clear()
             self.update_unconfirmed_button_states()
+            self._cache_join_ui_state()
     
     def update_unconfirmed_button_states(self):
         """Update the enabled state of unconfirmed grouping action buttons."""
@@ -489,4 +505,28 @@ class JoinModeWidget(QWidget):
         
         row = self.u_listbox.row(item)
         self.u_listbox.takeItem(row)
+
+    def _get_dialog_start_directory(self) -> str:
+        """Return the best directory to open file dialogs."""
+        if self.last_selected_directory and os.path.isdir(self.last_selected_directory):
+            return self.last_selected_directory
+        cached_dir = app_info_cache.get(self.LAST_DIRECTORY_CACHE_KEY, "")
+        if cached_dir and os.path.isdir(cached_dir):
+            return cached_dir
+        return os.getcwd()
+
+    def _cache_join_ui_state(self):
+        """Persist join mode UI preferences."""
+        app_info_cache.set(self.LAST_DIRECTORY_CACHE_KEY, self.last_selected_directory or "")
+        app_info_cache.set(self.SORT_BY_CACHE_KEY, self.sort_combo.currentText())
+        app_info_cache.set(self.UNCONFIRMED_VIEW_CACHE_KEY, self.unconfirmed_list_mode)
+
+    def _restore_join_ui_state(self):
+        """Restore join mode UI preferences."""
+        sort_name = app_info_cache.get(self.SORT_BY_CACHE_KEY, SortBy.MOST_COMMON.name)
+        if sort_name in [e.name for e in SortBy]:
+            self.sort_combo.setCurrentText(sort_name)
+        show_unconfirmed = bool(app_info_cache.get(self.UNCONFIRMED_VIEW_CACHE_KEY, False))
+        if show_unconfirmed != self.unconfirmed_list_mode:
+            self.toggle_view_mode()
 

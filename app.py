@@ -77,8 +77,13 @@ class MainWindow(QMainWindow):
 def main():
     """Main entry point."""
     app = QApplication(sys.argv)
+    window = MainWindow()
 
     def save_cache_on_quit():
+        try:
+            window.join_widget.store_data()
+        except Exception as e:
+            logger.warning("Failed to store join data on exit: %s", e)
         try:
             app_info_cache.store()
         except Exception as e:
@@ -88,7 +93,6 @@ def main():
 
     apply_dark_theme(app)
 
-    window = MainWindow()
     window.show()
 
     sys.exit(app.exec())
