@@ -1,0 +1,4 @@
+# OQS (post-quantum) key encapsulation for utils/encryptor.py PersonalQuantumEncryptor.
+# Install from GitHub; liboqs C library must be installed first (or is auto-installed at runtime).
+# Full instructions: https://github.com/open-quantum-safe/liboqs-python/blob/main/README.md
+git+https://github.com/open-quantum-safe/liboqs-python.git

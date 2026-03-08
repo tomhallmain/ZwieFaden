@@ -97,6 +97,11 @@ class DiffModeWidget(QWidget):
         self.clear_files_button = QPushButton("Clear Files")
         self.clear_files_button.clicked.connect(self.clear_files)
         top_layout.addWidget(self.clear_files_button)
+
+        self.refresh_files_button = QPushButton("Refresh Files")
+        self.refresh_files_button.clicked.connect(self.refresh_files)
+        self.refresh_files_button.setToolTip("Reload file contents from disk and rerun diff")
+        top_layout.addWidget(self.refresh_files_button)
         
         top_layout.addWidget(QLabel("Compare:"))
         
@@ -237,6 +242,106 @@ class DiffModeWidget(QWidget):
             self.analysis_results.clear()
             self.generated_code.clear()
             self.update_file_groups()  # Update grouping tab
+
+    def refresh_files(self):
+        """Reload current files from disk and rerun the selected diff."""
+        current_paths = self.diff_engine.get_file_names()
+        if not current_paths:
+            QMessageBox.information(self, "Refresh Files", "No files to refresh.")
+            return
+
+        # Preserve current pair selection by file path.
+        selected_a_path = self._get_selected_combo_file_path(self.file_a_combo)
+        selected_b_path = self._get_selected_combo_file_path(self.file_b_combo)
+
+        existing_paths = []
+        missing_paths = []
+        for path in current_paths:
+            if os.path.exists(path):
+                existing_paths.append(path)
+            else:
+                missing_paths.append(path)
+
+        # Reload file contents and metadata from disk.
+        self.diff_engine.clear_files()
+        self.file_list_widget.clear()
+        for filepath in existing_paths:
+            self.diff_engine.add_file(filepath)
+            dir_context = os.path.dirname(filepath) or "."
+            display_name = f"{os.path.basename(filepath)} ({dir_context})"
+            item = QListWidgetItem(display_name)
+            item.setToolTip(filepath)
+            self.file_list_widget.addItem(item)
+
+        self.update_file_combos()
+        self.update_base_file_combo()
+
+        # Restore selection when possible.
+        self._set_combo_selection_by_path(self.file_a_combo, selected_a_path)
+        self._set_combo_selection_by_path(self.file_b_combo, selected_b_path)
+        self.update_diff()
+
+        if missing_paths:
+            QMessageBox.warning(
+                self,
+                "Refresh Files",
+                "Some files could not be refreshed because they no longer exist:\n"
+                + "\n".join(missing_paths)
+            )
+
+        if not existing_paths:
+            return
+
+        if self._has_cached_analysis_for_paths(existing_paths):
+            reply = QMessageBox.question(
+                self,
+                "Rerun Analysis?",
+                "A previous LLM analysis exists for this same file grouping.\n"
+                "Do you want to rerun analysis with the refreshed file contents?",
+                QMessageBox.Yes | QMessageBox.No
+            )
+            if reply == QMessageBox.Yes:
+                self.run_llm_analysis()
+
+    def _get_selected_combo_file_path(self, combo: QComboBox):
+        """Get selected file path from combo tooltip data."""
+        index = combo.currentIndex()
+        if index < 0:
+            return None
+        return combo.itemData(index, Qt.ToolTipRole)
+
+    def _set_combo_selection_by_path(self, combo: QComboBox, file_path: str):
+        """Select combo item by file path, if present."""
+        if not file_path:
+            return
+        for idx in range(combo.count()):
+            item_path = combo.itemData(idx, Qt.ToolTipRole)
+            if item_path == file_path:
+                combo.setCurrentIndex(idx)
+                return
+
+    def _has_cached_analysis_for_paths(self, file_paths: list) -> bool:
+        """Return True if cached analysis exists for the exact same file path grouping."""
+        if not file_paths:
+            return False
+        normalized_current = sorted(os.path.normcase(path) for path in file_paths)
+        cache_key = 'diff_mode_llm_history'
+        history = app_info_cache.get(cache_key, {})
+        if not isinstance(history, dict):
+            return False
+
+        for entry in history.values():
+            if entry.get('request_type') != 'analysis':
+                continue
+            cached_paths = entry.get('file_paths', [])
+            if not cached_paths:
+                continue
+            if not all(os.path.exists(path) for path in cached_paths):
+                continue
+            normalized_cached = sorted(os.path.normcase(path) for path in cached_paths)
+            if normalized_cached == normalized_current:
+                return True
+        return False
     
     def update_file_combos(self):
         """Update the file selection combos."""
@@ -521,6 +626,13 @@ class DiffModeWidget(QWidget):
         requirements_text = self.requirements_input.toPlainText().strip()
         # Use default requirements if field is empty
         requirements = requirements_text or self.requirements_default
+
+        # Store request data for caching (will be cached on completion)
+        self._pending_analysis_data = {
+            'target_context': target_context,
+            'requirements': requirements,
+            'file_metadata': file_metadata
+        }
         
         # Create and start worker thread
         self.llm_analysis_worker = LLMAnalysisWorker(
