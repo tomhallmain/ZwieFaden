@@ -108,7 +108,33 @@ class DiffEngine:
         self.files.append((filepath, lines))
         self.metadata.append(metadata)
     
-    def compare_two_files(self, file_a: int, file_b: int) -> List[DiffLine]:
+    @staticmethod
+    def _normalize_line_for_diff(line: str, highlight_whitespace_only_diffs: bool) -> str:
+        """Normalize a line for comparison when whitespace-only changes should be ignored."""
+        if highlight_whitespace_only_diffs:
+            return line
+
+        # Ignore trailing whitespace-only differences and blank-line whitespace changes.
+        # Keep leading indentation differences because they can be semantically meaningful.
+        # TODO: Add per-language handling for indentation-insensitive languages.
+        normalized = line.rstrip("\r\n").rstrip(" \t")
+        if normalized.strip(" \t") == "":
+            return ""
+        return normalized
+
+    @staticmethod
+    def _is_whitespace_only_line(line: Optional[str]) -> bool:
+        """Return True when a line only contains whitespace/newline characters."""
+        if line is None:
+            return False
+        return line.rstrip("\r\n").strip(" \t") == ""
+
+    def compare_two_files(
+        self,
+        file_a: int,
+        file_b: int,
+        highlight_whitespace_only_diffs: bool = True
+    ) -> List[DiffLine]:
         """
         Compare two files by index.
         
@@ -126,7 +152,15 @@ class DiffEngine:
         name_b, lines_b = self.files[file_b]
         
         diff_lines = []
-        matcher = difflib.SequenceMatcher(None, lines_a, lines_b)
+        comparable_a = [
+            self._normalize_line_for_diff(line, highlight_whitespace_only_diffs)
+            for line in lines_a
+        ]
+        comparable_b = [
+            self._normalize_line_for_diff(line, highlight_whitespace_only_diffs)
+            for line in lines_b
+        ]
+        matcher = difflib.SequenceMatcher(None, comparable_a, comparable_b)
         
         for tag, i1, i2, j1, j2 in matcher.get_opcodes():
             if tag == 'equal':
@@ -141,6 +175,9 @@ class DiffEngine:
                     ))
             elif tag == 'delete':
                 for idx, line in enumerate(lines_a[i1:i2]):
+                    if (not highlight_whitespace_only_diffs
+                            and self._is_whitespace_only_line(line)):
+                        continue
                     diff_lines.append(DiffLine(
                         line_type=DiffType.DELETE,
                         line_num_a=i1 + idx + 1,
@@ -151,6 +188,9 @@ class DiffEngine:
                     ))
             elif tag == 'insert':
                 for idx, line in enumerate(lines_b[j1:j2]):
+                    if (not highlight_whitespace_only_diffs
+                            and self._is_whitespace_only_line(line)):
+                        continue
                     diff_lines.append(DiffLine(
                         line_type=DiffType.INSERT,
                         line_num_a=None,
@@ -162,6 +202,9 @@ class DiffEngine:
             elif tag == 'replace':
                 # Add deleted lines
                 for idx, line in enumerate(lines_a[i1:i2]):
+                    if (not highlight_whitespace_only_diffs
+                            and self._is_whitespace_only_line(line)):
+                        continue
                     diff_lines.append(DiffLine(
                         line_type=DiffType.DELETE,
                         line_num_a=i1 + idx + 1,
@@ -172,6 +215,9 @@ class DiffEngine:
                     ))
                 # Add inserted lines
                 for idx, line in enumerate(lines_b[j1:j2]):
+                    if (not highlight_whitespace_only_diffs
+                            and self._is_whitespace_only_line(line)):
+                        continue
                     diff_lines.append(DiffLine(
                         line_type=DiffType.INSERT,
                         line_num_a=None,

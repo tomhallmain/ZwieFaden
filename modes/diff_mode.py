@@ -4,8 +4,8 @@ import os
 import hashlib
 from datetime import datetime
 from PySide6.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QListWidget,
-    QTextEdit, QLabel, QComboBox, QMessageBox, QFileDialog, QSplitter,
+    QApplication, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QListWidget,
+    QTextEdit, QLabel, QComboBox, QCheckBox, QMessageBox, QFileDialog, QSplitter,
     QTabWidget, QProgressBar, QListWidgetItem, QTreeWidget, QTreeWidgetItem
 )
 from PySide6.QtCore import Qt, QThread, Signal
@@ -70,6 +70,31 @@ class LLMGenerationWorker(QThread):
             self.error.emit(str(e))
 
 
+class DiffTextEdit(QTextEdit):
+    """Diff text box with an extra copy action."""
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+    def contextMenuEvent(self, event):
+        """Extend context menu with an optional strip-prefix copy action."""
+        menu = self.createStandardContextMenu()
+        menu.addSeparator()
+        menu.addAction("Copy (Strip First Column)", self.copy_strip_first_column)
+        menu.exec(event.globalPos())
+
+    def copy_strip_first_column(self):
+        """Copy selected text with first character removed from each line."""
+        selected_text = self.textCursor().selectedText()
+        if not selected_text:
+            return
+
+        # QTextEdit selections use Unicode paragraph separator for line breaks.
+        lines = selected_text.split('\u2029')
+        processed_lines = [(line[1:] if line else line) for line in lines]
+        QApplication.clipboard().setText('\n'.join(processed_lines))
+
+
 class DiffModeWidget(QWidget):
     """Widget for diff mode."""
     
@@ -122,6 +147,14 @@ class DiffModeWidget(QWidget):
         self.html_diff_button = QPushButton("Show HTML Diff")
         self.html_diff_button.clicked.connect(self.show_html_diff)
         top_layout.addWidget(self.html_diff_button)
+
+        self.highlight_whitespace_checkbox = QCheckBox("Highlight Whitespace-Only Diffs")
+        self.highlight_whitespace_checkbox.setChecked(False)
+        self.highlight_whitespace_checkbox.setToolTip(
+            "When disabled, trailing/blank-line whitespace-only changes are not highlighted."
+        )
+        self.highlight_whitespace_checkbox.stateChanged.connect(self.update_diff)
+        top_layout.addWidget(self.highlight_whitespace_checkbox)
         
         top_layout.addStretch()
         
@@ -144,7 +177,7 @@ class DiffModeWidget(QWidget):
         left_layout = QVBoxLayout(left_widget)
         left_layout.addWidget(QLabel("Line-by-Line Diff:"))
         
-        self.diff_text = QTextEdit()
+        self.diff_text = DiffTextEdit()
         self.diff_text.setReadOnly(True)
         self.diff_text.setFontFamily("Courier")
         self.highlighter = DiffHighlighter(self.diff_text.document())
@@ -384,13 +417,26 @@ class DiffModeWidget(QWidget):
         
         try:
             # Get diff lines
-            diff_lines = self.diff_engine.compare_two_files(file_a_idx, file_b_idx)
+            diff_lines = self.diff_engine.compare_two_files(
+                file_a_idx,
+                file_b_idx,
+                highlight_whitespace_only_diffs=self.highlight_whitespace_checkbox.isChecked()
+            )
             self.current_diff_lines = diff_lines
             
             # Update line-by-line diff
             diff_text_lines = []
             for diff_line in diff_lines:
-                diff_text_lines.append(diff_line.unified_line.rstrip('\n'))
+                if diff_line.line_type == DiffType.DELETE:
+                    content = diff_line.content_a.rstrip('\n')
+                    diff_text_lines.append(f"-{content}")
+                elif diff_line.line_type == DiffType.INSERT:
+                    content = diff_line.content_b.rstrip('\n')
+                    diff_text_lines.append(f"+{content}")
+                else:
+                    # Keep a reserved prefix column so text starts in same column as +/- lines.
+                    content = diff_line.unified_line.rstrip('\n')
+                    diff_text_lines.append(f" {content}")
             
             self.diff_text.setPlainText('\n'.join(diff_text_lines))
             
