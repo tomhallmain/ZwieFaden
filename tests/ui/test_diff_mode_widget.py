@@ -169,3 +169,27 @@ def test_refresh_files_reloads_changed_content_and_drops_missing(qtbot, tmp_path
 
     assert widget.diff_engine.get_file_names() == [str(file_a)]
     assert widget.diff_engine.get_file_content(0) == "v2\n"
+
+
+def test_toolbar_and_file_list_hidden_only_on_project_compare_tab(qtbot):
+    widget = DiffModeWidget()
+    qtbot.addWidget(widget)
+
+    assert not widget.top_panel.isHidden()
+    assert not widget.file_list_label.isHidden()
+    assert not widget.file_list_widget.isHidden()
+
+    widget.tabs.setCurrentIndex(widget.project_compare_tab_index)
+
+    assert widget.top_panel.isHidden()
+    assert widget.file_list_label.isHidden()
+    assert widget.file_list_widget.isHidden()
+
+    # LLM Analysis (and the other diff-file-set tabs) still share that
+    # context, so switching there should bring the toolbar back.
+    llm_analysis_tab_index = 1
+    widget.tabs.setCurrentIndex(llm_analysis_tab_index)
+
+    assert not widget.top_panel.isHidden()
+    assert not widget.file_list_label.isHidden()
+    assert not widget.file_list_widget.isHidden()

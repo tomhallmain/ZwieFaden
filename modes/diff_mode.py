@@ -12,6 +12,7 @@ from PySide6.QtCore import Qt, QThread, Signal
 
 from diff.diff_engine import DiffEngine, DiffType, FileMetadata
 from diff.llm_analyzer import DiffLLMAnalyzer
+from modes.project_compare_widget import ProjectCompareTab
 from ui.formatting import markdown_to_html, DiffHighlighter
 from utils.app_info_cache import app_info_cache
 
@@ -120,6 +121,7 @@ class DiffModeWidget(QWidget):
         
         # Top panel - controls (split across two rows for readability)
         top_panel = QWidget()
+        self.top_panel = top_panel
         top_layout = QVBoxLayout(top_panel)
         row_one_layout = QHBoxLayout()
         row_two_layout = QHBoxLayout()
@@ -206,6 +208,7 @@ class DiffModeWidget(QWidget):
         
         # File list
         file_list_label = QLabel("Added Files:")
+        self.file_list_label = file_list_label
         layout.addWidget(file_list_label)
         
         self.file_list_widget = QListWidget()
@@ -265,22 +268,57 @@ class DiffModeWidget(QWidget):
         
         # Create tabbed interface
         tabs = QTabWidget()
-        tabs.addTab(splitter, "Diff View")
-        
+        self.tabs = tabs
+        self.diff_view_tab_index = tabs.addTab(splitter, "Diff View")
+
         # LLM Analysis tab
         llm_tab = self.create_llm_analysis_tab()
         tabs.addTab(llm_tab, "LLM Analysis")
-        
+
         # File Grouping tab
         grouping_tab = self.create_file_grouping_tab()
         tabs.addTab(grouping_tab, "File Grouping")
-        
+
         # Request History tab
         history_tab = self.create_request_history_tab()
         tabs.addTab(history_tab, "Request History")
-        
+
+        # Project Compare tab
+        self.project_compare_tab = ProjectCompareTab(self._open_pair_in_diff_view)
+        self.project_compare_tab_index = tabs.addTab(self.project_compare_tab, "Project Compare")
+
+        # The top toolbar and file list operate on the current diff file set,
+        # which Project Compare doesn't use (it works on two whole project
+        # directories instead) -- hide them there so they don't sit around
+        # looking actionable while doing nothing.
+        tabs.currentChanged.connect(self._on_tab_changed)
+
         layout.addWidget(tabs)
         self.update_grouping_history_combo()
+
+    def _on_tab_changed(self, index: int):
+        """Show/hide the file-list toolbar based on whether it applies to the active tab."""
+        applies_to_tab = index != self.project_compare_tab_index
+        self.top_panel.setVisible(applies_to_tab)
+        self.file_list_label.setVisible(applies_to_tab)
+        self.file_list_widget.setVisible(applies_to_tab)
+
+    def _open_pair_in_diff_view(self, path_a: str, path_b: str):
+        """Load a file pair (e.g. from Project Compare) into the Diff View tab."""
+        self.diff_engine.clear_files()
+        self.file_list_widget.clear()
+        for filepath in (path_a, path_b):
+            try:
+                self._add_file_to_engine_and_list(filepath)
+            except Exception as e:
+                QMessageBox.critical(self, "Error", f"Failed to add file: {str(e)}")
+                return
+        self.update_file_combos()
+        self.update_base_file_combo()
+        self.update_file_groups()
+        self.last_selected_directory = os.path.dirname(path_a) or self.last_selected_directory
+        self._cache_current_diff_session()
+        self.tabs.setCurrentIndex(self.diff_view_tab_index)
     
     def add_file(self):
         """Add a file to compare."""

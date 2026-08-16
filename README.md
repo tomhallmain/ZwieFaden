@@ -13,6 +13,7 @@ Compare code files, see what changed, and let the LLM suggest which version to u
 - **Side-by-side and unified diffs** — Line-by-line comparison with syntax highlighting, plus standard unified diff and HTML diff in the browser
 - **LLM version analysis** — Add several versions of a module, describe your target context, and get recommendations on which version is most up-to-date (uses file metadata and content)
 - **Generate merged code** — One click to produce a merged version that fits your context and requirements; review in-app and save to a file
+- **Project Compare** — Point at two project directories and find every file they share, split into identical / different / only-in-one-side; open any differing pair directly in the diff view above
 
 **Typical workflow:** Add 2+ versions of a file → run **Analyze Versions** with your target context → use **Generate Merged Version** (optionally pick a base file) → save the result.
 

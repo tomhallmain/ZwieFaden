@@ -13,6 +13,7 @@ How to install, run, and use the application: modes, shortcuts, and step-by-step
 - **LLM-powered version analysis**: Determine which version has the most up-to-date features
 - **Automatic code generation**: Generate merged versions based on requirements
 - Metadata collection: File paths, modification times, and context information
+- **Project Compare**: Find files shared between two project directories and see which are identical, different, or only on one side; open a differing pair straight into the diff view
 
 ### Join Mode
 - Analyze and group data from multiple text files
@@ -81,13 +82,25 @@ python app.py
 4. Review the generated code in the right panel
 5. Click **"Save Generated Code"** to save to a file
 
+#### Project Compare
+1. Switch to the "Project Compare" tab
+2. Click **"Ordner wählen…"** for Projekt A and Projekt B to pick the two project directories to compare
+3. Click **"Vergleich starten"** to scan both directories and match files by relative path
+4. Browse the results, grouped into Unterschiedlich (different) / Nur in Projekt A / Nur in Projekt B / Identisch
+5. Double-click (or select and click **"Ausgewähltes Paar in Diff-Ansicht öffnen"**) a file under "Unterschiedlich" to load that pair into the Diff View tab
+6. Binary files are compared by hash only and can't be opened in the diff view; VCS metadata (`.git`, `.svn`, `.hg`), Python/Node caches and build dirs (`__pycache__`, `venv`/`.venv`, `node_modules`, `dist`, `build`, `target`, etc.), IDE settings (`.idea`, `.vscode`), OS cruft (`.DS_Store`, `Thumbs.db`), and each project's own `.gitignore` patterns are skipped automatically
+7. Use the **global exclusions** list above the compare button to add patterns (e.g. `*.tmp`, `build/`) that apply to every future comparison, regardless of which two projects are selected — separate from any single project's `.gitignore` and remembered across restarts
+8. Uncheck **"Projekteigene .gitignore-Muster berücksichtigen"** to find files that are gitignored in one or both projects — this only affects each project's own `.gitignore`; the default ignore list and the global exclusions above still apply
+
 ## Architecture
 
 - `app.py`: Main application with mode switching
 - `modes/join_mode.py`: Join/grouping mode widget
 - `modes/diff_mode.py`: Diff comparison mode widget with LLM analysis
+- `modes/project_compare_widget.py`: Project Compare tab widget
 - `diff/diff_engine.py`: Core diff engine with metadata collection
 - `diff/llm_analyzer.py`: LLM-based version analyzer and code generator
+- `diff/project_compare.py`: Two-directory scan/match engine behind Project Compare
 - `extensions/llm.py`: LLM interface (Ollama)
 - `join/join.py`: Core join/grouping engine (existing)
 
