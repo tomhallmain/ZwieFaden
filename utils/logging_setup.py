@@ -63,9 +63,13 @@ def get_logger(module_name: str) -> logging.Logger:
     ch.setFormatter(CustomFormatter())
     logger.addHandler(ch)
 
-    # Create log file in ApplicationData
-    appdata_dir: str = os.getenv('APPDATA') if sys.platform == 'win32' else os.path.expanduser('~/.local/share')
-    log_dir: Path = Path(appdata_dir) / 'ZwieFaden' / 'logs'
+    # Create log file in ApplicationData (or ZWIEFADEN_LOG_DIR, when overridden for test isolation)
+    override_dir = os.environ.get('ZWIEFADEN_LOG_DIR')
+    if override_dir:
+        log_dir: Path = Path(override_dir)
+    else:
+        appdata_dir: str = os.getenv('APPDATA') if sys.platform == 'win32' else os.path.expanduser('~/.local/share')
+        log_dir: Path = Path(appdata_dir) / 'ZwieFaden' / 'logs'
     log_dir.mkdir(parents=True, exist_ok=True)
 
     # Clean up old logs before creating new one

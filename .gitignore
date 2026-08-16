@@ -21,10 +21,14 @@ join_multi_store*
 temp*
 *.pkl
 *.swp
+*.log
 
 # App cache (user-specific, may contain context history)
 app_info_cache.enc*
 app_info_cache.json
+
+# Test tooling
+.pytest_cache/
 
 # IDE / editor
 .idea/
