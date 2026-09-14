@@ -19,6 +19,7 @@ if "ZWIEFADEN_CACHE_DIR" not in os.environ:
     _tmp = tempfile.mkdtemp(prefix="zwiefaden_ui_")
     os.environ["ZWIEFADEN_CACHE_DIR"] = os.path.join(_tmp, "cache")
     os.environ["ZWIEFADEN_LOG_DIR"] = os.path.join(_tmp, "logs")
+    os.environ["ZWIEFADEN_KEY_BACKUP_DIR"] = os.path.join(_tmp, "key_backup")
     os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
     os.makedirs(os.environ["ZWIEFADEN_CACHE_DIR"], exist_ok=True)
     os.makedirs(os.environ["ZWIEFADEN_LOG_DIR"], exist_ok=True)

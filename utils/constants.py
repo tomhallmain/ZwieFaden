@@ -22,3 +22,8 @@ class AppMode(IntEnum):
 class AppInfo:
     SERVICE_NAME = "MyPersonalApplicationsService"
     APP_IDENTIFIER = "ZwieFaden"
+    # Identifiers this app has previously been filed under. Key material
+    # stays filed under the name in force when it was written, so a rename
+    # must list the old name here until everything encrypted under it has
+    # been migrated. Empty: this app has not been renamed.
+    LEGACY_APP_IDENTIFIERS = []

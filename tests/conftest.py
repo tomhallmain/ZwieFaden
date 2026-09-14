@@ -28,6 +28,11 @@ if _project_root not in sys.path:
 _bootstrap_tmp = tempfile.mkdtemp(prefix="zwiefaden_tests_")
 os.environ.setdefault("ZWIEFADEN_CACHE_DIR", os.path.join(_bootstrap_tmp, "cache"))
 os.environ.setdefault("ZWIEFADEN_LOG_DIR", os.path.join(_bootstrap_tmp, "logs"))
+# utils/encryptor.py backs the key store up to an external drive after every
+# write, detecting one if this is unset. Any test that writes the cache would
+# otherwise drop a file holding the passphrase in the clear onto whatever
+# drive the machine running the tests happens to have mounted.
+os.environ.setdefault("ZWIEFADEN_KEY_BACKUP_DIR", os.path.join(_bootstrap_tmp, "key_backup"))
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 os.makedirs(os.environ["ZWIEFADEN_CACHE_DIR"], exist_ok=True)
 os.makedirs(os.environ["ZWIEFADEN_LOG_DIR"], exist_ok=True)
@@ -102,6 +107,17 @@ def isolated_singletons(tmp_path, monkeypatch):
 
     monkeypatch.setenv("ZWIEFADEN_CACHE_DIR", str(cache_dir))
 
+    # utils/encryptor.py holds key material and the chosen encryptor class in
+    # module-level dicts for the life of the process, while the key store
+    # directory and the fake keyring above are per-test. Left in place, one
+    # test's cached salt/nonce would be used against the next test's freshly
+    # generated passphrase, and decryption would fail on a mismatch that has
+    # nothing to do with what the test is exercising.
+    import utils.encryptor as enc
+
+    enc.clear_key_store_cache()
+    enc.ENCRYPTOR_CLASSES.clear()
+
     import utils.app_info_cache as aic
 
     old_cache = aic.app_info_cache
@@ -109,6 +125,9 @@ def isolated_singletons(tmp_path, monkeypatch):
     repoint_singleton_bindings(monkeypatch, "app_info_cache", old_cache, new_cache)
 
     yield new_cache
+
+    enc.clear_key_store_cache()
+    enc.ENCRYPTOR_CLASSES.clear()
 
 
 @pytest.fixture(autouse=True)
