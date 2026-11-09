@@ -1,9 +1,1122 @@
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: ZwieFaden 1.0\n"
+"Project-Id-Version: 1.0\n"
+"POT-Creation-Date: 2026-11-09 16:26-0500\n"
+"PO-Revision-Date: 2026-11-09 16:26-0500\n"
+"Last-Translator: Translator Name <translator@example.com>\n"
+"Language-Team: ja Team <<EMAIL>>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"First-Author: THOMAS HALL <tomhall.main@gmail.com>\n"
-"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: app.py:24
+msgid "Data Analysis & Diff Tool"
+msgstr "データ分析 & Diffツール"
+
+#: app.py:34
+msgid "Diff Mode"
+msgstr "Diffモード"
+
+#: app.py:35
+msgid "Join Mode"
+msgstr "結合モード"
+
+#: app.py:87
+msgid "Failed to store join data on exit: %s"
+msgstr "終了時に参加データの保存に失敗しました: %s"
+
+#: app.py:91
+msgid "Failed to save app cache on exit: %s"
+msgstr "終了時にアプリのキャッシュを保存できませんでした: %s"
+
+#: extensions/llm.py:82
+msgid "{0} - Failed to get json attr {1} from json response: {2}"
+msgstr "{0} - JSONレスポンスから属性 {1} を取得できませんでした: {2}"
+
+#: extensions/llm.py:118
+msgid "Using LLM model: {0} (state: {1})"
+msgstr "LLMモデルを使用中: {0}（状態: {1}）"
+
+#: extensions/llm.py:131
+msgid "LLM failure count increased to {0} for state '{1}'"
+msgstr "状態「{1}」のLLM失敗回数が{0}に増加しました"
+
+#: extensions/llm.py:257 extensions/llm.py:309
+msgid "Failed to generate LLM response: {0}"
+msgstr "LLM の応答生成に失敗しました: {0}"
+
+#: extensions/llm.py:280
+msgid "Exception in LLM generation thread: {0}"
+msgstr "LLM生成スレッドの例外: {0}"
+
+#: extensions/llm.py:297 extensions/llm.py:393
+msgid "Thread did not terminate gracefully, forcing cleanup"
+msgstr "スレッドが正常に終了せず、クリーンアップを強制します"
+
+#: extensions/llm.py:303
+msgid "Exception while monitoring LLM thread: {0}"
+msgstr "LLMスレッドの監視中に例外が発生しました: {0}"
+
+#: extensions/llm.py:388
+msgid "Cancelling LLM generation"
+msgstr "LLM生成をキャンセル中"
+
+#: modes/diff_mode.py:85
+msgid "Copy (Strip First Column)"
+msgstr "コピー (先頭列を除去)"
+
+#: modes/diff_mode.py:130 modes/join_mode.py:145
+msgid "Add File"
+msgstr "ファイルを追加"
+
+#: modes/diff_mode.py:134 modes/diff_mode.py:369
+msgid "Remove Selected"
+msgstr "選択を削除"
+
+#: modes/diff_mode.py:136
+msgid "Remove selected file(s) from current diff set"
+msgstr "現在の diff セットから選択したファイルを削除"
+
+#: modes/diff_mode.py:141
+msgid "Move selected file(s) up"
+msgstr "選択したファイルを上へ移動"
+
+#: modes/diff_mode.py:146
+msgid "Move selected file(s) down"
+msgstr "選択したファイルを下へ移動"
+
+#: modes/diff_mode.py:149
+msgid "Clear Files"
+msgstr "ファイルをクリア"
+
+#: modes/diff_mode.py:153 modes/diff_mode.py:431 modes/diff_mode.py:466
+msgid "Refresh Files"
+msgstr "ファイルを更新"
+
+#: modes/diff_mode.py:155
+msgid "Reload file contents from disk and rerun diff"
+msgstr "ディスクからファイル内容を再読み込みし、diff を再実行"
+
+#: modes/diff_mode.py:158
+msgid "Compare:"
+msgstr "比較:"
+
+#: modes/diff_mode.py:164
+msgid "vs"
+msgstr "vs"
+
+#: modes/diff_mode.py:171
+msgid "Saved Grouping:"
+msgstr "保存したグループ："
+
+#: modes/diff_mode.py:174
+msgid "Load a previously used file grouping"
+msgstr "以前使用したファイル グループを読み込む"
+
+#: modes/diff_mode.py:177 modes/diff_mode.py:598 modes/diff_mode.py:604
+#: modes/diff_mode.py:609
+msgid "Load Grouping"
+msgstr "ロード グルーピング"
+
+#: modes/diff_mode.py:181 modes/diff_mode.py:584
+msgid "Save Grouping"
+msgstr "グループ化を保存"
+
+#: modes/diff_mode.py:183
+msgid "Store current file grouping for later quick restore"
+msgstr "現在のファイルグループを保存し、後で素早く復元できるようにする"
+
+#: modes/diff_mode.py:186
+msgid "Show Unified Diff"
+msgstr "統合差分を表示"
+
+#: modes/diff_mode.py:190
+msgid "Show HTML Diff"
+msgstr "HTML差分を表示"
+
+#: modes/diff_mode.py:194
+msgid "Highlight Whitespace-Only Diffs"
+msgstr "空白のみの差分をハイライト"
+
+#: modes/diff_mode.py:199
+msgid ""
+"When disabled, trailing/blank-line whitespace-only changes are not "
+"highlighted."
+msgstr "無効にすると、行末や空行の空白のみの変更はハイライトされません。"
+
+#: modes/diff_mode.py:211 modes/join_mode.py:104
+msgid "Added Files:"
+msgstr "追加されたファイル:"
+
+#: modes/diff_mode.py:218
+msgid "Files added for comparison. Shows filename and directory context."
+msgstr "比較用にファイルが追加されました。ファイル名とディレクトリのコンテキストを表示します。"
+
+#: modes/diff_mode.py:227 modes/diff_mode.py:971
+msgid "Line-by-Line Diff:"
+msgstr "行単位の差分："
+
+#: modes/diff_mode.py:244
+msgid "File A:"
+msgstr "ファイル A:"
+
+#: modes/diff_mode.py:254
+msgid "File B:"
+msgstr "ファイル B:"
+
+#: modes/diff_mode.py:273
+msgid "Diff View"
+msgstr "差分ビュー"
+
+#: modes/diff_mode.py:277 modes/diff_mode.py:1824
+msgid "LLM Analysis"
+msgstr "LLM分析"
+
+#: modes/diff_mode.py:281
+msgid "File Grouping"
+msgstr "ファイルのグループ化"
+
+#: modes/diff_mode.py:285
+msgid "Request History"
+msgstr "リクエスト履歴"
+
+#: modes/diff_mode.py:289 modes/project_compare_widget.py:163
+#: modes/project_compare_widget.py:166 modes/project_compare_widget.py:204
+msgid "Project Compare"
+msgstr "プロジェクト比較"
+
+#: modes/diff_mode.py:315 modes/diff_mode.py:341 modes/diff_mode.py:912
+#: modes/diff_mode.py:932 modes/diff_mode.py:964 modes/diff_mode.py:1192
+#: modes/diff_mode.py:1303 modes/diff_mode.py:1344 modes/diff_mode.py:1699
+#: modes/diff_mode.py:1706 modes/diff_mode.py:1833 modes/diff_mode.py:1864
+#: modes/diff_mode.py:1885 modes/join_mode.py:348 modes/join_mode.py:473
+msgid "Error"
+msgstr "エラー"
+
+#: modes/diff_mode.py:315 modes/diff_mode.py:341
+msgid "Failed to add file: {0}"
+msgstr "ファイルの追加に失敗しました: {0}"
+
+#: modes/diff_mode.py:328
+msgid "Select file to compare"
+msgstr "比較するファイルを選択"
+
+#: modes/diff_mode.py:328 modes/join_mode.py:238
+msgid "All Files (*)"
+msgstr "すべてのファイル (*)"
+
+#: modes/diff_mode.py:339 modes/diff_mode.py:1342 modes/diff_mode.py:1883
+msgid "Success"
+msgstr "成功"
+
+#: modes/diff_mode.py:339
+msgid ""
+"Added file: {0}\n"
+"From: {1}"
+msgstr ""
+"追加されたファイル: {0}\n"
+"送信元: {1}"
+
+#: modes/diff_mode.py:346
+msgid "Confirm Clear"
+msgstr "クリアの確認"
+
+#: modes/diff_mode.py:347
+msgid "Are you sure you want to clear all files?"
+msgstr "すべてのファイルを削除してもよろしいですか？"
+
+#: modes/diff_mode.py:369
+msgid "Select one or more files to remove."
+msgstr "削除するファイルを1つ以上選択してください。"
+
+#: modes/diff_mode.py:431
+msgid "No files to refresh."
+msgstr "更新するファイルがありません。"
+
+#: modes/diff_mode.py:467
+msgid ""
+"Some files could not be refreshed because they no longer exist:\n"
+"{0}"
+msgstr ""
+"いくつかのファイルは、既に存在しないため更新できませんでした:\n"
+"{0}"
+
+#: modes/diff_mode.py:476
+msgid "Rerun Analysis?"
+msgstr "分析を再実行しますか？"
+
+#: modes/diff_mode.py:477
+msgid ""
+"A previous LLM analysis exists for this same file grouping.\n"
+"Do you want to rerun analysis with the refreshed file contents?"
+msgstr ""
+"同じファイル グループに対して以前の LLM 分析が存在します。\n"
+"更新されたファイル内容で分析を再実行しますか？"
+
+#: modes/diff_mode.py:584
+msgid "No files in current grouping to save."
+msgstr "現在のグループに保存するファイルがありません。"
+
+#: modes/diff_mode.py:590
+msgid "Grouping Saved"
+msgstr "グループ化が保存されました"
+
+#: modes/diff_mode.py:591
+msgid "Saved grouping with {0} file(s)."
+msgstr "保存されたグループ（{0} ファイル）。"
+
+#: modes/diff_mode.py:598
+msgid "No saved grouping selected."
+msgstr "保存されたグループが選択されていません。"
+
+#: modes/diff_mode.py:604
+msgid "Saved grouping entry was not found."
+msgstr "保存したグループ化エントリが見つかりませんでした。"
+
+#: modes/diff_mode.py:609
+msgid "Saved grouping has no files."
+msgstr "保存されたグループにファイルがありません。"
+
+#: modes/diff_mode.py:614
+msgid "Load Saved Grouping"
+msgstr "保存されたグルーピングを読み込む"
+
+#: modes/diff_mode.py:615
+msgid ""
+"This will replace your current files with {0} saved file(s).\n"
+"Continue?"
+msgstr ""
+"これにより、現在のファイルが {0} 個の保存されたファイルに置き換えられます。\n"
+"続行しますか？"
+
+#: modes/diff_mode.py:629
+msgid "Select saved grouping..."
+msgstr "保存されたグループを選択..."
+
+#: modes/diff_mode.py:649
+msgid "unknown time"
+msgstr "不明な時間"
+
+#: modes/diff_mode.py:651 modes/diff_mode.py:655
+msgid "[{0}] {1} file(s): {2}"
+msgstr "[{0}] {1} ファイル: {2}"
+
+#: modes/diff_mode.py:908
+msgid "File A: {0} ({1})"
+msgstr "ファイル A: {0} ({1})"
+
+#: modes/diff_mode.py:909
+msgid "File B: {0} ({1})"
+msgstr "ファイル B: {0} ({1})"
+
+#: modes/diff_mode.py:912
+msgid "Failed to generate diff: {0}"
+msgstr "差分の生成に失敗しました: {0}"
+
+#: modes/diff_mode.py:920 modes/diff_mode.py:924 modes/diff_mode.py:940
+#: modes/diff_mode.py:944 modes/diff_mode.py:1083 modes/diff_mode.py:1207
+#: modes/diff_mode.py:1215 modes/diff_mode.py:1332 modes/diff_mode.py:1730
+#: modes/diff_mode.py:1735 modes/diff_mode.py:1839
+msgid "Warning"
+msgstr "警告"
+
+#: modes/diff_mode.py:920 modes/diff_mode.py:940
+msgid "Please select two files to compare."
+msgstr "比較する2つのファイルを選択してください。"
+
+#: modes/diff_mode.py:924 modes/diff_mode.py:944
+msgid "Please select two different files."
+msgstr "2つの異なるファイルを選択してください。"
+
+#: modes/diff_mode.py:932
+msgid "Failed to generate unified diff: {0}"
+msgstr "統合差分の生成に失敗しました: {0}"
+
+#: modes/diff_mode.py:960
+msgid "HTML Diff"
+msgstr "HTML差分"
+
+#: modes/diff_mode.py:961
+msgid ""
+"HTML diff opened in your default browser.\n"
+"Temporary file: {0}"
+msgstr ""
+"HTML の差分が既定のブラウザーで開かれました。\n"
+"一時ファイル: {0}"
+
+#: modes/diff_mode.py:964
+msgid "Failed to generate HTML diff: {0}"
+msgstr "HTML差分の生成に失敗しました: {0}"
+
+#: modes/diff_mode.py:969
+msgid "Line-by-Line Diff: ✅ No differences"
+msgstr "行ごとの差分：✅ 差分なし"
+
+#: modes/diff_mode.py:982
+msgid "Target Context:"
+msgstr "対象コンテキスト："
+
+#: modes/diff_mode.py:985
+msgid ""
+"Describe the target application/context where you want to use this tool "
+"module..."
+msgstr "このツールモジュールを使用したい対象のアプリケーション／コンテキストを説明してください..."
+
+#: modes/diff_mode.py:990
+msgid "Specific Requirements (optional):"
+msgstr "特定の要件（任意）:"
+
+#: modes/diff_mode.py:1000
+msgid "Analyze Versions"
+msgstr "バージョンを分析"
+
+#: modes/diff_mode.py:1004
+msgid "Generate Merged Version"
+msgstr "結合バージョンを生成"
+
+#: modes/diff_mode.py:1009
+msgid "Select base file for generation (optional)"
+msgstr "生成用ベースファイルを選択（任意）"
+
+#: modes/diff_mode.py:1010
+msgid "Base File:"
+msgstr "ベースファイル:"
+
+#: modes/diff_mode.py:1024 modes/diff_mode.py:1296 modes/diff_mode.py:1309
+msgid "Processing LLM request..."
+msgstr "LLMリクエストを処理中..."
+
+#: modes/diff_mode.py:1040
+msgid "Analysis Results:"
+msgstr "分析結果："
+
+#: modes/diff_mode.py:1056
+msgid "Generated Code:"
+msgstr "生成されたコード:"
+
+#: modes/diff_mode.py:1067 modes/diff_mode.py:1336
+msgid "Save Generated Code"
+msgstr "生成されたコードを保存"
+
+#: modes/diff_mode.py:1084
+msgid "Please add at least 2 files to analyze."
+msgstr "解析用に少なくとも2つのファイルを追加してください。"
+
+#: modes/diff_mode.py:1096
+msgid "⏳ Processing analysis request..."
+msgstr "⏳ 分析リクエストを処理中..."
+
+#: modes/diff_mode.py:1097 modes/diff_mode.py:1230
+msgid "⏳ Processing..."
+msgstr "⏳ 処理中..."
+
+#: modes/diff_mode.py:1154 modes/diff_mode.py:1277 modes/diff_mode.py:1778
+#: modes/diff_mode.py:1802
+msgid "❌ Error: {0}"
+msgstr "❌ エラー: {0}"
+
+#: modes/diff_mode.py:1157 modes/diff_mode.py:1195 modes/diff_mode.py:1279
+#: modes/diff_mode.py:1305 tests/integration/test_diff_mode_llm_flow.py:87
+msgid "❌ Error"
+msgstr "❌ エラー"
+
+#: modes/diff_mode.py:1159 modes/diff_mode.py:1783
+msgid "No analysis available"
+msgstr "分析が利用できません"
+
+#: modes/diff_mode.py:1169 modes/diff_mode.py:1794
+msgid "Recommended File"
+msgstr "推奨ファイル"
+
+#: modes/diff_mode.py:1170 modes/diff_mode.py:1795
+msgid "**File {0}**: `{1}` (from `{2}`)"
+msgstr "**ファイル {0}**: `{1}`（`{2}`から）"
+
+#: modes/diff_mode.py:1174 modes/diff_mode.py:1283
+#: tests/integration/test_diff_mode_llm_flow.py:54
+#: tests/integration/test_diff_mode_llm_flow.py:112
+msgid "✅ Complete"
+msgstr "✅ 完了"
+
+#: modes/diff_mode.py:1192
+msgid "Analysis failed: {0}"
+msgstr "分析に失敗しました: {0}"
+
+#: modes/diff_mode.py:1193 modes/diff_mode.py:1304 modes/diff_mode.py:1331
+msgid "Error: {0}"
+msgstr "エラー: {0}"
+
+#: modes/diff_mode.py:1208
+msgid "Please add at least 1 file to generate from."
+msgstr "生成するために少なくとも1つのファイルを追加してください。"
+
+#: modes/diff_mode.py:1216
+msgid "Please provide a target context."
+msgstr "対象のコンテキストを提供してください。"
+
+#: modes/diff_mode.py:1228
+msgid "Generating merged version..."
+msgstr "マージされたバージョンを生成中..."
+
+#: modes/diff_mode.py:1229
+msgid "⏳ Generating code..."
+msgstr "⏳ コードを生成中..."
+
+#: modes/diff_mode.py:1281 modes/diff_mode.py:1806
+msgid "No code generated"
+msgstr "コードが生成されません"
+
+#: modes/diff_mode.py:1288 modes/diff_mode.py:1813
+msgid ""
+"## Generation Explanation\n"
+"\n"
+"{0}"
+msgstr ""
+"## 生成の説明\n"
+"\n"
+"{0}"
+
+#: modes/diff_mode.py:1303
+msgid "Generation failed: {0}"
+msgstr "生成に失敗しました: {0}"
+
+#: modes/diff_mode.py:1325
+msgid "None (merge all)"
+msgstr "なし（すべてマージ）"
+
+#: modes/diff_mode.py:1332
+msgid "No code to save."
+msgstr "保存するコードがありません。"
+
+#: modes/diff_mode.py:1336
+msgid "Python Files (*.py);;All Files (*)"
+msgstr "Python ファイル (*.py);;すべてのファイル (*)"
+
+#: modes/diff_mode.py:1342
+msgid "Code saved to {0}"
+msgstr "コードが{0}に保存されました"
+
+#: modes/diff_mode.py:1344
+msgid "Failed to save file: {0}"
+msgstr "ファイルの保存に失敗しました: {0}"
+
+#: modes/diff_mode.py:1352
+msgid ""
+"Files grouped by content (size + hash). Identical files are grouped "
+"together."
+msgstr "ファイルは内容（サイズ＋ハッシュ）でグループ化されます。同一のファイルはまとめて表示されます。"
+
+#: modes/diff_mode.py:1357
+msgid "Refresh Groups"
+msgstr "グループを更新"
+
+#: modes/diff_mode.py:1359
+msgid "Recalculate file groups based on current files"
+msgstr "現在のファイルに基づいてファイル グループを再計算"
+
+#: modes/diff_mode.py:1364
+msgid "File / Group"
+msgstr "ファイル / グループ"
+
+#: modes/diff_mode.py:1364
+msgid "Size"
+msgstr "サイズ"
+
+#: modes/diff_mode.py:1364
+msgid "Hash"
+msgstr "ハッシュ"
+
+#: modes/diff_mode.py:1364
+msgid "Path"
+msgstr "パス"
+
+#: modes/diff_mode.py:1370
+msgid "Groups of identical files. Expand groups to see individual files."
+msgstr "同一ファイルのグループです。グループを展開して個々のファイルを表示します。"
+
+#: modes/diff_mode.py:1374 modes/diff_mode.py:1389
+msgid "No files added yet."
+msgstr "まだファイルが追加されていません。"
+
+#: modes/diff_mode.py:1428
+msgid "Group {0} ({1} file(s))"
+msgstr "グループ {0}（{1} ファイル）"
+
+#: modes/diff_mode.py:1456
+msgid "All {0} file(s) are unique (no duplicates found)."
+msgstr "すべての{0}ファイルはユニークです（重複は見つかりませんでした）。"
+
+#: modes/diff_mode.py:1461
+msgid ""
+"Found {0} unique file group(s) from {1} file(s). {2} duplicate(s) detected."
+msgstr "{0} 件のユニークなファイル グループが {1} ファイルから見つかりました。{2} 件の重複が検出されました。"
+
+#: modes/diff_mode.py:1540
+msgid ""
+"View and restore previous LLM requests. Double-click an entry to restore its"
+" configuration."
+msgstr "以前のLLMリクエストを表示・復元します。エントリをダブルクリックすると設定が復元されます。"
+
+#: modes/diff_mode.py:1546
+msgid "Refresh History"
+msgstr "履歴を更新"
+
+#: modes/diff_mode.py:1550
+msgid "Delete Selected"
+msgstr "選択項目を削除"
+
+#: modes/diff_mode.py:1554
+msgid "Clear All History"
+msgstr "すべての履歴を消去"
+
+#: modes/diff_mode.py:1565
+msgid ""
+"Double-click an entry to restore its file configuration and view the cached "
+"response."
+msgstr "エントリをダブルクリックして、ファイル構成を復元し、キャッシュされたレスポンスを表示します。"
+
+#: modes/diff_mode.py:1569
+msgid "Entry Details:"
+msgstr "エントリの詳細："
+
+#: modes/diff_mode.py:1594
+msgid "No cached requests found."
+msgstr "キャッシュされたリクエストが見つかりません。"
+
+#: modes/diff_mode.py:1618
+msgid "Analysis"
+msgstr "分析"
+
+#: modes/diff_mode.py:1618
+msgid "Generation"
+msgstr "世代"
+
+#: modes/diff_mode.py:1625
+msgid " (+{0} more)"
+msgstr " (+{0} 件追加)"
+
+#: modes/diff_mode.py:1627
+msgid "No files"
+msgstr "ファイルがありません"
+
+#: modes/diff_mode.py:1629
+msgid "[{0}] {1} - {2} file(s): {3}"
+msgstr "[{0}] {1} - {2} ファイル(s)：{3}"
+
+#: modes/diff_mode.py:1635
+msgid "Error loading history: {0}"
+msgstr "履歴の読み込みエラー: {0}"
+
+#: modes/diff_mode.py:1650
+msgid "Entry not found."
+msgstr "エントリが見つかりません。"
+
+#: modes/diff_mode.py:1657
+msgid "Request Type: {0}"
+msgstr "リクエストタイプ: {0}"
+
+#: modes/diff_mode.py:1657 modes/diff_mode.py:1658 modes/diff_mode.py:1792
+#: modes/diff_mode.py:1793 modes/diff_mode.py:1830
+msgid "unknown"
+msgstr "不明"
+
+#: modes/diff_mode.py:1658
+msgid "Timestamp: {0}"
+msgstr "タイムスタンプ: {0}"
+
+#: modes/diff_mode.py:1659
+msgid "Files ({0}):"
+msgstr "ファイル ({0})："
+
+#: modes/diff_mode.py:1663
+msgid "{0}. {1} (from {2})"
+msgstr "{0}。{1}（{2}から）"
+
+#: modes/diff_mode.py:1668
+msgid "Target Context: {0}"
+msgstr "対象コンテキスト: {0}"
+
+#: modes/diff_mode.py:1672
+msgid "Requirements: {0}"
+msgstr "要件：{0}"
+
+#: modes/diff_mode.py:1676
+msgid "Base File Index: {0}"
+msgstr "ベースファイルインデックス: {0}"
+
+#: modes/diff_mode.py:1680
+msgid "Result: Error - {0}"
+msgstr "結果: エラー - {0}"
+
+#: modes/diff_mode.py:1683
+msgid "Result: Analysis completed successfully"
+msgstr "結果：分析が正常に完了しました"
+
+#: modes/diff_mode.py:1685
+msgid "Result: Code generation completed successfully"
+msgstr "結果：コード生成が正常に完了しました"
+
+#: modes/diff_mode.py:1689
+msgid "Error loading details: {0}"
+msgstr "詳細の読み込みエラー: {0}"
+
+#: modes/diff_mode.py:1699
+msgid "Entry not found in cache."
+msgstr "キャッシュにエントリが見つかりません。"
+
+#: modes/diff_mode.py:1706
+msgid "No files found in this entry."
+msgstr "このエントリにファイルが見つかりませんでした。"
+
+#: modes/diff_mode.py:1711
+msgid "Restore Configuration"
+msgstr "構成の復元"
+
+#: modes/diff_mode.py:1712
+msgid ""
+"This will replace your current file configuration with {0} file(s).\n"
+"Continue?"
+msgstr ""
+"これにより、現在のファイル構成が {0} 個のファイルに置き換わります。\n"
+"続行しますか？"
+
+#: modes/diff_mode.py:1731
+msgid "Failed to add file {0}: {1}"
+msgstr "ファイル {0} の追加に失敗しました: {1}"
+
+#: modes/diff_mode.py:1736
+msgid "File no longer exists: {0}"
+msgstr "ファイルが存在しません: {0}"
+
+#: modes/diff_mode.py:1781 modes/diff_mode.py:1804
+msgid "❌ Error (cached)"
+msgstr "❌ エラー（キャッシュ）"
+
+#: modes/diff_mode.py:1799 modes/diff_mode.py:1808
+#: tests/integration/test_diff_mode_llm_flow.py:154
+msgid "✅ Complete (cached)"
+msgstr "✅ 完了 (キャッシュ済み)"
+
+#: modes/diff_mode.py:1829
+msgid "Restored"
+msgstr "復元済み"
+
+#: modes/diff_mode.py:1830
+msgid ""
+"Configuration restored from {0}.\n"
+"Cached response displayed in LLM Analysis tab."
+msgstr ""
+"設定が{0}から復元されました。\n"
+"キャッシュされた応答がLLM分析タブに表示されています。"
+
+#: modes/diff_mode.py:1833
+msgid "Failed to restore entry: {0}"
+msgstr "エントリの復元に失敗しました: {0}"
+
+#: modes/diff_mode.py:1839
+msgid "Please select an entry to delete."
+msgstr "削除するエントリを選択してください。"
+
+#: modes/diff_mode.py:1846
+msgid "Confirm Delete"
+msgstr "削除の確認"
+
+#: modes/diff_mode.py:1847
+msgid "Are you sure you want to delete this entry?"
+msgstr "このエントリを削除してもよろしいですか？"
+
+#: modes/diff_mode.py:1864
+msgid "Failed to delete entry: {0}"
+msgstr "エントリの削除に失敗しました: {0}"
+
+#: modes/diff_mode.py:1869
+msgid "Confirm Clear All"
+msgstr "全項目のクリアを確認"
+
+#: modes/diff_mode.py:1870
+msgid ""
+"Are you sure you want to clear all cached history?\n"
+"This cannot be undone."
+msgstr ""
+"キャッシュされた履歴をすべて削除してもよろしいですか？\n"
+"この操作は元に戻せません。"
+
+#: modes/diff_mode.py:1883
+msgid "All history cleared."
+msgstr "履歴がすべて消去されました。"
+
+#: modes/diff_mode.py:1885
+msgid "Failed to clear history: {0}"
+msgstr "履歴の削除に失敗しました: {0}"
+
+#: modes/join_mode.py:26
+msgid "Most Common"
+msgstr "最も一般的"
+
+#: modes/join_mode.py:27
+msgid "Alphanumeric"
+msgstr "英数字"
+
+#: modes/join_mode.py:108
+msgid "Files added for analysis"
+msgstr "分析用にファイルが追加されました"
+
+#: modes/join_mode.py:125
+msgid "Groupings:"
+msgstr "グルーピング:"
+
+#: modes/join_mode.py:127
+msgid "Unconfirmed Groupings:"
+msgstr "未確認のグループ化："
+
+#: modes/join_mode.py:137
+msgid "File Info:"
+msgstr "ファイル情報:"
+
+#: modes/join_mode.py:147
+msgid "Add files to analyze"
+msgstr "分析するファイルを追加"
+
+#: modes/join_mode.py:150
+msgid "Start Analysis"
+msgstr "分析開始"
+
+#: modes/join_mode.py:152
+msgid "Start the join analysis on added files"
+msgstr "追加されたファイルで結合解析を開始"
+
+#: modes/join_mode.py:155
+msgid "Analysis Output"
+msgstr "分析結果"
+
+#: modes/join_mode.py:157
+msgid "Generate analysis output file"
+msgstr "分析出力ファイルを生成"
+
+#: modes/join_mode.py:160
+msgid "Store Data"
+msgstr "データを保存"
+
+#: modes/join_mode.py:162
+msgid "Save current analysis state"
+msgstr "現在の分析状態を保存"
+
+#: modes/join_mode.py:165
+msgid "Reset Data"
+msgstr "データをリセット"
+
+#: modes/join_mode.py:167
+msgid "Clear all data and reset"
+msgstr "すべてのデータを削除してリセット"
+
+#: modes/join_mode.py:170
+msgid "Toggle View Mode"
+msgstr "表示モード切替"
+
+#: modes/join_mode.py:172
+msgid "Switch between confirmed and unconfirmed groupings view"
+msgstr "確認済みと未確認のグループ表示を切り替える"
+
+#: modes/join_mode.py:177
+msgid "Merge Selected (Shift+M)"
+msgstr "選択項目を結合 (Shift+M)"
+
+#: modes/join_mode.py:179
+msgid "Merge the selected unconfirmed grouping"
+msgstr "選択された未確認のグループを結合"
+
+#: modes/join_mode.py:183
+msgid "Remove Selected (Del)"
+msgstr "選択項目を削除 (Del)"
+
+#: modes/join_mode.py:185
+msgid "Remove the selected unconfirmed grouping"
+msgstr "選択した未確認のグループを削除"
+
+#: modes/join_mode.py:195
+msgid "Sort for files in browsing mode:"
+msgstr "閲覧モードでファイルを並べ替える："
+
+#: modes/join_mode.py:238
+msgid "Select files"
+msgstr "ファイルを選択"
+
+#: modes/join_mode.py:256
+msgid "Files Added"
+msgstr "ファイルが追加されました"
+
+#: modes/join_mode.py:257
+msgid "Added {0} file(s). Total: {1}"
+msgstr "追加された{0}ファイル。合計: {1}"
+
+#: modes/join_mode.py:261
+msgid "No New Files"
+msgstr "新しいファイルがありません"
+
+#: modes/join_mode.py:262
+msgid "All selected files are already in the list."
+msgstr "選択したすべてのファイルは既にリストにあります。"
+
+#: modes/join_mode.py:278
+msgid "Added file: {0}"
+msgstr "ファイルを追加しました: {0}"
+
+#: modes/join_mode.py:316
+msgid "Unable to start analysis"
+msgstr "分析を開始できません"
+
+#: modes/join_mode.py:317
+msgid "Files must be added before a join analysis can begin."
+msgstr "結合分析を開始する前にファイルを追加する必要があります。"
+
+#: modes/join_mode.py:323
+msgid "Confirm Merge"
+msgstr "マージを確認"
+
+#: modes/join_mode.py:324
+msgid "A stored merge already exists. Do you still want to run a merge?"
+msgstr "保存されたマージがすでに存在します。マージを実行しますか？"
+
+#: modes/join_mode.py:348
+msgid "Join analysis failed: {0}"
+msgstr "結合解析に失敗しました: {0}"
+
+#: modes/join_mode.py:378
+msgid "Analysis Complete"
+msgstr "分析完了"
+
+#: modes/join_mode.py:379
+msgid "Analysis output has been written to the analysis file."
+msgstr "分析結果が分析ファイルに書き込まれました。"
+
+#: modes/join_mode.py:404
+msgid "Confirm Reset"
+msgstr "リセットを確認"
+
+#: modes/join_mode.py:405
+msgid "Are you sure you want to reset?"
+msgstr "リセットしてもよろしいですか？"
+
+#: modes/join_mode.py:430 modes/join_mode.py:482
+msgid "No Selection"
+msgstr "選択なし"
+
+#: modes/join_mode.py:431
+msgid "Please select an unconfirmed grouping to merge."
+msgstr "マージする未確認のグループを選択してください。"
+
+#: modes/join_mode.py:440
+msgid "Invalid Selection"
+msgstr "無効な選択"
+
+#: modes/join_mode.py:441
+msgid "Selected grouping is invalid."
+msgstr "選択したグループ化は無効です。"
+
+#: modes/join_mode.py:447
+msgid "Not Found"
+msgstr "見つかりません"
+
+#: modes/join_mode.py:448
+msgid "Grouping '{0}' not found."
+msgstr "グループ「{0}」が見つかりません。"
+
+#: modes/join_mode.py:463
+msgid "Merge Successful"
+msgstr "マージ成功"
+
+#: modes/join_mode.py:464
+msgid "Successfully merged grouping: {0}"
+msgstr "グループ化が正常にマージされました: {0}"
+
+#: modes/join_mode.py:468
+msgid "Merge Failed"
+msgstr "マージに失敗しました"
+
+#: modes/join_mode.py:469
+msgid "Failed to merge grouping: {0}"
+msgstr "グループの結合に失敗しました: {0}"
+
+#: modes/join_mode.py:474
+msgid "Error merging grouping: {0}"
+msgstr "グループ化のマージエラー: {0}"
+
+#: modes/join_mode.py:483
+msgid "Please select an unconfirmed grouping to remove."
+msgstr "削除する未確認のグループを選択してください。"
+
+#: modes/join_mode.py:505
+msgid "All Processed"
+msgstr "すべて処理済み"
+
+#: modes/join_mode.py:506
+msgid "All unconfirmed groupings have been processed."
+msgstr "すべての未確認グループ化が処理されました。"
+
+#: modes/project_compare_widget.py:70
+msgid "Project A:"
+msgstr "プロジェクト A:"
+
+#: modes/project_compare_widget.py:74 modes/project_compare_widget.py:84
+msgid "Choose Folder…"
+msgstr "フォルダーを選択…"
+
+#: modes/project_compare_widget.py:80
+msgid "Project B:"
+msgstr "プロジェクト B:"
+
+#: modes/project_compare_widget.py:90
+msgid ""
+"Global exclusions (apply to every project comparison, in addition to the "
+"default list and each project's .gitignore):"
+msgstr "グローバル除外項目（デフォルトリストと各プロジェクトの .gitignore に加えて、すべてのプロジェクト比較に適用されます）:"
+
+#: modes/project_compare_widget.py:98
+msgid "e.g. *.tmp or build/"
+msgstr "例: *.tmp または build/"
+
+#: modes/project_compare_widget.py:101
+msgid "Add"
+msgstr "追加"
+
+#: modes/project_compare_widget.py:110
+msgid ".gitignore-style patterns, independent of the projects being compared."
+msgstr ".gitignore 形式のパターンで、比較対象のプロジェクトに依存しません。"
+
+#: modes/project_compare_widget.py:114
+msgid "Remove Selected Exclusions"
+msgstr "選択した除外項目を削除"
+
+#: modes/project_compare_widget.py:118
+msgid "Respect each project's .gitignore patterns"
+msgstr "各プロジェクトの .gitignore パターンを尊重する"
+
+#: modes/project_compare_widget.py:121
+msgid ""
+"Disable to also find files listed in each project's .gitignore. The default "
+"list and the global exclusions above still apply regardless."
+msgstr ""
+"無効にすると、各プロジェクトの .gitignore "
+"に記載されたファイルも検索対象になります。上記のデフォルトリストとグローバル除外は引き続き適用されます。"
+
+#: modes/project_compare_widget.py:128
+msgid "Start Comparison"
+msgstr "比較開始"
+
+#: modes/project_compare_widget.py:137
+msgid "File"
+msgstr "ファイル"
+
+#: modes/project_compare_widget.py:142
+msgid "Open Selected Pair in Diff View"
+msgstr "差分ビューで選択されたペアを開く"
+
+#: modes/project_compare_widget.py:147
+msgid "No comparison run yet."
+msgstr "比較がまだ実行されていません。"
+
+#: modes/project_compare_widget.py:153
+msgid "Choose Project Folder"
+msgstr "プロジェクトフォルダーを選択"
+
+#: modes/project_compare_widget.py:163
+msgid "Please select both project folders."
+msgstr "プロジェクトフォルダーの両方を選択してください。"
+
+#: modes/project_compare_widget.py:166
+msgid "One of the selected folders no longer exists."
+msgstr "選択したフォルダーの一つが存在しなくなりました。"
+
+#: modes/project_compare_widget.py:176
+msgid "Comparison running…"
+msgstr "比較実行中…"
+
+#: modes/project_compare_widget.py:195
+#: tests/integration/test_project_compare_flow.py:31
+msgid ""
+"{0} identical, {1} different, {2} only in Project A, {3} only in Project B."
+msgstr "{0} 同一, {1} 異なる, {2} はプロジェクトAのみ, {3} はプロジェクトBのみ。"
+
+#: modes/project_compare_widget.py:203
+msgid "Comparison failed."
+msgstr "比較に失敗しました。"
+
+#: modes/project_compare_widget.py:204
+msgid "Comparison failed: {0}"
+msgstr "比較に失敗しました: {0}"
+
+#: modes/project_compare_widget.py:211
+msgid "Different ({0})"
+msgstr "異なる ({0})"
+
+#: modes/project_compare_widget.py:212
+msgid "Only in Project A ({0})"
+msgstr "プロジェクトAのみ ({0})"
+
+#: modes/project_compare_widget.py:213
+msgid "Only in Project B ({0})"
+msgstr "プロジェクトBのみ ({0})"
+
+#: modes/project_compare_widget.py:214
+msgid "Identical ({0})"
+msgstr "同一 ({0})"
+
+#: modes/project_compare_widget.py:260
+msgid "Binary File"
+msgstr "バイナリファイル"
+
+#: modes/project_compare_widget.py:261
+msgid ""
+"This file was detected as binary and cannot be opened in the Diff View."
+msgstr "このファイルはバイナリとして検出され、Diffビューで開くことができません。"
+
+#: utils/app_info_cache.py:47
+msgid "Error storing cache: {0}"
+msgstr "キャッシュの保存エラー: {0}"
+
+#: utils/app_info_cache.py:62
+msgid "Removing old cache file: {0}"
+msgstr "古いキャッシュファイルを削除しています: {0}"
+
+#: utils/app_info_cache.py:74
+msgid "No cache file found at {0}, creating new cache"
+msgstr "キャッシュファイルが{0}に見つかりません。新しいキャッシュを作成しています"
+
+#: utils/app_info_cache.py:83
+msgid "Loaded cache from {0}"
+msgstr "キャッシュを{0}から読み込みました"
+
+#: utils/app_info_cache.py:86
+msgid ", rotated {0} backups"
+msgstr ", {0} 個のバックアップがローテート済み"
+
+#: utils/app_info_cache.py:89
+msgid "Loaded cache from backup: {0}"
+msgstr "バックアップからキャッシュを読み込みました: {0}"
+
+#: utils/app_info_cache.py:92
+msgid "Failed to load cache from {0}: {1}"
+msgstr "キャッシュの読み込みに失敗しました {0}: {1}"
+
+#: utils/app_info_cache.py:97
+msgid "Error loading cache: {0}"
+msgstr "キャッシュの読み込みエラー: {0}"
+
+#: utils/translations.py:62
+msgid "Ctrl"
+msgstr "Ctrl"
+
+#: utils/translations.py:63
+msgid "Shift"
+msgstr "シフト"
+
+#: utils/translations.py:64
+msgid "Alt"
+msgstr "Alt"
+
+#: utils/utils.py:339
+msgid "Error while getting language name for code '{0}': {1}"
+msgstr "コード「{0}」の言語名取得エラー: {1}"

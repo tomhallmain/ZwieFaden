@@ -33,11 +33,11 @@ def test_open_pair_button_enabled_only_for_different_category(qtbot):
     tab = ProjectCompareTab(lambda a, b: None)
     qtbot.addWidget(tab)
 
-    different_group = QTreeWidgetItem(tab.result_tree, ["Unterschiedlich (1)"])
+    different_group = QTreeWidgetItem(tab.result_tree, ["Different (1)"])
     different_item = QTreeWidgetItem(different_group, ["changed.txt"])
     different_item.setData(0, Qt.UserRole, ("different", "changed.txt"))
 
-    identical_group = QTreeWidgetItem(tab.result_tree, ["Identisch (1)"])
+    identical_group = QTreeWidgetItem(tab.result_tree, ["Identical (1)"])
     identical_item = QTreeWidgetItem(identical_group, ["same.txt"])
     identical_item.setData(0, Qt.UserRole, ("identical", "same.txt"))
 

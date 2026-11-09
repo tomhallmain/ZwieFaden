@@ -1,9 +1,1138 @@
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: ZwieFaden 1.0\n"
+"Project-Id-Version: 1.0\n"
+"POT-Creation-Date: 2026-11-09 16:01-0500\n"
+"PO-Revision-Date: 2026-11-09 16:01-0500\n"
+"Last-Translator: Translator Name <translator@example.com>\n"
+"Language-Team: en Team <<EMAIL>>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"First-Author: THOMAS HALL <tomhall.main@gmail.com>\n"
-"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: app.py:24
+msgid "Data Analysis & Diff Tool"
+msgstr "Data Analysis & Diff Tool"
+
+#: app.py:34
+msgid "Diff Mode"
+msgstr "Diff Mode"
+
+#: app.py:35
+msgid "Join Mode"
+msgstr "Join Mode"
+
+#: app.py:87
+msgid "Failed to store join data on exit: %s"
+msgstr "Failed to store join data on exit: %s"
+
+#: app.py:91
+msgid "Failed to save app cache on exit: %s"
+msgstr "Failed to save app cache on exit: %s"
+
+#: extensions/llm.py:82
+msgid "{0} - Failed to get json attr {1} from json response: {2}"
+msgstr "{0} - Failed to get json attr {1} from json response: {2}"
+
+#: extensions/llm.py:118
+msgid "Using LLM model: {0} (state: {1})"
+msgstr "Using LLM model: {0} (state: {1})"
+
+#: extensions/llm.py:131
+msgid "LLM failure count increased to {0} for state '{1}'"
+msgstr "LLM failure count increased to {0} for state '{1}'"
+
+#: extensions/llm.py:257 extensions/llm.py:309
+msgid "Failed to generate LLM response: {0}"
+msgstr "Failed to generate LLM response: {0}"
+
+#: extensions/llm.py:280
+msgid "Exception in LLM generation thread: {0}"
+msgstr "Exception in LLM generation thread: {0}"
+
+#: extensions/llm.py:297 extensions/llm.py:393
+msgid "Thread did not terminate gracefully, forcing cleanup"
+msgstr "Thread did not terminate gracefully, forcing cleanup"
+
+#: extensions/llm.py:303
+msgid "Exception while monitoring LLM thread: {0}"
+msgstr "Exception while monitoring LLM thread: {0}"
+
+#: extensions/llm.py:388
+msgid "Cancelling LLM generation"
+msgstr "Cancelling LLM generation"
+
+#: modes/diff_mode.py:85
+msgid "Copy (Strip First Column)"
+msgstr "Copy (Strip First Column)"
+
+#: modes/diff_mode.py:130 modes/join_mode.py:145
+msgid "Add File"
+msgstr "Add File"
+
+#: modes/diff_mode.py:134 modes/diff_mode.py:369
+msgid "Remove Selected"
+msgstr "Remove Selected"
+
+#: modes/diff_mode.py:136
+msgid "Remove selected file(s) from current diff set"
+msgstr "Remove selected file(s) from current diff set"
+
+#: modes/diff_mode.py:141
+msgid "Move selected file(s) up"
+msgstr "Move selected file(s) up"
+
+#: modes/diff_mode.py:146
+msgid "Move selected file(s) down"
+msgstr "Move selected file(s) down"
+
+#: modes/diff_mode.py:149
+msgid "Clear Files"
+msgstr "Clear Files"
+
+#: modes/diff_mode.py:153 modes/diff_mode.py:431 modes/diff_mode.py:466
+msgid "Refresh Files"
+msgstr "Refresh Files"
+
+#: modes/diff_mode.py:155
+msgid "Reload file contents from disk and rerun diff"
+msgstr "Reload file contents from disk and rerun diff"
+
+#: modes/diff_mode.py:158
+msgid "Compare:"
+msgstr "Compare:"
+
+#: modes/diff_mode.py:164
+msgid "vs"
+msgstr "vs"
+
+#: modes/diff_mode.py:171
+msgid "Saved Grouping:"
+msgstr "Saved Grouping:"
+
+#: modes/diff_mode.py:174
+msgid "Load a previously used file grouping"
+msgstr "Load a previously used file grouping"
+
+#: modes/diff_mode.py:177 modes/diff_mode.py:598 modes/diff_mode.py:604
+#: modes/diff_mode.py:609
+msgid "Load Grouping"
+msgstr "Load Grouping"
+
+#: modes/diff_mode.py:181 modes/diff_mode.py:584
+msgid "Save Grouping"
+msgstr "Save Grouping"
+
+#: modes/diff_mode.py:183
+msgid "Store current file grouping for later quick restore"
+msgstr "Store current file grouping for later quick restore"
+
+#: modes/diff_mode.py:186
+msgid "Show Unified Diff"
+msgstr "Show Unified Diff"
+
+#: modes/diff_mode.py:190
+msgid "Show HTML Diff"
+msgstr "Show HTML Diff"
+
+#: modes/diff_mode.py:194
+msgid "Highlight Whitespace-Only Diffs"
+msgstr "Highlight Whitespace-Only Diffs"
+
+#: modes/diff_mode.py:199
+msgid ""
+"When disabled, trailing/blank-line whitespace-only changes are not "
+"highlighted."
+msgstr ""
+"When disabled, trailing/blank-line whitespace-only changes are not "
+"highlighted."
+
+#: modes/diff_mode.py:211 modes/join_mode.py:104
+msgid "Added Files:"
+msgstr "Added Files:"
+
+#: modes/diff_mode.py:218
+msgid "Files added for comparison. Shows filename and directory context."
+msgstr "Files added for comparison. Shows filename and directory context."
+
+#: modes/diff_mode.py:227 modes/diff_mode.py:971
+msgid "Line-by-Line Diff:"
+msgstr "Line-by-Line Diff:"
+
+#: modes/diff_mode.py:244
+msgid "File A:"
+msgstr "File A:"
+
+#: modes/diff_mode.py:254
+msgid "File B:"
+msgstr "File B:"
+
+#: modes/diff_mode.py:273
+msgid "Diff View"
+msgstr "Diff View"
+
+#: modes/diff_mode.py:277 modes/diff_mode.py:1824
+msgid "LLM Analysis"
+msgstr "LLM Analysis"
+
+#: modes/diff_mode.py:281
+msgid "File Grouping"
+msgstr "File Grouping"
+
+#: modes/diff_mode.py:285
+msgid "Request History"
+msgstr "Request History"
+
+#: modes/diff_mode.py:289 modes/project_compare_widget.py:163
+#: modes/project_compare_widget.py:166 modes/project_compare_widget.py:204
+msgid "Project Compare"
+msgstr "Project Compare"
+
+#: modes/diff_mode.py:315 modes/diff_mode.py:341 modes/diff_mode.py:912
+#: modes/diff_mode.py:932 modes/diff_mode.py:964 modes/diff_mode.py:1192
+#: modes/diff_mode.py:1303 modes/diff_mode.py:1344 modes/diff_mode.py:1699
+#: modes/diff_mode.py:1706 modes/diff_mode.py:1833 modes/diff_mode.py:1864
+#: modes/diff_mode.py:1885 modes/join_mode.py:348 modes/join_mode.py:473
+msgid "Error"
+msgstr "Error"
+
+#: modes/diff_mode.py:315 modes/diff_mode.py:341
+msgid "Failed to add file: {0}"
+msgstr "Failed to add file: {0}"
+
+#: modes/diff_mode.py:328
+msgid "Select file to compare"
+msgstr "Select file to compare"
+
+#: modes/diff_mode.py:328 modes/join_mode.py:238
+msgid "All Files (*)"
+msgstr "All Files (*)"
+
+#: modes/diff_mode.py:339 modes/diff_mode.py:1342 modes/diff_mode.py:1883
+msgid "Success"
+msgstr "Success"
+
+#: modes/diff_mode.py:339
+msgid ""
+"Added file: {0}\n"
+"From: {1}"
+msgstr ""
+"Added file: {0}\n"
+"From: {1}"
+
+#: modes/diff_mode.py:346
+msgid "Confirm Clear"
+msgstr "Confirm Clear"
+
+#: modes/diff_mode.py:347
+msgid "Are you sure you want to clear all files?"
+msgstr "Are you sure you want to clear all files?"
+
+#: modes/diff_mode.py:369
+msgid "Select one or more files to remove."
+msgstr "Select one or more files to remove."
+
+#: modes/diff_mode.py:431
+msgid "No files to refresh."
+msgstr "No files to refresh."
+
+#: modes/diff_mode.py:467
+msgid ""
+"Some files could not be refreshed because they no longer exist:\n"
+"{0}"
+msgstr ""
+"Some files could not be refreshed because they no longer exist:\n"
+"{0}"
+
+#: modes/diff_mode.py:476
+msgid "Rerun Analysis?"
+msgstr "Rerun Analysis?"
+
+#: modes/diff_mode.py:477
+msgid ""
+"A previous LLM analysis exists for this same file grouping.\n"
+"Do you want to rerun analysis with the refreshed file contents?"
+msgstr ""
+"A previous LLM analysis exists for this same file grouping.\n"
+"Do you want to rerun analysis with the refreshed file contents?"
+
+#: modes/diff_mode.py:584
+msgid "No files in current grouping to save."
+msgstr "No files in current grouping to save."
+
+#: modes/diff_mode.py:590
+msgid "Grouping Saved"
+msgstr "Grouping Saved"
+
+#: modes/diff_mode.py:591
+msgid "Saved grouping with {0} file(s)."
+msgstr "Saved grouping with {0} file(s)."
+
+#: modes/diff_mode.py:598
+msgid "No saved grouping selected."
+msgstr "No saved grouping selected."
+
+#: modes/diff_mode.py:604
+msgid "Saved grouping entry was not found."
+msgstr "Saved grouping entry was not found."
+
+#: modes/diff_mode.py:609
+msgid "Saved grouping has no files."
+msgstr "Saved grouping has no files."
+
+#: modes/diff_mode.py:614
+msgid "Load Saved Grouping"
+msgstr "Load Saved Grouping"
+
+#: modes/diff_mode.py:615
+msgid ""
+"This will replace your current files with {0} saved file(s).\n"
+"Continue?"
+msgstr ""
+"This will replace your current files with {0} saved file(s).\n"
+"Continue?"
+
+#: modes/diff_mode.py:629
+msgid "Select saved grouping..."
+msgstr "Select saved grouping..."
+
+#: modes/diff_mode.py:649
+msgid "unknown time"
+msgstr "unknown time"
+
+#: modes/diff_mode.py:651 modes/diff_mode.py:655
+msgid "[{0}] {1} file(s): {2}"
+msgstr "[{0}] {1} file(s): {2}"
+
+#: modes/diff_mode.py:908
+msgid "File A: {0} ({1})"
+msgstr "File A: {0} ({1})"
+
+#: modes/diff_mode.py:909
+msgid "File B: {0} ({1})"
+msgstr "File B: {0} ({1})"
+
+#: modes/diff_mode.py:912
+msgid "Failed to generate diff: {0}"
+msgstr "Failed to generate diff: {0}"
+
+#: modes/diff_mode.py:920 modes/diff_mode.py:924 modes/diff_mode.py:940
+#: modes/diff_mode.py:944 modes/diff_mode.py:1083 modes/diff_mode.py:1207
+#: modes/diff_mode.py:1215 modes/diff_mode.py:1332 modes/diff_mode.py:1730
+#: modes/diff_mode.py:1735 modes/diff_mode.py:1839
+msgid "Warning"
+msgstr "Warning"
+
+#: modes/diff_mode.py:920 modes/diff_mode.py:940
+msgid "Please select two files to compare."
+msgstr "Please select two files to compare."
+
+#: modes/diff_mode.py:924 modes/diff_mode.py:944
+msgid "Please select two different files."
+msgstr "Please select two different files."
+
+#: modes/diff_mode.py:932
+msgid "Failed to generate unified diff: {0}"
+msgstr "Failed to generate unified diff: {0}"
+
+#: modes/diff_mode.py:960
+msgid "HTML Diff"
+msgstr "HTML Diff"
+
+#: modes/diff_mode.py:961
+msgid ""
+"HTML diff opened in your default browser.\n"
+"Temporary file: {0}"
+msgstr ""
+"HTML diff opened in your default browser.\n"
+"Temporary file: {0}"
+
+#: modes/diff_mode.py:964
+msgid "Failed to generate HTML diff: {0}"
+msgstr "Failed to generate HTML diff: {0}"
+
+#: modes/diff_mode.py:969
+msgid "Line-by-Line Diff: ✅ No differences"
+msgstr "Line-by-Line Diff: ✅ No differences"
+
+#: modes/diff_mode.py:982
+msgid "Target Context:"
+msgstr "Target Context:"
+
+#: modes/diff_mode.py:985
+msgid ""
+"Describe the target application/context where you want to use this tool "
+"module..."
+msgstr ""
+"Describe the target application/context where you want to use this tool "
+"module..."
+
+#: modes/diff_mode.py:990
+msgid "Specific Requirements (optional):"
+msgstr "Specific Requirements (optional):"
+
+#: modes/diff_mode.py:1000
+msgid "Analyze Versions"
+msgstr "Analyze Versions"
+
+#: modes/diff_mode.py:1004
+msgid "Generate Merged Version"
+msgstr "Generate Merged Version"
+
+#: modes/diff_mode.py:1009
+msgid "Select base file for generation (optional)"
+msgstr "Select base file for generation (optional)"
+
+#: modes/diff_mode.py:1010
+msgid "Base File:"
+msgstr "Base File:"
+
+#: modes/diff_mode.py:1024 modes/diff_mode.py:1296 modes/diff_mode.py:1309
+msgid "Processing LLM request..."
+msgstr "Processing LLM request..."
+
+#: modes/diff_mode.py:1040
+msgid "Analysis Results:"
+msgstr "Analysis Results:"
+
+#: modes/diff_mode.py:1056
+msgid "Generated Code:"
+msgstr "Generated Code:"
+
+#: modes/diff_mode.py:1067 modes/diff_mode.py:1336
+msgid "Save Generated Code"
+msgstr "Save Generated Code"
+
+#: modes/diff_mode.py:1084
+msgid "Please add at least 2 files to analyze."
+msgstr "Please add at least 2 files to analyze."
+
+#: modes/diff_mode.py:1096
+msgid "⏳ Processing analysis request..."
+msgstr "⏳ Processing analysis request..."
+
+#: modes/diff_mode.py:1097 modes/diff_mode.py:1230
+msgid "⏳ Processing..."
+msgstr "⏳ Processing..."
+
+#: modes/diff_mode.py:1154 modes/diff_mode.py:1277 modes/diff_mode.py:1778
+#: modes/diff_mode.py:1802
+msgid "❌ Error: {0}"
+msgstr "❌ Error: {0}"
+
+#: modes/diff_mode.py:1157 modes/diff_mode.py:1195 modes/diff_mode.py:1279
+#: modes/diff_mode.py:1305 tests/integration/test_diff_mode_llm_flow.py:87
+msgid "❌ Error"
+msgstr "❌ Error"
+
+#: modes/diff_mode.py:1159 modes/diff_mode.py:1783
+msgid "No analysis available"
+msgstr "No analysis available"
+
+#: modes/diff_mode.py:1169 modes/diff_mode.py:1794
+msgid "Recommended File"
+msgstr "Recommended File"
+
+#: modes/diff_mode.py:1170 modes/diff_mode.py:1795
+msgid "**File {0}**: `{1}` (from `{2}`)"
+msgstr "**File {0}**: `{1}` (from `{2}`)"
+
+#: modes/diff_mode.py:1174 modes/diff_mode.py:1283
+#: tests/integration/test_diff_mode_llm_flow.py:54
+#: tests/integration/test_diff_mode_llm_flow.py:112
+msgid "✅ Complete"
+msgstr "✅ Complete"
+
+#: modes/diff_mode.py:1192
+msgid "Analysis failed: {0}"
+msgstr "Analysis failed: {0}"
+
+#: modes/diff_mode.py:1193 modes/diff_mode.py:1304 modes/diff_mode.py:1331
+msgid "Error: {0}"
+msgstr "Error: {0}"
+
+#: modes/diff_mode.py:1208
+msgid "Please add at least 1 file to generate from."
+msgstr "Please add at least 1 file to generate from."
+
+#: modes/diff_mode.py:1216
+msgid "Please provide a target context."
+msgstr "Please provide a target context."
+
+#: modes/diff_mode.py:1228
+msgid "Generating merged version..."
+msgstr "Generating merged version..."
+
+#: modes/diff_mode.py:1229
+msgid "⏳ Generating code..."
+msgstr "⏳ Generating code..."
+
+#: modes/diff_mode.py:1281 modes/diff_mode.py:1806
+msgid "No code generated"
+msgstr "No code generated"
+
+#: modes/diff_mode.py:1288 modes/diff_mode.py:1813
+msgid ""
+"## Generation Explanation\n"
+"\n"
+"{0}"
+msgstr ""
+"## Generation Explanation\n"
+"\n"
+"{0}"
+
+#: modes/diff_mode.py:1303
+msgid "Generation failed: {0}"
+msgstr "Generation failed: {0}"
+
+#: modes/diff_mode.py:1325
+msgid "None (merge all)"
+msgstr "None (merge all)"
+
+#: modes/diff_mode.py:1332
+msgid "No code to save."
+msgstr "No code to save."
+
+#: modes/diff_mode.py:1336
+msgid "Python Files (*.py);;All Files (*)"
+msgstr "Python Files (*.py);;All Files (*)"
+
+#: modes/diff_mode.py:1342
+msgid "Code saved to {0}"
+msgstr "Code saved to {0}"
+
+#: modes/diff_mode.py:1344
+msgid "Failed to save file: {0}"
+msgstr "Failed to save file: {0}"
+
+#: modes/diff_mode.py:1352
+msgid ""
+"Files grouped by content (size + hash). Identical files are grouped "
+"together."
+msgstr ""
+"Files grouped by content (size + hash). Identical files are grouped "
+"together."
+
+#: modes/diff_mode.py:1357
+msgid "Refresh Groups"
+msgstr "Refresh Groups"
+
+#: modes/diff_mode.py:1359
+msgid "Recalculate file groups based on current files"
+msgstr "Recalculate file groups based on current files"
+
+#: modes/diff_mode.py:1364
+msgid "File / Group"
+msgstr "File / Group"
+
+#: modes/diff_mode.py:1364
+msgid "Size"
+msgstr "Size"
+
+#: modes/diff_mode.py:1364
+msgid "Hash"
+msgstr "Hash"
+
+#: modes/diff_mode.py:1364
+msgid "Path"
+msgstr "Path"
+
+#: modes/diff_mode.py:1370
+msgid "Groups of identical files. Expand groups to see individual files."
+msgstr "Groups of identical files. Expand groups to see individual files."
+
+#: modes/diff_mode.py:1374 modes/diff_mode.py:1389
+msgid "No files added yet."
+msgstr "No files added yet."
+
+#: modes/diff_mode.py:1428
+msgid "Group {0} ({1} file(s))"
+msgstr "Group {0} ({1} file(s))"
+
+#: modes/diff_mode.py:1456
+msgid "All {0} file(s) are unique (no duplicates found)."
+msgstr "All {0} file(s) are unique (no duplicates found)."
+
+#: modes/diff_mode.py:1461
+msgid ""
+"Found {0} unique file group(s) from {1} file(s). {2} duplicate(s) detected."
+msgstr ""
+"Found {0} unique file group(s) from {1} file(s). {2} duplicate(s) detected."
+
+#: modes/diff_mode.py:1540
+msgid ""
+"View and restore previous LLM requests. Double-click an entry to restore its"
+" configuration."
+msgstr ""
+"View and restore previous LLM requests. Double-click an entry to restore its"
+" configuration."
+
+#: modes/diff_mode.py:1546
+msgid "Refresh History"
+msgstr "Refresh History"
+
+#: modes/diff_mode.py:1550
+msgid "Delete Selected"
+msgstr "Delete Selected"
+
+#: modes/diff_mode.py:1554
+msgid "Clear All History"
+msgstr "Clear All History"
+
+#: modes/diff_mode.py:1565
+msgid ""
+"Double-click an entry to restore its file configuration and view the cached "
+"response."
+msgstr ""
+"Double-click an entry to restore its file configuration and view the cached "
+"response."
+
+#: modes/diff_mode.py:1569
+msgid "Entry Details:"
+msgstr "Entry Details:"
+
+#: modes/diff_mode.py:1594
+msgid "No cached requests found."
+msgstr "No cached requests found."
+
+#: modes/diff_mode.py:1618
+msgid "Analysis"
+msgstr "Analysis"
+
+#: modes/diff_mode.py:1618
+msgid "Generation"
+msgstr "Generation"
+
+#: modes/diff_mode.py:1625
+msgid " (+{0} more)"
+msgstr " (+{0} more)"
+
+#: modes/diff_mode.py:1627
+msgid "No files"
+msgstr "No files"
+
+#: modes/diff_mode.py:1629
+msgid "[{0}] {1} - {2} file(s): {3}"
+msgstr "[{0}] {1} - {2} file(s): {3}"
+
+#: modes/diff_mode.py:1635
+msgid "Error loading history: {0}"
+msgstr "Error loading history: {0}"
+
+#: modes/diff_mode.py:1650
+msgid "Entry not found."
+msgstr "Entry not found."
+
+#: modes/diff_mode.py:1657
+msgid "Request Type: {0}"
+msgstr "Request Type: {0}"
+
+#: modes/diff_mode.py:1657 modes/diff_mode.py:1658 modes/diff_mode.py:1792
+#: modes/diff_mode.py:1793 modes/diff_mode.py:1830
+msgid "unknown"
+msgstr "unknown"
+
+#: modes/diff_mode.py:1658
+msgid "Timestamp: {0}"
+msgstr "Timestamp: {0}"
+
+#: modes/diff_mode.py:1659
+msgid "Files ({0}):"
+msgstr "Files ({0}):"
+
+#: modes/diff_mode.py:1663
+msgid "{0}. {1} (from {2})"
+msgstr "{0}. {1} (from {2})"
+
+#: modes/diff_mode.py:1668
+msgid "Target Context: {0}"
+msgstr "Target Context: {0}"
+
+#: modes/diff_mode.py:1672
+msgid "Requirements: {0}"
+msgstr "Requirements: {0}"
+
+#: modes/diff_mode.py:1676
+msgid "Base File Index: {0}"
+msgstr "Base File Index: {0}"
+
+#: modes/diff_mode.py:1680
+msgid "Result: Error - {0}"
+msgstr "Result: Error - {0}"
+
+#: modes/diff_mode.py:1683
+msgid "Result: Analysis completed successfully"
+msgstr "Result: Analysis completed successfully"
+
+#: modes/diff_mode.py:1685
+msgid "Result: Code generation completed successfully"
+msgstr "Result: Code generation completed successfully"
+
+#: modes/diff_mode.py:1689
+msgid "Error loading details: {0}"
+msgstr "Error loading details: {0}"
+
+#: modes/diff_mode.py:1699
+msgid "Entry not found in cache."
+msgstr "Entry not found in cache."
+
+#: modes/diff_mode.py:1706
+msgid "No files found in this entry."
+msgstr "No files found in this entry."
+
+#: modes/diff_mode.py:1711
+msgid "Restore Configuration"
+msgstr "Restore Configuration"
+
+#: modes/diff_mode.py:1712
+msgid ""
+"This will replace your current file configuration with {0} file(s).\n"
+"Continue?"
+msgstr ""
+"This will replace your current file configuration with {0} file(s).\n"
+"Continue?"
+
+#: modes/diff_mode.py:1731
+msgid "Failed to add file {0}: {1}"
+msgstr "Failed to add file {0}: {1}"
+
+#: modes/diff_mode.py:1736
+msgid "File no longer exists: {0}"
+msgstr "File no longer exists: {0}"
+
+#: modes/diff_mode.py:1781 modes/diff_mode.py:1804
+msgid "❌ Error (cached)"
+msgstr "❌ Error (cached)"
+
+#: modes/diff_mode.py:1799 modes/diff_mode.py:1808
+#: tests/integration/test_diff_mode_llm_flow.py:154
+msgid "✅ Complete (cached)"
+msgstr "✅ Complete (cached)"
+
+#: modes/diff_mode.py:1829
+msgid "Restored"
+msgstr "Restored"
+
+#: modes/diff_mode.py:1830
+msgid ""
+"Configuration restored from {0}.\n"
+"Cached response displayed in LLM Analysis tab."
+msgstr ""
+"Configuration restored from {0}.\n"
+"Cached response displayed in LLM Analysis tab."
+
+#: modes/diff_mode.py:1833
+msgid "Failed to restore entry: {0}"
+msgstr "Failed to restore entry: {0}"
+
+#: modes/diff_mode.py:1839
+msgid "Please select an entry to delete."
+msgstr "Please select an entry to delete."
+
+#: modes/diff_mode.py:1846
+msgid "Confirm Delete"
+msgstr "Confirm Delete"
+
+#: modes/diff_mode.py:1847
+msgid "Are you sure you want to delete this entry?"
+msgstr "Are you sure you want to delete this entry?"
+
+#: modes/diff_mode.py:1864
+msgid "Failed to delete entry: {0}"
+msgstr "Failed to delete entry: {0}"
+
+#: modes/diff_mode.py:1869
+msgid "Confirm Clear All"
+msgstr "Confirm Clear All"
+
+#: modes/diff_mode.py:1870
+msgid ""
+"Are you sure you want to clear all cached history?\n"
+"This cannot be undone."
+msgstr ""
+"Are you sure you want to clear all cached history?\n"
+"This cannot be undone."
+
+#: modes/diff_mode.py:1883
+msgid "All history cleared."
+msgstr "All history cleared."
+
+#: modes/diff_mode.py:1885
+msgid "Failed to clear history: {0}"
+msgstr "Failed to clear history: {0}"
+
+#: modes/join_mode.py:26
+msgid "Most Common"
+msgstr "Most Common"
+
+#: modes/join_mode.py:27
+msgid "Alphanumeric"
+msgstr "Alphanumeric"
+
+#: modes/join_mode.py:108
+msgid "Files added for analysis"
+msgstr "Files added for analysis"
+
+#: modes/join_mode.py:125
+msgid "Groupings:"
+msgstr "Groupings:"
+
+#: modes/join_mode.py:127
+msgid "Unconfirmed Groupings:"
+msgstr "Unconfirmed Groupings:"
+
+#: modes/join_mode.py:137
+msgid "File Info:"
+msgstr "File Info:"
+
+#: modes/join_mode.py:147
+msgid "Add files to analyze"
+msgstr "Add files to analyze"
+
+#: modes/join_mode.py:150
+msgid "Start Analysis"
+msgstr "Start Analysis"
+
+#: modes/join_mode.py:152
+msgid "Start the join analysis on added files"
+msgstr "Start the join analysis on added files"
+
+#: modes/join_mode.py:155
+msgid "Analysis Output"
+msgstr "Analysis Output"
+
+#: modes/join_mode.py:157
+msgid "Generate analysis output file"
+msgstr "Generate analysis output file"
+
+#: modes/join_mode.py:160
+msgid "Store Data"
+msgstr "Store Data"
+
+#: modes/join_mode.py:162
+msgid "Save current analysis state"
+msgstr "Save current analysis state"
+
+#: modes/join_mode.py:165
+msgid "Reset Data"
+msgstr "Reset Data"
+
+#: modes/join_mode.py:167
+msgid "Clear all data and reset"
+msgstr "Clear all data and reset"
+
+#: modes/join_mode.py:170
+msgid "Toggle View Mode"
+msgstr "Toggle View Mode"
+
+#: modes/join_mode.py:172
+msgid "Switch between confirmed and unconfirmed groupings view"
+msgstr "Switch between confirmed and unconfirmed groupings view"
+
+#: modes/join_mode.py:177
+msgid "Merge Selected (Shift+M)"
+msgstr "Merge Selected (Shift+M)"
+
+#: modes/join_mode.py:179
+msgid "Merge the selected unconfirmed grouping"
+msgstr "Merge the selected unconfirmed grouping"
+
+#: modes/join_mode.py:183
+msgid "Remove Selected (Del)"
+msgstr "Remove Selected (Del)"
+
+#: modes/join_mode.py:185
+msgid "Remove the selected unconfirmed grouping"
+msgstr "Remove the selected unconfirmed grouping"
+
+#: modes/join_mode.py:195
+msgid "Sort for files in browsing mode:"
+msgstr "Sort for files in browsing mode:"
+
+#: modes/join_mode.py:238
+msgid "Select files"
+msgstr "Select files"
+
+#: modes/join_mode.py:256
+msgid "Files Added"
+msgstr "Files Added"
+
+#: modes/join_mode.py:257
+msgid "Added {0} file(s). Total: {1}"
+msgstr "Added {0} file(s). Total: {1}"
+
+#: modes/join_mode.py:261
+msgid "No New Files"
+msgstr "No New Files"
+
+#: modes/join_mode.py:262
+msgid "All selected files are already in the list."
+msgstr "All selected files are already in the list."
+
+#: modes/join_mode.py:278
+msgid "Added file: {0}"
+msgstr "Added file: {0}"
+
+#: modes/join_mode.py:316
+msgid "Unable to start analysis"
+msgstr "Unable to start analysis"
+
+#: modes/join_mode.py:317
+msgid "Files must be added before a join analysis can begin."
+msgstr "Files must be added before a join analysis can begin."
+
+#: modes/join_mode.py:323
+msgid "Confirm Merge"
+msgstr "Confirm Merge"
+
+#: modes/join_mode.py:324
+msgid "A stored merge already exists. Do you still want to run a merge?"
+msgstr "A stored merge already exists. Do you still want to run a merge?"
+
+#: modes/join_mode.py:348
+msgid "Join analysis failed: {0}"
+msgstr "Join analysis failed: {0}"
+
+#: modes/join_mode.py:378
+msgid "Analysis Complete"
+msgstr "Analysis Complete"
+
+#: modes/join_mode.py:379
+msgid "Analysis output has been written to the analysis file."
+msgstr "Analysis output has been written to the analysis file."
+
+#: modes/join_mode.py:404
+msgid "Confirm Reset"
+msgstr "Confirm Reset"
+
+#: modes/join_mode.py:405
+msgid "Are you sure you want to reset?"
+msgstr "Are you sure you want to reset?"
+
+#: modes/join_mode.py:430 modes/join_mode.py:482
+msgid "No Selection"
+msgstr "No Selection"
+
+#: modes/join_mode.py:431
+msgid "Please select an unconfirmed grouping to merge."
+msgstr "Please select an unconfirmed grouping to merge."
+
+#: modes/join_mode.py:440
+msgid "Invalid Selection"
+msgstr "Invalid Selection"
+
+#: modes/join_mode.py:441
+msgid "Selected grouping is invalid."
+msgstr "Selected grouping is invalid."
+
+#: modes/join_mode.py:447
+msgid "Not Found"
+msgstr "Not Found"
+
+#: modes/join_mode.py:448
+msgid "Grouping '{0}' not found."
+msgstr "Grouping '{0}' not found."
+
+#: modes/join_mode.py:463
+msgid "Merge Successful"
+msgstr "Merge Successful"
+
+#: modes/join_mode.py:464
+msgid "Successfully merged grouping: {0}"
+msgstr "Successfully merged grouping: {0}"
+
+#: modes/join_mode.py:468
+msgid "Merge Failed"
+msgstr "Merge Failed"
+
+#: modes/join_mode.py:469
+msgid "Failed to merge grouping: {0}"
+msgstr "Failed to merge grouping: {0}"
+
+#: modes/join_mode.py:474
+msgid "Error merging grouping: {0}"
+msgstr "Error merging grouping: {0}"
+
+#: modes/join_mode.py:483
+msgid "Please select an unconfirmed grouping to remove."
+msgstr "Please select an unconfirmed grouping to remove."
+
+#: modes/join_mode.py:505
+msgid "All Processed"
+msgstr "All Processed"
+
+#: modes/join_mode.py:506
+msgid "All unconfirmed groupings have been processed."
+msgstr "All unconfirmed groupings have been processed."
+
+#: modes/project_compare_widget.py:70
+msgid "Project A:"
+msgstr "Project A:"
+
+#: modes/project_compare_widget.py:74 modes/project_compare_widget.py:84
+msgid "Choose Folder…"
+msgstr "Choose Folder…"
+
+#: modes/project_compare_widget.py:80
+msgid "Project B:"
+msgstr "Project B:"
+
+#: modes/project_compare_widget.py:90
+msgid ""
+"Global exclusions (apply to every project comparison, in addition to the "
+"default list and each project's .gitignore):"
+msgstr ""
+"Global exclusions (apply to every project comparison, in addition to the "
+"default list and each project's .gitignore):"
+
+#: modes/project_compare_widget.py:98
+msgid "e.g. *.tmp or build/"
+msgstr "e.g. *.tmp or build/"
+
+#: modes/project_compare_widget.py:101
+msgid "Add"
+msgstr "Add"
+
+#: modes/project_compare_widget.py:110
+msgid ".gitignore-style patterns, independent of the projects being compared."
+msgstr ""
+".gitignore-style patterns, independent of the projects being compared."
+
+#: modes/project_compare_widget.py:114
+msgid "Remove Selected Exclusions"
+msgstr "Remove Selected Exclusions"
+
+#: modes/project_compare_widget.py:118
+msgid "Respect each project's .gitignore patterns"
+msgstr "Respect each project's .gitignore patterns"
+
+#: modes/project_compare_widget.py:121
+msgid ""
+"Disable to also find files listed in each project's .gitignore. The default "
+"list and the global exclusions above still apply regardless."
+msgstr ""
+"Disable to also find files listed in each project's .gitignore. The default "
+"list and the global exclusions above still apply regardless."
+
+#: modes/project_compare_widget.py:128
+msgid "Start Comparison"
+msgstr "Start Comparison"
+
+#: modes/project_compare_widget.py:137
+msgid "File"
+msgstr "File"
+
+#: modes/project_compare_widget.py:142
+msgid "Open Selected Pair in Diff View"
+msgstr "Open Selected Pair in Diff View"
+
+#: modes/project_compare_widget.py:147
+msgid "No comparison run yet."
+msgstr "No comparison run yet."
+
+#: modes/project_compare_widget.py:153
+msgid "Choose Project Folder"
+msgstr "Choose Project Folder"
+
+#: modes/project_compare_widget.py:163
+msgid "Please select both project folders."
+msgstr "Please select both project folders."
+
+#: modes/project_compare_widget.py:166
+msgid "One of the selected folders no longer exists."
+msgstr "One of the selected folders no longer exists."
+
+#: modes/project_compare_widget.py:176
+msgid "Comparison running…"
+msgstr "Comparison running…"
+
+#: modes/project_compare_widget.py:195
+#: tests/integration/test_project_compare_flow.py:31
+msgid ""
+"{0} identical, {1} different, {2} only in Project A, {3} only in Project B."
+msgstr ""
+"{0} identical, {1} different, {2} only in Project A, {3} only in Project B."
+
+#: modes/project_compare_widget.py:203
+msgid "Comparison failed."
+msgstr "Comparison failed."
+
+#: modes/project_compare_widget.py:204
+msgid "Comparison failed: {0}"
+msgstr "Comparison failed: {0}"
+
+#: modes/project_compare_widget.py:211
+msgid "Different ({0})"
+msgstr "Different ({0})"
+
+#: modes/project_compare_widget.py:212
+msgid "Only in Project A ({0})"
+msgstr "Only in Project A ({0})"
+
+#: modes/project_compare_widget.py:213
+msgid "Only in Project B ({0})"
+msgstr "Only in Project B ({0})"
+
+#: modes/project_compare_widget.py:214
+msgid "Identical ({0})"
+msgstr "Identical ({0})"
+
+#: modes/project_compare_widget.py:260
+msgid "Binary File"
+msgstr "Binary File"
+
+#: modes/project_compare_widget.py:261
+msgid ""
+"This file was detected as binary and cannot be opened in the Diff View."
+msgstr ""
+"This file was detected as binary and cannot be opened in the Diff View."
+
+#: utils/app_info_cache.py:47
+msgid "Error storing cache: {0}"
+msgstr "Error storing cache: {0}"
+
+#: utils/app_info_cache.py:62
+msgid "Removing old cache file: {0}"
+msgstr "Removing old cache file: {0}"
+
+#: utils/app_info_cache.py:74
+msgid "No cache file found at {0}, creating new cache"
+msgstr "No cache file found at {0}, creating new cache"
+
+#: utils/app_info_cache.py:83
+msgid "Loaded cache from {0}"
+msgstr "Loaded cache from {0}"
+
+#: utils/app_info_cache.py:86
+msgid ", rotated {0} backups"
+msgstr ", rotated {0} backups"
+
+#: utils/app_info_cache.py:89
+msgid "Loaded cache from backup: {0}"
+msgstr "Loaded cache from backup: {0}"
+
+#: utils/app_info_cache.py:92
+msgid "Failed to load cache from {0}: {1}"
+msgstr "Failed to load cache from {0}: {1}"
+
+#: utils/app_info_cache.py:97
+msgid "Error loading cache: {0}"
+msgstr "Error loading cache: {0}"
+
+#: utils/translations.py:62
+msgid "Ctrl"
+msgstr "Ctrl"
+
+#: utils/translations.py:63
+msgid "Shift"
+msgstr "Shift"
+
+#: utils/translations.py:64
+msgid "Alt"
+msgstr "Alt"
+
+#: utils/utils.py:339
+msgid "Error while getting language name for code '{0}': {1}"
+msgstr "Error while getting language name for code '{0}': {1}"

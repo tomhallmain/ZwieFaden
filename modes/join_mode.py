@@ -21,6 +21,12 @@ class SortBy(Enum):
     MOST_COMMON = 0
     ALPHANUMERIC = 1
 
+    def display_name(self) -> str:
+        return {
+            SortBy.MOST_COMMON: _("Most Common"),
+            SortBy.ALPHANUMERIC: _("Alphanumeric"),
+        }[self]
+
 
 def clean_filename(file_path):
     """Clean filename by removing common prefixes and extensions."""
@@ -190,9 +196,12 @@ class JoinModeWidget(QWidget):
         right_layout.addWidget(sort_label)
         
         self.sort_combo = QComboBox()
-        self.sort_combo.addItems([e.name for e in SortBy])
-        self.sort_combo.setCurrentText(SortBy.MOST_COMMON.name)
-        self.sort_combo.currentTextChanged.connect(self.set_sort_by)
+        for sort_option in SortBy:
+            self.sort_combo.addItem(sort_option.display_name(), sort_option.name)
+        self.sort_combo.setCurrentIndex(self.sort_combo.findData(SortBy.MOST_COMMON.name))
+        self.sort_combo.currentIndexChanged.connect(
+            lambda _index: self.set_sort_by(self.sort_combo.currentData())
+        )
         right_layout.addWidget(self.sort_combo)
         
         # Progress bar
@@ -519,14 +528,15 @@ class JoinModeWidget(QWidget):
     def _cache_join_ui_state(self):
         """Persist join mode UI preferences."""
         app_info_cache.set(self.LAST_DIRECTORY_CACHE_KEY, self.last_selected_directory or "")
-        app_info_cache.set(self.SORT_BY_CACHE_KEY, self.sort_combo.currentText())
+        app_info_cache.set(self.SORT_BY_CACHE_KEY, self.sort_combo.currentData())
         app_info_cache.set(self.UNCONFIRMED_VIEW_CACHE_KEY, self.unconfirmed_list_mode)
 
     def _restore_join_ui_state(self):
         """Restore join mode UI preferences."""
         sort_name = app_info_cache.get(self.SORT_BY_CACHE_KEY, SortBy.MOST_COMMON.name)
-        if sort_name in [e.name for e in SortBy]:
-            self.sort_combo.setCurrentText(sort_name)
+        sort_index = self.sort_combo.findData(sort_name)
+        if sort_index >= 0:
+            self.sort_combo.setCurrentIndex(sort_index)
         show_unconfirmed = bool(app_info_cache.get(self.UNCONFIRMED_VIEW_CACHE_KEY, False))
         if show_unconfirmed != self.unconfirmed_list_mode:
             self.toggle_view_mode()

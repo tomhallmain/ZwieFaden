@@ -26,7 +26,7 @@ def test_sort_combo_alphanumeric_orders_groupings(qtbot):
     qtbot.addWidget(widget)
     widget.groupings = {"zebra": object(), "alpha": object()}
 
-    widget.sort_combo.setCurrentText(SortBy.ALPHANUMERIC.name)
+    widget.sort_combo.setCurrentIndex(widget.sort_combo.findData(SortBy.ALPHANUMERIC.name))
 
     items = [widget.g_listbox.item(i).text() for i in range(widget.g_listbox.count())]
     assert items == ["alpha", "zebra"]

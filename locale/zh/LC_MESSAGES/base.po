@@ -1,9 +1,1120 @@
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: ZwieFaden 1.0\n"
+"Project-Id-Version: 1.0\n"
+"POT-Creation-Date: 2026-11-09 16:26-0500\n"
+"PO-Revision-Date: 2026-11-09 16:26-0500\n"
+"Last-Translator: Translator Name <translator@example.com>\n"
+"Language-Team: zh Team <<EMAIL>>\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"First-Author: THOMAS HALL <tomhall.main@gmail.com>\n"
-"Last-Translator: Thomas Hall <tomhall.main@gmail.com>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: app.py:24
+msgid "Data Analysis & Diff Tool"
+msgstr "数据分析 & Diff 工具"
+
+#: app.py:34
+msgid "Diff Mode"
+msgstr "Diff 模式"
+
+#: app.py:35
+msgid "Join Mode"
+msgstr "加入模式"
+
+#: app.py:87
+msgid "Failed to store join data on exit: %s"
+msgstr "退出时存储加入数据失败：%s"
+
+#: app.py:91
+msgid "Failed to save app cache on exit: %s"
+msgstr "退出时未能保存应用缓存：%s"
+
+#: extensions/llm.py:82
+msgid "{0} - Failed to get json attr {1} from json response: {2}"
+msgstr "{0} - 未能从 JSON 响应中获取属性 {1}: {2}"
+
+#: extensions/llm.py:118
+msgid "Using LLM model: {0} (state: {1})"
+msgstr "使用 LLM 模型：{0}（状态：{1}）"
+
+#: extensions/llm.py:131
+msgid "LLM failure count increased to {0} for state '{1}'"
+msgstr "状态‘{1}’的 LLM 失败计数已增加至 {0}"
+
+#: extensions/llm.py:257 extensions/llm.py:309
+msgid "Failed to generate LLM response: {0}"
+msgstr "生成 LLM 响应失败: {0}"
+
+#: extensions/llm.py:280
+msgid "Exception in LLM generation thread: {0}"
+msgstr "LLM 生成线程中的异常: {0}"
+
+#: extensions/llm.py:297 extensions/llm.py:393
+msgid "Thread did not terminate gracefully, forcing cleanup"
+msgstr "线程未正常结束，已强制清理"
+
+#: extensions/llm.py:303
+msgid "Exception while monitoring LLM thread: {0}"
+msgstr "监控 LLM 线程时出现异常: {0}"
+
+#: extensions/llm.py:388
+msgid "Cancelling LLM generation"
+msgstr "正在取消 LLM 生成"
+
+#: modes/diff_mode.py:85
+msgid "Copy (Strip First Column)"
+msgstr "复制 (去除第一列)"
+
+#: modes/diff_mode.py:130 modes/join_mode.py:145
+msgid "Add File"
+msgstr "添加文件"
+
+#: modes/diff_mode.py:134 modes/diff_mode.py:369
+msgid "Remove Selected"
+msgstr "删除所选"
+
+#: modes/diff_mode.py:136
+msgid "Remove selected file(s) from current diff set"
+msgstr "从当前 diff 集合中移除选中的文件"
+
+#: modes/diff_mode.py:141
+msgid "Move selected file(s) up"
+msgstr "将所选文件上移"
+
+#: modes/diff_mode.py:146
+msgid "Move selected file(s) down"
+msgstr "向下移动所选文件"
+
+#: modes/diff_mode.py:149
+msgid "Clear Files"
+msgstr "清除文件"
+
+#: modes/diff_mode.py:153 modes/diff_mode.py:431 modes/diff_mode.py:466
+msgid "Refresh Files"
+msgstr "刷新文件"
+
+#: modes/diff_mode.py:155
+msgid "Reload file contents from disk and rerun diff"
+msgstr "从磁盘重新加载文件内容并重新运行 diff"
+
+#: modes/diff_mode.py:158
+msgid "Compare:"
+msgstr "比较:"
+
+#: modes/diff_mode.py:164
+msgid "vs"
+msgstr "vs"
+
+#: modes/diff_mode.py:171
+msgid "Saved Grouping:"
+msgstr "已保存的分组："
+
+#: modes/diff_mode.py:174
+msgid "Load a previously used file grouping"
+msgstr "加载先前使用的文件分组"
+
+#: modes/diff_mode.py:177 modes/diff_mode.py:598 modes/diff_mode.py:604
+#: modes/diff_mode.py:609
+msgid "Load Grouping"
+msgstr "负载分组"
+
+#: modes/diff_mode.py:181 modes/diff_mode.py:584
+msgid "Save Grouping"
+msgstr "保存分组"
+
+#: modes/diff_mode.py:183
+msgid "Store current file grouping for later quick restore"
+msgstr "保存当前文件分组以便稍后快速恢复"
+
+#: modes/diff_mode.py:186
+msgid "Show Unified Diff"
+msgstr "显示统一差异"
+
+#: modes/diff_mode.py:190
+msgid "Show HTML Diff"
+msgstr "显示 HTML 差异"
+
+#: modes/diff_mode.py:194
+msgid "Highlight Whitespace-Only Diffs"
+msgstr "高亮仅空白差异"
+
+#: modes/diff_mode.py:199
+msgid ""
+"When disabled, trailing/blank-line whitespace-only changes are not "
+"highlighted."
+msgstr "禁用后，仅包含行尾或空行空白的更改不会被突出显示。"
+
+#: modes/diff_mode.py:211 modes/join_mode.py:104
+msgid "Added Files:"
+msgstr "已添加的文件："
+
+#: modes/diff_mode.py:218
+msgid "Files added for comparison. Shows filename and directory context."
+msgstr "已添加用于比较的文件。显示文件名和目录上下文。"
+
+#: modes/diff_mode.py:227 modes/diff_mode.py:971
+msgid "Line-by-Line Diff:"
+msgstr "逐行差异："
+
+#: modes/diff_mode.py:244
+msgid "File A:"
+msgstr "文件 A:"
+
+#: modes/diff_mode.py:254
+msgid "File B:"
+msgstr "文件 B："
+
+#: modes/diff_mode.py:273
+msgid "Diff View"
+msgstr "差异视图"
+
+#: modes/diff_mode.py:277 modes/diff_mode.py:1824
+msgid "LLM Analysis"
+msgstr "LLM 分析"
+
+#: modes/diff_mode.py:281
+msgid "File Grouping"
+msgstr "文件分组"
+
+#: modes/diff_mode.py:285
+msgid "Request History"
+msgstr "请求历史"
+
+#: modes/diff_mode.py:289 modes/project_compare_widget.py:163
+#: modes/project_compare_widget.py:166 modes/project_compare_widget.py:204
+msgid "Project Compare"
+msgstr "项目比较"
+
+#: modes/diff_mode.py:315 modes/diff_mode.py:341 modes/diff_mode.py:912
+#: modes/diff_mode.py:932 modes/diff_mode.py:964 modes/diff_mode.py:1192
+#: modes/diff_mode.py:1303 modes/diff_mode.py:1344 modes/diff_mode.py:1699
+#: modes/diff_mode.py:1706 modes/diff_mode.py:1833 modes/diff_mode.py:1864
+#: modes/diff_mode.py:1885 modes/join_mode.py:348 modes/join_mode.py:473
+msgid "Error"
+msgstr "错误"
+
+#: modes/diff_mode.py:315 modes/diff_mode.py:341
+msgid "Failed to add file: {0}"
+msgstr "添加文件失败：{0}"
+
+#: modes/diff_mode.py:328
+msgid "Select file to compare"
+msgstr "选择要比较的文件"
+
+#: modes/diff_mode.py:328 modes/join_mode.py:238
+msgid "All Files (*)"
+msgstr "所有文件 (*)"
+
+#: modes/diff_mode.py:339 modes/diff_mode.py:1342 modes/diff_mode.py:1883
+msgid "Success"
+msgstr "成功"
+
+#: modes/diff_mode.py:339
+msgid ""
+"Added file: {0}\n"
+"From: {1}"
+msgstr ""
+"已添加文件：{0}\n"
+"来源：{1}"
+
+#: modes/diff_mode.py:346
+msgid "Confirm Clear"
+msgstr "确认清除"
+
+#: modes/diff_mode.py:347
+msgid "Are you sure you want to clear all files?"
+msgstr "您确定要清除所有文件吗？"
+
+#: modes/diff_mode.py:369
+msgid "Select one or more files to remove."
+msgstr "请选择一个或多个文件以删除。"
+
+#: modes/diff_mode.py:431
+msgid "No files to refresh."
+msgstr "没有可刷新的文件。"
+
+#: modes/diff_mode.py:467
+msgid ""
+"Some files could not be refreshed because they no longer exist:\n"
+"{0}"
+msgstr ""
+"某些文件无法刷新，因为它们已不存在：\n"
+"{0}"
+
+#: modes/diff_mode.py:476
+msgid "Rerun Analysis?"
+msgstr "重新运行分析？"
+
+#: modes/diff_mode.py:477
+msgid ""
+"A previous LLM analysis exists for this same file grouping.\n"
+"Do you want to rerun analysis with the refreshed file contents?"
+msgstr ""
+"此文件分组已存在先前的 LLM 分析。\n"
+"您想使用已刷新后的文件内容重新运行分析吗？"
+
+#: modes/diff_mode.py:584
+msgid "No files in current grouping to save."
+msgstr "当前分组中没有文件可保存。"
+
+#: modes/diff_mode.py:590
+msgid "Grouping Saved"
+msgstr "已保存分组"
+
+#: modes/diff_mode.py:591
+msgid "Saved grouping with {0} file(s)."
+msgstr "已保存的分组，包含 {0} 个文件。"
+
+#: modes/diff_mode.py:598
+msgid "No saved grouping selected."
+msgstr "未选择已保存的分组。"
+
+#: modes/diff_mode.py:604
+msgid "Saved grouping entry was not found."
+msgstr "未找到已保存的分组条目。"
+
+#: modes/diff_mode.py:609
+msgid "Saved grouping has no files."
+msgstr "已保存的分组没有文件。"
+
+#: modes/diff_mode.py:614
+msgid "Load Saved Grouping"
+msgstr "加载已保存的分组"
+
+#: modes/diff_mode.py:615
+msgid ""
+"This will replace your current files with {0} saved file(s).\n"
+"Continue?"
+msgstr ""
+"这将用 {0} 个已保存的文件替换您当前的文件。\n"
+"继续？"
+
+#: modes/diff_mode.py:629
+msgid "Select saved grouping..."
+msgstr "选择已保存的分组..."
+
+#: modes/diff_mode.py:649
+msgid "unknown time"
+msgstr "未知时间"
+
+#: modes/diff_mode.py:651 modes/diff_mode.py:655
+msgid "[{0}] {1} file(s): {2}"
+msgstr "[{0}] {1} 文件: {2}"
+
+#: modes/diff_mode.py:908
+msgid "File A: {0} ({1})"
+msgstr "文件 A：{0} ({1})"
+
+#: modes/diff_mode.py:909
+msgid "File B: {0} ({1})"
+msgstr "文件 B：{0} ({1})"
+
+#: modes/diff_mode.py:912
+msgid "Failed to generate diff: {0}"
+msgstr "生成 diff 失败: {0}"
+
+#: modes/diff_mode.py:920 modes/diff_mode.py:924 modes/diff_mode.py:940
+#: modes/diff_mode.py:944 modes/diff_mode.py:1083 modes/diff_mode.py:1207
+#: modes/diff_mode.py:1215 modes/diff_mode.py:1332 modes/diff_mode.py:1730
+#: modes/diff_mode.py:1735 modes/diff_mode.py:1839
+msgid "Warning"
+msgstr "警告"
+
+#: modes/diff_mode.py:920 modes/diff_mode.py:940
+msgid "Please select two files to compare."
+msgstr "请选择两个文件进行比较。"
+
+#: modes/diff_mode.py:924 modes/diff_mode.py:944
+msgid "Please select two different files."
+msgstr "请选择两个不同的文件。"
+
+#: modes/diff_mode.py:932
+msgid "Failed to generate unified diff: {0}"
+msgstr "生成统一 diff 失败：{0}"
+
+#: modes/diff_mode.py:960
+msgid "HTML Diff"
+msgstr "HTML 差异"
+
+#: modes/diff_mode.py:961
+msgid ""
+"HTML diff opened in your default browser.\n"
+"Temporary file: {0}"
+msgstr ""
+"HTML 差异已在您的默认浏览器中打开。\n"
+"临时文件：{0}"
+
+#: modes/diff_mode.py:964
+msgid "Failed to generate HTML diff: {0}"
+msgstr "生成 HTML 差异失败: {0}"
+
+#: modes/diff_mode.py:969
+msgid "Line-by-Line Diff: ✅ No differences"
+msgstr "逐行差异：✅ 无差异"
+
+#: modes/diff_mode.py:982
+msgid "Target Context:"
+msgstr "目标上下文："
+
+#: modes/diff_mode.py:985
+msgid ""
+"Describe the target application/context where you want to use this tool "
+"module..."
+msgstr "描述您想使用此工具模块的目标应用/上下文..."
+
+#: modes/diff_mode.py:990
+msgid "Specific Requirements (optional):"
+msgstr "具体要求（可选）:"
+
+#: modes/diff_mode.py:1000
+msgid "Analyze Versions"
+msgstr "分析版本"
+
+#: modes/diff_mode.py:1004
+msgid "Generate Merged Version"
+msgstr "生成合并版本"
+
+#: modes/diff_mode.py:1009
+msgid "Select base file for generation (optional)"
+msgstr "选择用于生成的基文件（可选）"
+
+#: modes/diff_mode.py:1010
+msgid "Base File:"
+msgstr "基础文件:"
+
+#: modes/diff_mode.py:1024 modes/diff_mode.py:1296 modes/diff_mode.py:1309
+msgid "Processing LLM request..."
+msgstr "正在处理 LLM 请求..."
+
+#: modes/diff_mode.py:1040
+msgid "Analysis Results:"
+msgstr "分析结果："
+
+#: modes/diff_mode.py:1056
+msgid "Generated Code:"
+msgstr "生成的代码："
+
+#: modes/diff_mode.py:1067 modes/diff_mode.py:1336
+msgid "Save Generated Code"
+msgstr "保存生成的代码"
+
+#: modes/diff_mode.py:1084
+msgid "Please add at least 2 files to analyze."
+msgstr "请至少添加2个文件进行分析。"
+
+#: modes/diff_mode.py:1096
+msgid "⏳ Processing analysis request..."
+msgstr "⏳ 正在处理分析请求..."
+
+#: modes/diff_mode.py:1097 modes/diff_mode.py:1230
+msgid "⏳ Processing..."
+msgstr "⏳ 处理中..."
+
+#: modes/diff_mode.py:1154 modes/diff_mode.py:1277 modes/diff_mode.py:1778
+#: modes/diff_mode.py:1802
+msgid "❌ Error: {0}"
+msgstr "❌ 错误: {0}"
+
+#: modes/diff_mode.py:1157 modes/diff_mode.py:1195 modes/diff_mode.py:1279
+#: modes/diff_mode.py:1305 tests/integration/test_diff_mode_llm_flow.py:87
+msgid "❌ Error"
+msgstr "❌ 错误"
+
+#: modes/diff_mode.py:1159 modes/diff_mode.py:1783
+msgid "No analysis available"
+msgstr "暂无分析"
+
+#: modes/diff_mode.py:1169 modes/diff_mode.py:1794
+msgid "Recommended File"
+msgstr "推荐文件"
+
+#: modes/diff_mode.py:1170 modes/diff_mode.py:1795
+msgid "**File {0}**: `{1}` (from `{2}`)"
+msgstr "**文件 {0}**：`{1}`（来自 `{2}`）"
+
+#: modes/diff_mode.py:1174 modes/diff_mode.py:1283
+#: tests/integration/test_diff_mode_llm_flow.py:54
+#: tests/integration/test_diff_mode_llm_flow.py:112
+msgid "✅ Complete"
+msgstr "✅ 完成"
+
+#: modes/diff_mode.py:1192
+msgid "Analysis failed: {0}"
+msgstr "分析失败: {0}"
+
+#: modes/diff_mode.py:1193 modes/diff_mode.py:1304 modes/diff_mode.py:1331
+msgid "Error: {0}"
+msgstr "错误: {0}"
+
+#: modes/diff_mode.py:1208
+msgid "Please add at least 1 file to generate from."
+msgstr "请至少添加1个文件以进行生成。"
+
+#: modes/diff_mode.py:1216
+msgid "Please provide a target context."
+msgstr "请提供目标上下文。"
+
+#: modes/diff_mode.py:1228
+msgid "Generating merged version..."
+msgstr "正在生成合并版本..."
+
+#: modes/diff_mode.py:1229
+msgid "⏳ Generating code..."
+msgstr "⏳ 正在生成代码..."
+
+#: modes/diff_mode.py:1281 modes/diff_mode.py:1806
+msgid "No code generated"
+msgstr "未生成代码"
+
+#: modes/diff_mode.py:1288 modes/diff_mode.py:1813
+msgid ""
+"## Generation Explanation\n"
+"\n"
+"{0}"
+msgstr ""
+"## 生成说明\n"
+"\n"
+"{0}"
+
+#: modes/diff_mode.py:1303
+msgid "Generation failed: {0}"
+msgstr "生成失败：{0}"
+
+#: modes/diff_mode.py:1325
+msgid "None (merge all)"
+msgstr "无（全部合并）"
+
+#: modes/diff_mode.py:1332
+msgid "No code to save."
+msgstr "没有可保存的代码。"
+
+#: modes/diff_mode.py:1336
+msgid "Python Files (*.py);;All Files (*)"
+msgstr "Python 文件 (*.py);;所有文件 (*)"
+
+#: modes/diff_mode.py:1342
+msgid "Code saved to {0}"
+msgstr "代码已保存到{0}"
+
+#: modes/diff_mode.py:1344
+msgid "Failed to save file: {0}"
+msgstr "保存文件失败: {0}"
+
+#: modes/diff_mode.py:1352
+msgid ""
+"Files grouped by content (size + hash). Identical files are grouped "
+"together."
+msgstr "文件按内容（大小+哈希）分组。相同的文件会被归为一组。"
+
+#: modes/diff_mode.py:1357
+msgid "Refresh Groups"
+msgstr "刷新群组"
+
+#: modes/diff_mode.py:1359
+msgid "Recalculate file groups based on current files"
+msgstr "根据当前文件重新计算文件组"
+
+#: modes/diff_mode.py:1364
+msgid "File / Group"
+msgstr "文件 / 组"
+
+#: modes/diff_mode.py:1364
+msgid "Size"
+msgstr "大小"
+
+#: modes/diff_mode.py:1364
+msgid "Hash"
+msgstr "哈希"
+
+#: modes/diff_mode.py:1364
+msgid "Path"
+msgstr "路径"
+
+#: modes/diff_mode.py:1370
+msgid "Groups of identical files. Expand groups to see individual files."
+msgstr "相同文件的分组。展开分组以查看单个文件。"
+
+#: modes/diff_mode.py:1374 modes/diff_mode.py:1389
+msgid "No files added yet."
+msgstr "尚未添加文件。"
+
+#: modes/diff_mode.py:1428
+msgid "Group {0} ({1} file(s))"
+msgstr "组 {0}（{1} 文件）"
+
+#: modes/diff_mode.py:1456
+msgid "All {0} file(s) are unique (no duplicates found)."
+msgstr "所有 {0} 文件都是唯一的（未发现重复项）。"
+
+#: modes/diff_mode.py:1461
+msgid ""
+"Found {0} unique file group(s) from {1} file(s). {2} duplicate(s) detected."
+msgstr "已找到 {0} 个唯一文件组，来源于 {1} 个文件。检测到 {2} 个重复项。"
+
+#: modes/diff_mode.py:1540
+msgid ""
+"View and restore previous LLM requests. Double-click an entry to restore its"
+" configuration."
+msgstr "查看并恢复先前的 LLM 请求。双击条目即可恢复其配置。"
+
+#: modes/diff_mode.py:1546
+msgid "Refresh History"
+msgstr "刷新历史"
+
+#: modes/diff_mode.py:1550
+msgid "Delete Selected"
+msgstr "删除所选"
+
+#: modes/diff_mode.py:1554
+msgid "Clear All History"
+msgstr "清除所有历史"
+
+#: modes/diff_mode.py:1565
+msgid ""
+"Double-click an entry to restore its file configuration and view the cached "
+"response."
+msgstr "双击条目可恢复其文件配置并查看缓存的响应。"
+
+#: modes/diff_mode.py:1569
+msgid "Entry Details:"
+msgstr "条目详情："
+
+#: modes/diff_mode.py:1594
+msgid "No cached requests found."
+msgstr "未找到缓存请求。"
+
+#: modes/diff_mode.py:1618
+msgid "Analysis"
+msgstr "分析"
+
+#: modes/diff_mode.py:1618
+msgid "Generation"
+msgstr "代"
+
+#: modes/diff_mode.py:1625
+msgid " (+{0} more)"
+msgstr " (+{0} 更多)"
+
+#: modes/diff_mode.py:1627
+msgid "No files"
+msgstr "没有文件"
+
+#: modes/diff_mode.py:1629
+msgid "[{0}] {1} - {2} file(s): {3}"
+msgstr "[{0}] {1} - {2} 文件: {3}"
+
+#: modes/diff_mode.py:1635
+msgid "Error loading history: {0}"
+msgstr "加载历史记录时出错: {0}"
+
+#: modes/diff_mode.py:1650
+msgid "Entry not found."
+msgstr "未找到条目。"
+
+#: modes/diff_mode.py:1657
+msgid "Request Type: {0}"
+msgstr "请求类型：{0}"
+
+#: modes/diff_mode.py:1657 modes/diff_mode.py:1658 modes/diff_mode.py:1792
+#: modes/diff_mode.py:1793 modes/diff_mode.py:1830
+msgid "unknown"
+msgstr "未知"
+
+#: modes/diff_mode.py:1658
+msgid "Timestamp: {0}"
+msgstr "时间戳: {0}"
+
+#: modes/diff_mode.py:1659
+msgid "Files ({0}):"
+msgstr "文件 ({0})："
+
+#: modes/diff_mode.py:1663
+msgid "{0}. {1} (from {2})"
+msgstr "{0}。{1}（来自{2}）"
+
+#: modes/diff_mode.py:1668
+msgid "Target Context: {0}"
+msgstr "目标上下文: {0}"
+
+#: modes/diff_mode.py:1672
+msgid "Requirements: {0}"
+msgstr "要求：{0}"
+
+#: modes/diff_mode.py:1676
+msgid "Base File Index: {0}"
+msgstr "基础文件索引: {0}"
+
+#: modes/diff_mode.py:1680
+msgid "Result: Error - {0}"
+msgstr "结果: 错误 - {0}"
+
+#: modes/diff_mode.py:1683
+msgid "Result: Analysis completed successfully"
+msgstr "结果：分析成功完成"
+
+#: modes/diff_mode.py:1685
+msgid "Result: Code generation completed successfully"
+msgstr "结果：代码生成已成功完成"
+
+#: modes/diff_mode.py:1689
+msgid "Error loading details: {0}"
+msgstr "加载详情错误: {0}"
+
+#: modes/diff_mode.py:1699
+msgid "Entry not found in cache."
+msgstr "缓存中未找到条目。"
+
+#: modes/diff_mode.py:1706
+msgid "No files found in this entry."
+msgstr "此条目中未找到文件。"
+
+#: modes/diff_mode.py:1711
+msgid "Restore Configuration"
+msgstr "恢复配置"
+
+#: modes/diff_mode.py:1712
+msgid ""
+"This will replace your current file configuration with {0} file(s).\n"
+"Continue?"
+msgstr ""
+"这将使用 {0} 个文件替换您当前的文件配置。\n"
+"继续吗？"
+
+#: modes/diff_mode.py:1731
+msgid "Failed to add file {0}: {1}"
+msgstr "无法添加文件 {0}：{1}"
+
+#: modes/diff_mode.py:1736
+msgid "File no longer exists: {0}"
+msgstr "文件不再存在: {0}"
+
+#: modes/diff_mode.py:1781 modes/diff_mode.py:1804
+msgid "❌ Error (cached)"
+msgstr "❌ 错误（已缓存）"
+
+#: modes/diff_mode.py:1799 modes/diff_mode.py:1808
+#: tests/integration/test_diff_mode_llm_flow.py:154
+msgid "✅ Complete (cached)"
+msgstr "✅ 完成 (已缓存)"
+
+#: modes/diff_mode.py:1829
+msgid "Restored"
+msgstr "已恢复"
+
+#: modes/diff_mode.py:1830
+msgid ""
+"Configuration restored from {0}.\n"
+"Cached response displayed in LLM Analysis tab."
+msgstr ""
+"已从{0}恢复配置。\n"
+"缓存的响应显示在 LLM 分析标签页。"
+
+#: modes/diff_mode.py:1833
+msgid "Failed to restore entry: {0}"
+msgstr "恢复条目失败：{0}"
+
+#: modes/diff_mode.py:1839
+msgid "Please select an entry to delete."
+msgstr "请选择要删除的条目。"
+
+#: modes/diff_mode.py:1846
+msgid "Confirm Delete"
+msgstr "确认删除"
+
+#: modes/diff_mode.py:1847
+msgid "Are you sure you want to delete this entry?"
+msgstr "您确定要删除此条目吗？"
+
+#: modes/diff_mode.py:1864
+msgid "Failed to delete entry: {0}"
+msgstr "删除条目失败: {0}"
+
+#: modes/diff_mode.py:1869
+msgid "Confirm Clear All"
+msgstr "确认清除全部"
+
+#: modes/diff_mode.py:1870
+msgid ""
+"Are you sure you want to clear all cached history?\n"
+"This cannot be undone."
+msgstr ""
+"您确定要清除所有缓存的历史记录吗？\n"
+"此操作无法撤销。"
+
+#: modes/diff_mode.py:1883
+msgid "All history cleared."
+msgstr "已清除所有历史记录。"
+
+#: modes/diff_mode.py:1885
+msgid "Failed to clear history: {0}"
+msgstr "清除历史记录失败: {0}"
+
+#: modes/join_mode.py:26
+msgid "Most Common"
+msgstr "最常见"
+
+#: modes/join_mode.py:27
+msgid "Alphanumeric"
+msgstr "字母数字"
+
+#: modes/join_mode.py:108
+msgid "Files added for analysis"
+msgstr "已添加文件用于分析"
+
+#: modes/join_mode.py:125
+msgid "Groupings:"
+msgstr "分组："
+
+#: modes/join_mode.py:127
+msgid "Unconfirmed Groupings:"
+msgstr "未确认的分组："
+
+#: modes/join_mode.py:137
+msgid "File Info:"
+msgstr "文件信息："
+
+#: modes/join_mode.py:147
+msgid "Add files to analyze"
+msgstr "添加要分析的文件"
+
+#: modes/join_mode.py:150
+msgid "Start Analysis"
+msgstr "开始分析"
+
+#: modes/join_mode.py:152
+msgid "Start the join analysis on added files"
+msgstr "开始已添加文件的关联分析"
+
+#: modes/join_mode.py:155
+msgid "Analysis Output"
+msgstr "分析结果"
+
+#: modes/join_mode.py:157
+msgid "Generate analysis output file"
+msgstr "生成分析输出文件"
+
+#: modes/join_mode.py:160
+msgid "Store Data"
+msgstr "存储数据"
+
+#: modes/join_mode.py:162
+msgid "Save current analysis state"
+msgstr "保存当前分析状态"
+
+#: modes/join_mode.py:165
+msgid "Reset Data"
+msgstr "重置数据"
+
+#: modes/join_mode.py:167
+msgid "Clear all data and reset"
+msgstr "清除所有数据并重置"
+
+#: modes/join_mode.py:170
+msgid "Toggle View Mode"
+msgstr "切换视图模式"
+
+#: modes/join_mode.py:172
+msgid "Switch between confirmed and unconfirmed groupings view"
+msgstr "在已确认和未确认的分组视图之间切换"
+
+#: modes/join_mode.py:177
+msgid "Merge Selected (Shift+M)"
+msgstr "合并所选 (Shift+M)"
+
+#: modes/join_mode.py:179
+msgid "Merge the selected unconfirmed grouping"
+msgstr "合并所选未确认的分组"
+
+#: modes/join_mode.py:183
+msgid "Remove Selected (Del)"
+msgstr "删除所选 (Del)"
+
+#: modes/join_mode.py:185
+msgid "Remove the selected unconfirmed grouping"
+msgstr "删除所选的未确认分组"
+
+#: modes/join_mode.py:195
+msgid "Sort for files in browsing mode:"
+msgstr "浏览模式下的文件排序："
+
+#: modes/join_mode.py:238
+msgid "Select files"
+msgstr "选择文件"
+
+#: modes/join_mode.py:256
+msgid "Files Added"
+msgstr "已添加文件"
+
+#: modes/join_mode.py:257
+msgid "Added {0} file(s). Total: {1}"
+msgstr "已添加 {0} 个文件。总计: {1}"
+
+#: modes/join_mode.py:261
+msgid "No New Files"
+msgstr "没有新文件"
+
+#: modes/join_mode.py:262
+msgid "All selected files are already in the list."
+msgstr "所有选中的文件已在列表中。"
+
+#: modes/join_mode.py:278
+msgid "Added file: {0}"
+msgstr "已添加文件：{0}"
+
+#: modes/join_mode.py:316
+msgid "Unable to start analysis"
+msgstr "无法开始分析"
+
+#: modes/join_mode.py:317
+msgid "Files must be added before a join analysis can begin."
+msgstr "必须先添加文件，才能开始联合分析。"
+
+#: modes/join_mode.py:323
+msgid "Confirm Merge"
+msgstr "确认合并"
+
+#: modes/join_mode.py:324
+msgid "A stored merge already exists. Do you still want to run a merge?"
+msgstr "已存在存储的合并。您仍然想要执行合并吗？"
+
+#: modes/join_mode.py:348
+msgid "Join analysis failed: {0}"
+msgstr "连接分析失败: {0}"
+
+#: modes/join_mode.py:378
+msgid "Analysis Complete"
+msgstr "分析完成"
+
+#: modes/join_mode.py:379
+msgid "Analysis output has been written to the analysis file."
+msgstr "分析输出已写入分析文件。"
+
+#: modes/join_mode.py:404
+msgid "Confirm Reset"
+msgstr "确认重置"
+
+#: modes/join_mode.py:405
+msgid "Are you sure you want to reset?"
+msgstr "您确定要重置吗？"
+
+#: modes/join_mode.py:430 modes/join_mode.py:482
+msgid "No Selection"
+msgstr "未选择"
+
+#: modes/join_mode.py:431
+msgid "Please select an unconfirmed grouping to merge."
+msgstr "请选择要合并的未确认分组。"
+
+#: modes/join_mode.py:440
+msgid "Invalid Selection"
+msgstr "无效选择"
+
+#: modes/join_mode.py:441
+msgid "Selected grouping is invalid."
+msgstr "所选分组无效。"
+
+#: modes/join_mode.py:447
+msgid "Not Found"
+msgstr "未找到"
+
+#: modes/join_mode.py:448
+msgid "Grouping '{0}' not found."
+msgstr "未找到分组“{0}”。"
+
+#: modes/join_mode.py:463
+msgid "Merge Successful"
+msgstr "合并成功"
+
+#: modes/join_mode.py:464
+msgid "Successfully merged grouping: {0}"
+msgstr "已成功合并分组: {0}"
+
+#: modes/join_mode.py:468
+msgid "Merge Failed"
+msgstr "合并失败"
+
+#: modes/join_mode.py:469
+msgid "Failed to merge grouping: {0}"
+msgstr "合并分组失败：{0}"
+
+#: modes/join_mode.py:474
+msgid "Error merging grouping: {0}"
+msgstr "合并分组时出错: {0}"
+
+#: modes/join_mode.py:483
+msgid "Please select an unconfirmed grouping to remove."
+msgstr "请选择要删除的未确认分组。"
+
+#: modes/join_mode.py:505
+msgid "All Processed"
+msgstr "全部已处理"
+
+#: modes/join_mode.py:506
+msgid "All unconfirmed groupings have been processed."
+msgstr "所有未确认的分组已处理。"
+
+#: modes/project_compare_widget.py:70
+msgid "Project A:"
+msgstr "项目 A:"
+
+#: modes/project_compare_widget.py:74 modes/project_compare_widget.py:84
+msgid "Choose Folder…"
+msgstr "选择文件夹…"
+
+#: modes/project_compare_widget.py:80
+msgid "Project B:"
+msgstr "项目 B:"
+
+#: modes/project_compare_widget.py:90
+msgid ""
+"Global exclusions (apply to every project comparison, in addition to the "
+"default list and each project's .gitignore):"
+msgstr "全局排除项（适用于每个项目比较，除默认列表和各项目的 .gitignore 外）："
+
+#: modes/project_compare_widget.py:98
+msgid "e.g. *.tmp or build/"
+msgstr "例如 *.tmp 或 build/"
+
+#: modes/project_compare_widget.py:101
+msgid "Add"
+msgstr "添加"
+
+#: modes/project_compare_widget.py:110
+msgid ".gitignore-style patterns, independent of the projects being compared."
+msgstr ".gitignore 风格的模式，独立于所比较的项目。"
+
+#: modes/project_compare_widget.py:114
+msgid "Remove Selected Exclusions"
+msgstr "删除所选排除项"
+
+#: modes/project_compare_widget.py:118
+msgid "Respect each project's .gitignore patterns"
+msgstr "遵循每个项目的 .gitignore 规则"
+
+#: modes/project_compare_widget.py:121
+msgid ""
+"Disable to also find files listed in each project's .gitignore. The default "
+"list and the global exclusions above still apply regardless."
+msgstr "禁用后仍会搜索每个项目 .gitignore 中列出的文件。默认列表和上述全局排除仍然生效。"
+
+#: modes/project_compare_widget.py:128
+msgid "Start Comparison"
+msgstr "开始比较"
+
+#: modes/project_compare_widget.py:137
+msgid "File"
+msgstr "文件"
+
+#: modes/project_compare_widget.py:142
+msgid "Open Selected Pair in Diff View"
+msgstr "在差异视图中打开所选对"
+
+#: modes/project_compare_widget.py:147
+msgid "No comparison run yet."
+msgstr "尚未进行比较。"
+
+#: modes/project_compare_widget.py:153
+msgid "Choose Project Folder"
+msgstr "选择项目文件夹"
+
+#: modes/project_compare_widget.py:163
+msgid "Please select both project folders."
+msgstr "请选择两个项目文件夹。"
+
+#: modes/project_compare_widget.py:166
+msgid "One of the selected folders no longer exists."
+msgstr "所选文件夹之一已不存在。"
+
+#: modes/project_compare_widget.py:176
+msgid "Comparison running…"
+msgstr "比较进行中…"
+
+#: modes/project_compare_widget.py:195
+#: tests/integration/test_project_compare_flow.py:31
+msgid ""
+"{0} identical, {1} different, {2} only in Project A, {3} only in Project B."
+msgstr "{0} 相同, {1} 不同, {2} 仅在项目 A, {3} 仅在项目 B。"
+
+#: modes/project_compare_widget.py:203
+msgid "Comparison failed."
+msgstr "比较失败。"
+
+#: modes/project_compare_widget.py:204
+msgid "Comparison failed: {0}"
+msgstr "比较失败：{0}"
+
+#: modes/project_compare_widget.py:211
+msgid "Different ({0})"
+msgstr "不同 ({0})"
+
+#: modes/project_compare_widget.py:212
+msgid "Only in Project A ({0})"
+msgstr "仅在项目 A ({0})"
+
+#: modes/project_compare_widget.py:213
+msgid "Only in Project B ({0})"
+msgstr "仅在项目 B ({0})"
+
+#: modes/project_compare_widget.py:214
+msgid "Identical ({0})"
+msgstr "相同 ({0})"
+
+#: modes/project_compare_widget.py:260
+msgid "Binary File"
+msgstr "二进制文件"
+
+#: modes/project_compare_widget.py:261
+msgid ""
+"This file was detected as binary and cannot be opened in the Diff View."
+msgstr "检测到此文件为二进制，无法在差异视图中打开。"
+
+#: utils/app_info_cache.py:47
+msgid "Error storing cache: {0}"
+msgstr "缓存保存错误: {0}"
+
+#: utils/app_info_cache.py:62
+msgid "Removing old cache file: {0}"
+msgstr "正在删除旧缓存文件：{0}"
+
+#: utils/app_info_cache.py:74
+msgid "No cache file found at {0}, creating new cache"
+msgstr "未在{0}找到缓存文件，正在创建新缓存"
+
+#: utils/app_info_cache.py:83
+msgid "Loaded cache from {0}"
+msgstr "已从 {0} 加载缓存"
+
+#: utils/app_info_cache.py:86
+msgid ", rotated {0} backups"
+msgstr ", 已轮换 {0} 份备份"
+
+#: utils/app_info_cache.py:89
+msgid "Loaded cache from backup: {0}"
+msgstr "已从备份加载缓存：{0}"
+
+#: utils/app_info_cache.py:92
+msgid "Failed to load cache from {0}: {1}"
+msgstr "未能从 {0} 加载缓存：{1}"
+
+#: utils/app_info_cache.py:97
+msgid "Error loading cache: {0}"
+msgstr "加载缓存错误：{0}"
+
+#: utils/translations.py:62
+msgid "Ctrl"
+msgstr "Ctrl"
+
+#: utils/translations.py:63
+msgid "Shift"
+msgstr "移位"
+
+#: utils/translations.py:64
+msgid "Alt"
+msgstr "Alt"
+
+#: utils/utils.py:339
+msgid "Error while getting language name for code '{0}': {1}"
+msgstr "获取代码“{0}”的语言名称时出错：{1}"

@@ -4,6 +4,7 @@ it, plus the handoff into DiffModeWidget's Diff View tab."""
 
 from modes.diff_mode import DiffModeWidget
 from modes.project_compare_widget import ProjectCompareTab
+from utils.translations import _
 
 
 def test_start_comparison_populates_tree_and_summary(qtbot, tmp_path):
@@ -26,10 +27,9 @@ def test_start_comparison_populates_tree_and_summary(qtbot, tmp_path):
     tab.start_comparison()
     qtbot.waitUntil(lambda: tab.worker is None, timeout=5000)
 
-    assert "1 identisch" in tab.summary_label.text()
-    assert "1 unterschiedlich" in tab.summary_label.text()
-    assert "1 nur in Projekt A" in tab.summary_label.text()
-    assert "0 nur in Projekt B" in tab.summary_label.text()
+    assert tab.summary_label.text() == _(
+        "{0} identical, {1} different, {2} only in Project A, {3} only in Project B."
+    ).format(1, 1, 1, 0)
     assert tab.result_tree.topLevelItemCount() == 4  # always all 4 categories
 
 
@@ -54,7 +54,7 @@ def test_global_exclusions_are_applied_by_the_worker_thread(qtbot, tmp_path):
     tab.start_comparison()
     qtbot.waitUntil(lambda: tab.worker is None, timeout=5000)
 
-    different_group = tab.result_tree.topLevelItem(0)  # "Unterschiedlich"
+    different_group = tab.result_tree.topLevelItem(0)  # "Different"
     entries = [different_group.child(i).text(0) for i in range(different_group.childCount())]
     assert entries == ["keep.py"]
 
@@ -106,7 +106,7 @@ def test_double_clicking_a_different_entry_invokes_callback(qtbot, tmp_path):
     tab.start_comparison()
     qtbot.waitUntil(lambda: tab.worker is None, timeout=5000)
 
-    different_group = tab.result_tree.topLevelItem(0)  # "Unterschiedlich" is added first
+    different_group = tab.result_tree.topLevelItem(0)  # "Different" is added first
     assert different_group.childCount() == 1
     entry_item = different_group.child(0)
 
