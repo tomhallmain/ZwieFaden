@@ -7,6 +7,7 @@ import shutil
 from utils.constants import AppInfo
 from utils.encryptor import encrypt_data_to_file, decrypt_data_from_file
 from utils.logging_setup import get_logger
+from utils.translations import _
 
 logger = get_logger("app_info_cache")
 
@@ -43,7 +44,7 @@ class AppInfoCache:
                 self.cache_loc
             )
         except Exception as e:
-            logger.error(f"Error storing cache: {e}")
+            logger.error(_("Error storing cache: {0}").format(e))
             raise e
 
     def _try_load_cache_from_file(self, path):
@@ -58,7 +59,7 @@ class AppInfoCache:
     def load(self):
         try:
             if os.path.exists(self.json_loc):
-                logger.info(f"Removing old cache file: {self.json_loc}")
+                logger.info(_("Removing old cache file: {0}").format(self.json_loc))
                 # Get the old data first
                 with open(self.json_loc, "r", encoding="utf-8") as f:
                     self._cache = json.load(f)
@@ -70,7 +71,7 @@ class AppInfoCache:
             cache_paths = [self.cache_loc] + self._get_backup_paths()
             any_exist = any(os.path.exists(path) for path in cache_paths)
             if not any_exist:
-                logger.info(f"No cache file found at {self.cache_loc}, creating new cache")
+                logger.info(_("No cache file found at {0}, creating new cache").format(self.cache_loc))
                 return
 
             for path in cache_paths:
@@ -79,21 +80,21 @@ class AppInfoCache:
                         self._cache = self._try_load_cache_from_file(path)
                         # Only shift backups if we loaded from the main file
                         if path == self.cache_loc:
-                            message = f"Loaded cache from {self.cache_loc}"
+                            message = _("Loaded cache from {0}").format(self.cache_loc)
                             rotated_count = self._rotate_backups()
                             if rotated_count > 0:
-                                message += f", rotated {rotated_count} backups"
+                                message += _(", rotated {0} backups").format(rotated_count)
                             logger.info(message)
                         else:
-                            logger.warning(f"Loaded cache from backup: {path}")
+                            logger.warning(_("Loaded cache from backup: {0}").format(path))
                         return
                     except Exception as e:
-                        logger.error(f"Failed to load cache from {path}: {e}")
+                        logger.error(_("Failed to load cache from {0}: {1}").format(path, e))
                         continue
             # If we get here, all attempts failed (but at least one file existed)
             raise Exception(f"Failed to load cache from all locations: {cache_paths}")
         except Exception as e:
-            logger.error(f"Error loading cache: {e}")
+            logger.error(_("Error loading cache: {0}").format(e))
             pass
 
     def validate(self):

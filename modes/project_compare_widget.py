@@ -15,6 +15,7 @@ from PySide6.QtWidgets import (
 
 from diff.project_compare import ProjectComparator, ProjectComparisonResult
 from utils.app_info_cache import app_info_cache
+from utils.translations import _
 
 
 class ProjectCompareWorker(QThread):
@@ -66,38 +67,38 @@ class ProjectCompareTab(QWidget):
         layout = QVBoxLayout(self)
 
         row_a = QHBoxLayout()
-        row_a.addWidget(QLabel("Projekt A:"))
+        row_a.addWidget(QLabel(_("Projekt A:")))
         self.project_a_input = QLineEdit()
         self.project_a_input.setReadOnly(True)
         row_a.addWidget(self.project_a_input)
-        self.project_a_button = QPushButton("Ordner wählen…")
+        self.project_a_button = QPushButton(_("Ordner wählen…"))
         self.project_a_button.clicked.connect(lambda: self._choose_directory(self.project_a_input))
         row_a.addWidget(self.project_a_button)
         layout.addLayout(row_a)
 
         row_b = QHBoxLayout()
-        row_b.addWidget(QLabel("Projekt B:"))
+        row_b.addWidget(QLabel(_("Projekt B:")))
         self.project_b_input = QLineEdit()
         self.project_b_input.setReadOnly(True)
         row_b.addWidget(self.project_b_input)
-        self.project_b_button = QPushButton("Ordner wählen…")
+        self.project_b_button = QPushButton(_("Ordner wählen…"))
         self.project_b_button.clicked.connect(lambda: self._choose_directory(self.project_b_input))
         row_b.addWidget(self.project_b_button)
         layout.addLayout(row_b)
 
         exclusions_label = QLabel(
-            "Globale Ausschlüsse (gelten für alle Projektvergleiche, zusätzlich zur "
-            "Standardliste und zum .gitignore des jeweiligen Projekts):"
+            _("Globale Ausschlüsse (gelten für alle Projektvergleiche, zusätzlich zur "
+            "Standardliste und zum .gitignore des jeweiligen Projekts):")
         )
         exclusions_label.setWordWrap(True)
         layout.addWidget(exclusions_label)
 
         exclusions_input_row = QHBoxLayout()
         self.global_exclusion_input = QLineEdit()
-        self.global_exclusion_input.setPlaceholderText("z. B. *.tmp oder build/")
+        self.global_exclusion_input.setPlaceholderText(_("z. B. *.tmp oder build/"))
         self.global_exclusion_input.returnPressed.connect(self._add_global_exclusion)
         exclusions_input_row.addWidget(self.global_exclusion_input)
-        self.add_exclusion_button = QPushButton("Hinzufügen")
+        self.add_exclusion_button = QPushButton(_("Hinzufügen"))
         self.add_exclusion_button.clicked.connect(self._add_global_exclusion)
         exclusions_input_row.addWidget(self.add_exclusion_button)
         layout.addLayout(exclusions_input_row)
@@ -106,25 +107,25 @@ class ProjectCompareTab(QWidget):
         self.global_exclusions_list.setMaximumHeight(80)
         self.global_exclusions_list.setSelectionMode(QListWidget.ExtendedSelection)
         self.global_exclusions_list.setToolTip(
-            "Muster im .gitignore-Stil, unabhängig vom verglichenen Projekt."
+            _("Muster im .gitignore-Stil, unabhängig vom verglichenen Projekt.")
         )
         layout.addWidget(self.global_exclusions_list)
 
-        self.remove_exclusion_button = QPushButton("Ausgewählte Ausschlüsse entfernen")
+        self.remove_exclusion_button = QPushButton(_("Ausgewählte Ausschlüsse entfernen"))
         self.remove_exclusion_button.clicked.connect(self._remove_selected_global_exclusions)
         layout.addWidget(self.remove_exclusion_button)
 
-        self.respect_gitignore_checkbox = QCheckBox("Projekteigene .gitignore-Muster berücksichtigen")
+        self.respect_gitignore_checkbox = QCheckBox(_("Projekteigene .gitignore-Muster berücksichtigen"))
         self.respect_gitignore_checkbox.setChecked(True)
         self.respect_gitignore_checkbox.setToolTip(
-            "Deaktivieren, um auch Dateien zu finden, die im .gitignore des jeweiligen "
+            _("Deaktivieren, um auch Dateien zu finden, die im .gitignore des jeweiligen "
             "Projekts stehen. Die Standardliste und die globalen Ausschlüsse oben gelten "
-            "weiterhin unabhängig davon."
+            "weiterhin unabhängig davon.")
         )
         self.respect_gitignore_checkbox.stateChanged.connect(self._on_respect_gitignore_changed)
         layout.addWidget(self.respect_gitignore_checkbox)
 
-        self.compare_button = QPushButton("Vergleich starten")
+        self.compare_button = QPushButton(_("Vergleich starten"))
         self.compare_button.clicked.connect(self.start_comparison)
         layout.addWidget(self.compare_button)
 
@@ -133,23 +134,23 @@ class ProjectCompareTab(QWidget):
         layout.addWidget(self.progress_bar)
 
         self.result_tree = QTreeWidget()
-        self.result_tree.setHeaderLabels(["Datei"])
+        self.result_tree.setHeaderLabels([_("Datei")])
         self.result_tree.itemDoubleClicked.connect(self._on_item_double_clicked)
         self.result_tree.itemSelectionChanged.connect(self._update_open_pair_button_state)
         layout.addWidget(self.result_tree)
 
-        self.open_pair_button = QPushButton("Ausgewähltes Paar in Diff-Ansicht öffnen")
+        self.open_pair_button = QPushButton(_("Ausgewähltes Paar in Diff-Ansicht öffnen"))
         self.open_pair_button.clicked.connect(self._open_selected_pair)
         self.open_pair_button.setEnabled(False)
         layout.addWidget(self.open_pair_button)
 
-        self.summary_label = QLabel("Noch kein Vergleich durchgeführt.")
+        self.summary_label = QLabel(_("Noch kein Vergleich durchgeführt."))
         layout.addWidget(self.summary_label)
 
     def _choose_directory(self, target_input):
         """Open a directory picker and store the result in target_input."""
         start_dir = target_input.text() or os.getcwd()
-        directory = QFileDialog.getExistingDirectory(self, "Projektordner wählen", start_dir)
+        directory = QFileDialog.getExistingDirectory(self, _("Projektordner wählen"), start_dir)
         if directory:
             target_input.setText(directory)
             self._cache_directories()
@@ -159,10 +160,10 @@ class ProjectCompareTab(QWidget):
         root_a = self.project_a_input.text().strip()
         root_b = self.project_b_input.text().strip()
         if not root_a or not root_b:
-            QMessageBox.warning(self, "Projektvergleich", "Bitte beide Projektordner auswählen.")
+            QMessageBox.warning(self, _("Projektvergleich"), _("Bitte beide Projektordner auswählen."))
             return
         if not os.path.isdir(root_a) or not os.path.isdir(root_b):
-            QMessageBox.warning(self, "Projektvergleich", "Einer der ausgewählten Ordner existiert nicht mehr.")
+            QMessageBox.warning(self, _("Projektvergleich"), _("Einer der ausgewählten Ordner existiert nicht mehr."))
             return
 
         if self.worker and self.worker.isRunning():
@@ -172,7 +173,7 @@ class ProjectCompareTab(QWidget):
         self.progress_bar.setVisible(True)
         self.progress_bar.setRange(0, 0)  # Indeterminate
         self.compare_button.setEnabled(False)
-        self.summary_label.setText("Vergleich läuft…")
+        self.summary_label.setText(_("Vergleich läuft…"))
 
         self.worker = ProjectCompareWorker(
             root_a, root_b,
@@ -191,8 +192,7 @@ class ProjectCompareTab(QWidget):
         self.progress_bar.setVisible(False)
         self.compare_button.setEnabled(True)
         self.summary_label.setText(
-            f"{len(result.identical)} identisch, {len(result.different)} unterschiedlich, "
-            f"{len(result.only_in_a)} nur in Projekt A, {len(result.only_in_b)} nur in Projekt B."
+            _("{0} identisch, {1} unterschiedlich, {2} nur in Projekt A, {3} nur in Projekt B.").format(len(result.identical), len(result.different), len(result.only_in_a), len(result.only_in_b))
         )
         self.worker = None
 
@@ -200,18 +200,18 @@ class ProjectCompareTab(QWidget):
         """Handle an error from the comparison worker."""
         self.progress_bar.setVisible(False)
         self.compare_button.setEnabled(True)
-        self.summary_label.setText("Vergleich fehlgeschlagen.")
-        QMessageBox.critical(self, "Projektvergleich", f"Vergleich fehlgeschlagen: {error_msg}")
+        self.summary_label.setText(_("Vergleich fehlgeschlagen."))
+        QMessageBox.critical(self, _("Projektvergleich"), _("Vergleich fehlgeschlagen: {0}").format(error_msg))
         self.worker = None
 
     def _populate_result_tree(self, result: ProjectComparisonResult):
         """Fill the results tree with the four comparison categories."""
         self.result_tree.clear()
         categories = [
-            (f"Unterschiedlich ({len(result.different)})", result.different, "different"),
-            (f"Nur in Projekt A ({len(result.only_in_a)})", result.only_in_a, "only_a"),
-            (f"Nur in Projekt B ({len(result.only_in_b)})", result.only_in_b, "only_b"),
-            (f"Identisch ({len(result.identical)})", result.identical, "identical"),
+            (_("Unterschiedlich ({0})").format(len(result.different)), result.different, "different"),
+            (_("Nur in Projekt A ({0})").format(len(result.only_in_a)), result.only_in_a, "only_a"),
+            (_("Nur in Projekt B ({0})").format(len(result.only_in_b)), result.only_in_b, "only_b"),
+            (_("Identisch ({0})").format(len(result.identical)), result.identical, "identical"),
         ]
         for label, relative_paths, category in categories:
             group_item = QTreeWidgetItem(self.result_tree, [label])
@@ -257,9 +257,9 @@ class ProjectCompareTab(QWidget):
         entry_b = self.result.files_b.get(relative_path)
         if (entry_a and entry_a.is_binary) or (entry_b and entry_b.is_binary):
             QMessageBox.information(
-                self, "Binärdatei",
-                "Diese Datei wurde als Binärdatei erkannt und kann nicht in der "
-                "Diff-Ansicht geöffnet werden."
+                self, _("Binärdatei"),
+                _("Diese Datei wurde als Binärdatei erkannt und kann nicht in der "
+                "Diff-Ansicht geöffnet werden.")
             )
             return
         self.open_pair_callback(path_a, path_b)

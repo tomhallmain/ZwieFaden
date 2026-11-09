@@ -335,7 +335,8 @@ class Utils:
             language = langcodes.Language.get(language_code)
             return language.display_name()
         except Exception as e:
-            logger.error(f"Error while getting language name for code '{language_code}': {e}")
+            from utils.translations import _
+            logger.error(_("Error while getting language name for code '{0}': {1}").format(language_code, e))
             return "English"
 
     @staticmethod

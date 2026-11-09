@@ -11,6 +11,7 @@ from urllib import request
 
 from utils.logging_setup import get_logger
 from utils.utils import Utils
+from utils.translations import _
 
 logger = get_logger(__name__)
 
@@ -78,7 +79,7 @@ class LLMResult:
             self.response = json_obj[attr_name]
             return self
         except Exception as e:
-            logger.error(f"{e} - Failed to get json attr {attr_name} from json response: {json}")
+            logger.error(_("{0} - Failed to get json attr {1} from json response: {2}").format(e, attr_name, json))
             return None
 
 
@@ -114,7 +115,7 @@ class LLM:
         self._result = None
         self._exception = None
         self._thread = None
-        logger.info(f"Using LLM model: {self.model_name} (state: {self.state_key})")
+        logger.info(_("Using LLM model: {0} (state: {1})").format(self.model_name, self.state_key))
 
     @classmethod
     def _get_failure_count_for_state(cls, state_key):
@@ -127,7 +128,7 @@ class LLM:
         if state_key not in cls._failure_counts:
             cls._failure_counts[state_key] = 0
         cls._failure_counts[state_key] += 1
-        logger.warning(f"LLM failure count increased to {cls._failure_counts[state_key]} for state '{state_key}'")
+        logger.warning(_("LLM failure count increased to {0} for state '{1}'").format(cls._failure_counts[state_key], state_key))
 
     @classmethod
     def _reset_failure_count_for_state(cls, state_key):
@@ -253,7 +254,7 @@ class LLM:
                 raise LLMResponseException("LLM response is invalid!")
             return result
         except Exception as e:
-            logger.error(f"Failed to generate LLM response: {e}")
+            logger.error(_("Failed to generate LLM response: {0}").format(e))
             self.increment_failure_count()  # Increment on LLM failure
             raise LLMResponseException(f"Failed to generate LLM response: {e}")
 
@@ -276,7 +277,7 @@ class LLM:
                     logger.debug("LLM generation cancelled before completion")
             except Exception as e:
                 self._exception = e
-                logger.error(f"Exception in LLM generation thread: {e}")
+                logger.error(_("Exception in LLM generation thread: {0}").format(e))
 
         # Start the generation in a separate thread
         self._thread = threading.Thread(target=run_generation)
@@ -293,19 +294,19 @@ class LLM:
                     # Give the thread a moment to clean up
                     self._thread.join(timeout=1.0)
                     if self._thread.is_alive():
-                        logger.error("Thread did not terminate gracefully, forcing cleanup")
+                        logger.error(_("Thread did not terminate gracefully, forcing cleanup"))
                     self._thread = None  # Force cleanup even if thread is still alive
                     return None
                 time.sleep(self.CHECK_INTERVAL)
         except Exception as e:
             self._exception = e
-            logger.error(f"Exception while monitoring LLM thread: {e}")
+            logger.error(_("Exception while monitoring LLM thread: {0}").format(e))
         finally:
             self._thread = None  # Clean up thread reference when done
 
         # Handle the result
         if self._exception:
-            logger.error(f"Failed to generate LLM response: {self._exception}")
+            logger.error(_("Failed to generate LLM response: {0}").format(self._exception))
             raise LLMResponseException(f"Failed to generate LLM response: {self._exception}")
         
         return self._result
@@ -384,12 +385,12 @@ class LLM:
 
     def cancel_generation(self):
         """Cancel any ongoing LLM generation."""
-        logger.info("Cancelling LLM generation")
+        logger.info(_("Cancelling LLM generation"))
         if self._thread and self._thread.is_alive():
             self._cancelled = True
             self._thread.join(timeout=1.0)
             if self._thread.is_alive():
-                logger.error("Thread did not terminate gracefully, forcing cleanup")
+                logger.error(_("Thread did not terminate gracefully, forcing cleanup"))
             self._thread = None  # Force cleanup even if thread is still alive
 
     def __del__(self):

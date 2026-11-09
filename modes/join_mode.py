@@ -13,6 +13,7 @@ from PySide6.QtGui import QKeySequence, QShortcut
 
 from join.join import JoinMulti
 from utils.app_info_cache import app_info_cache
+from utils.translations import _, format_shortcut
 
 
 class SortBy(Enum):
@@ -94,11 +95,11 @@ class JoinModeWidget(QWidget):
         left_layout = QVBoxLayout(left_widget)
         
         # File list display
-        file_list_label = QLabel("Added Files:")
+        file_list_label = QLabel(_("Added Files:"))
         left_layout.addWidget(file_list_label)
         self.file_list_widget = QListWidget()
         self.file_list_widget.setMaximumHeight(80)
-        self.file_list_widget.setToolTip("Files added for analysis")
+        self.file_list_widget.setToolTip(_("Files added for analysis"))
         left_layout.addWidget(self.file_list_widget)
         
         # List widgets
@@ -115,9 +116,9 @@ class JoinModeWidget(QWidget):
         self.g_listbox = QListWidget()
         self.g_listbox.itemDoubleClicked.connect(self.show_info_grouping)
         
-        left_layout.addWidget(QLabel("Groupings:"))
+        left_layout.addWidget(QLabel(_("Groupings:")))
         left_layout.addWidget(self.g_listbox)
-        left_layout.addWidget(QLabel("Unconfirmed Groupings:"))
+        left_layout.addWidget(QLabel(_("Unconfirmed Groupings:")))
         left_layout.addWidget(self.u_listbox)
         
         splitter.addWidget(left_widget)
@@ -127,7 +128,7 @@ class JoinModeWidget(QWidget):
         right_layout = QVBoxLayout(right_widget)
         
         # Info display
-        info_label = QLabel("File Info:")
+        info_label = QLabel(_("File Info:"))
         right_layout.addWidget(info_label)
         
         self.info_text = QTextEdit()
@@ -135,47 +136,47 @@ class JoinModeWidget(QWidget):
         right_layout.addWidget(self.info_text)
         
         # Buttons
-        self.add_button = QPushButton("Add File")
+        self.add_button = QPushButton(_("Add File"))
         self.add_button.clicked.connect(self.add_file)
-        self.add_button.setToolTip("Add files to analyze")
+        self.add_button.setToolTip(_("Add files to analyze"))
         right_layout.addWidget(self.add_button)
         
-        self.run_join_button = QPushButton("Start Analysis")
+        self.run_join_button = QPushButton(_("Start Analysis"))
         self.run_join_button.clicked.connect(self.do_join)
-        self.run_join_button.setToolTip("Start the join analysis on added files")
+        self.run_join_button.setToolTip(_("Start the join analysis on added files"))
         right_layout.addWidget(self.run_join_button)
         
-        self.analysis_output_button = QPushButton("Analysis Output")
+        self.analysis_output_button = QPushButton(_("Analysis Output"))
         self.analysis_output_button.clicked.connect(self.analysis_output)
-        self.analysis_output_button.setToolTip("Generate analysis output file")
+        self.analysis_output_button.setToolTip(_("Generate analysis output file"))
         right_layout.addWidget(self.analysis_output_button)
         
-        self.store_button = QPushButton("Store Data")
+        self.store_button = QPushButton(_("Store Data"))
         self.store_button.clicked.connect(self.store_data)
-        self.store_button.setToolTip("Save current analysis state")
+        self.store_button.setToolTip(_("Save current analysis state"))
         right_layout.addWidget(self.store_button)
         
-        self.reset_button = QPushButton("Reset Data")
+        self.reset_button = QPushButton(_("Reset Data"))
         self.reset_button.clicked.connect(self.reset_data)
-        self.reset_button.setToolTip("Clear all data and reset")
+        self.reset_button.setToolTip(_("Clear all data and reset"))
         right_layout.addWidget(self.reset_button)
         
-        self.toggle_view_button = QPushButton("Toggle View Mode")
+        self.toggle_view_button = QPushButton(_("Toggle View Mode"))
         self.toggle_view_button.clicked.connect(self.toggle_view_mode)
-        self.toggle_view_button.setToolTip("Switch between confirmed and unconfirmed groupings view")
+        self.toggle_view_button.setToolTip(_("Switch between confirmed and unconfirmed groupings view"))
         right_layout.addWidget(self.toggle_view_button)
         
         # Unconfirmed grouping actions (only visible when in unconfirmed mode)
         unconfirmed_actions_layout = QHBoxLayout()
-        self.merge_button = QPushButton("Merge Selected (Shift+M)")
+        self.merge_button = QPushButton(format_shortcut(_("Merge Selected (Shift+M)")))
         self.merge_button.clicked.connect(self.merge_similars)
-        self.merge_button.setToolTip("Merge the selected unconfirmed grouping")
+        self.merge_button.setToolTip(_("Merge the selected unconfirmed grouping"))
         self.merge_button.setEnabled(False)
         unconfirmed_actions_layout.addWidget(self.merge_button)
         
-        self.remove_button = QPushButton("Remove Selected (Del)")
+        self.remove_button = QPushButton(_("Remove Selected (Del)"))
         self.remove_button.clicked.connect(self.remove_selected)
-        self.remove_button.setToolTip("Remove the selected unconfirmed grouping")
+        self.remove_button.setToolTip(_("Remove the selected unconfirmed grouping"))
         self.remove_button.setEnabled(False)
         unconfirmed_actions_layout.addWidget(self.remove_button)
         
@@ -185,7 +186,7 @@ class JoinModeWidget(QWidget):
         self.u_listbox.itemSelectionChanged.connect(self.update_unconfirmed_button_states)
         
         # Sort options
-        sort_label = QLabel("Sort for files in browsing mode:")
+        sort_label = QLabel(_("Sort for files in browsing mode:"))
         right_layout.addWidget(sort_label)
         
         self.sort_combo = QComboBox()
@@ -224,8 +225,8 @@ class JoinModeWidget(QWidget):
     def add_file(self):
         """Add files via file dialog."""
         start_directory = self._get_dialog_start_directory()
-        filenames, _ = QFileDialog.getOpenFileNames(
-            self, "Select files", start_directory, "All Files (*)"
+        filenames, _selected_filter = QFileDialog.getOpenFileNames(
+            self, _("Select files"), start_directory, _("All Files (*)")
         )
         added_count = 0
         for file_path in filenames:
@@ -243,13 +244,13 @@ class JoinModeWidget(QWidget):
             self.store_data()
             self._cache_join_ui_state()
             QMessageBox.information(
-                self, "Files Added",
-                f"Added {added_count} file(s). Total: {len(self.file_list)}"
+                self, _("Files Added"),
+                _("Added {0} file(s). Total: {1}").format(added_count, len(self.file_list))
             )
         elif len(filenames) > 0:
             QMessageBox.information(
-                self, "No New Files",
-                "All selected files are already in the list."
+                self, _("No New Files"),
+                _("All selected files are already in the list.")
             )
     
     def update_file_list_display(self):
@@ -265,7 +266,7 @@ class JoinModeWidget(QWidget):
         """Display the list of added files in info text (legacy method)."""
         self.clear_info_text()
         for filename in self.file_list:
-            self.info_text.append(f"Added file: {filename}")
+            self.info_text.append(_("Added file: {0}").format(filename))
         # Also update the file list widget
         self.update_file_list_display()
     
@@ -303,15 +304,15 @@ class JoinModeWidget(QWidget):
         """Start the join analysis."""
         if len(self.file_list) == 0:
             QMessageBox.information(
-                self, "Unable to start analysis",
-                "Files must be added before a join analysis can begin."
+                self, _("Unable to start analysis"),
+                _("Files must be added before a join analysis can begin.")
             )
             return
         
         if (self.join and self.join.restored and 
             QMessageBox.question(
-                self, "Confirm Merge",
-                "A stored merge already exists. Do you still want to run a merge?",
+                self, _("Confirm Merge"),
+                _("A stored merge already exists. Do you still want to run a merge?"),
                 QMessageBox.Yes | QMessageBox.No
             ) == QMessageBox.No):
             return
@@ -335,7 +336,7 @@ class JoinModeWidget(QWidget):
     def on_join_error(self, error_msg):
         """Handle join analysis error."""
         self.progress_bar.setVisible(False)
-        QMessageBox.critical(self, "Error", f"Join analysis failed: {error_msg}")
+        QMessageBox.critical(self, _("Error"), _("Join analysis failed: {0}").format(error_msg))
     
     def fill_grouping_lists(self):
         """Fill the grouping lists."""
@@ -365,8 +366,8 @@ class JoinModeWidget(QWidget):
             self.join.grouping_output()
             self.join.find_common_uniques()
             QMessageBox.information(
-                self, "Analysis Complete",
-                "Analysis output has been written to the analysis file."
+                self, _("Analysis Complete"),
+                _("Analysis output has been written to the analysis file.")
             )
     
     def set_sort_by(self, sort_name):
@@ -391,8 +392,8 @@ class JoinModeWidget(QWidget):
     def reset_data(self):
         """Reset all data."""
         reply = QMessageBox.question(
-            self, "Confirm Reset",
-            "Are you sure you want to reset?",
+            self, _("Confirm Reset"),
+            _("Are you sure you want to reset?"),
             QMessageBox.Yes | QMessageBox.No
         )
         if reply == QMessageBox.Yes:
@@ -417,8 +418,8 @@ class JoinModeWidget(QWidget):
         selected_items = self.u_listbox.selectedItems()
         if not selected_items:
             QMessageBox.warning(
-                self, "No Selection",
-                "Please select an unconfirmed grouping to merge."
+                self, _("No Selection"),
+                _("Please select an unconfirmed grouping to merge.")
             )
             return
         
@@ -427,15 +428,15 @@ class JoinModeWidget(QWidget):
         
         if not unconfirmed_grouping_key or unconfirmed_grouping_key == "":
             QMessageBox.warning(
-                self, "Invalid Selection",
-                "Selected grouping is invalid."
+                self, _("Invalid Selection"),
+                _("Selected grouping is invalid.")
             )
             return
         
         if unconfirmed_grouping_key not in self.unconfirmed_groupings:
             QMessageBox.warning(
-                self, "Not Found",
-                f"Grouping '{unconfirmed_grouping_key}' not found."
+                self, _("Not Found"),
+                _("Grouping '{0}' not found.").format(unconfirmed_grouping_key)
             )
             return
         
@@ -450,18 +451,18 @@ class JoinModeWidget(QWidget):
                 self.g_listbox.addItem(merged_grouping.name)
                 self.store_data()
                 QMessageBox.information(
-                    self, "Merge Successful",
-                    f"Successfully merged grouping: {merged_grouping.name}"
+                    self, _("Merge Successful"),
+                    _("Successfully merged grouping: {0}").format(merged_grouping.name)
                 )
             else:
                 QMessageBox.critical(
-                    self, "Merge Failed",
-                    f"Failed to merge grouping: {unconfirmed_grouping_key}"
+                    self, _("Merge Failed"),
+                    _("Failed to merge grouping: {0}").format(unconfirmed_grouping_key)
                 )
         except Exception as e:
             QMessageBox.critical(
-                self, "Error",
-                f"Error merging grouping: {str(e)}"
+                self, _("Error"),
+                _("Error merging grouping: {0}").format(str(e))
             )
     
     def remove_selected(self):
@@ -469,8 +470,8 @@ class JoinModeWidget(QWidget):
         selected_items = self.u_listbox.selectedItems()
         if not selected_items:
             QMessageBox.warning(
-                self, "No Selection",
-                "Please select an unconfirmed grouping to remove."
+                self, _("No Selection"),
+                _("Please select an unconfirmed grouping to remove.")
             )
             return
         
@@ -492,8 +493,8 @@ class JoinModeWidget(QWidget):
         if len(self.unconfirmed_groupings) == 0:
             self.toggle_view_mode()
             QMessageBox.information(
-                self, "All Processed",
-                "All unconfirmed groupings have been processed."
+                self, _("All Processed"),
+                _("All unconfirmed groupings have been processed.")
             )
     
     def remove_selected_item(self, item):

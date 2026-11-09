@@ -7,6 +7,7 @@ real app_info_cache persistence of the request/response history."""
 from extensions.llm import LLM, LLMResult
 from modes.diff_mode import DiffModeWidget
 from utils.app_info_cache import app_info_cache
+from utils.translations import _
 
 
 def _fake_llm_result(response_text):
@@ -50,7 +51,7 @@ def test_run_llm_analysis_populates_results_and_caches_history(qtbot, tmp_path, 
     widget.run_llm_analysis()
     qtbot.waitUntil(lambda: widget.llm_analysis_worker is None, timeout=5000)
 
-    assert widget.analysis_status_label.text() == "✅ Complete"
+    assert widget.analysis_status_label.text() == _("✅ Complete")
     assert "up-to-date" in widget.analysis_results.toPlainText()
 
     history = app_info_cache.get("diff_mode_llm_history", {})
@@ -83,7 +84,7 @@ def test_run_llm_analysis_surfaces_llm_failure(qtbot, tmp_path, monkeypatch):
     widget.run_llm_analysis()
     qtbot.waitUntil(lambda: widget.llm_analysis_worker is None, timeout=5000)
 
-    assert widget.analysis_status_label.text() == "❌ Error"
+    assert widget.analysis_status_label.text() == _("❌ Error")
     assert "ollama unreachable" in widget.analysis_results.toPlainText()
 
 
@@ -108,7 +109,7 @@ def test_generate_merged_version_populates_code_and_caches_history(qtbot, tmp_pa
     widget.generate_merged_version()
     qtbot.waitUntil(lambda: widget.llm_generation_worker is None, timeout=5000)
 
-    assert widget.code_status_label.text() == "✅ Complete"
+    assert widget.code_status_label.text() == _("✅ Complete")
     assert "def merged" in widget.generated_code.toPlainText()
 
     history = app_info_cache.get("diff_mode_llm_history", {})
@@ -150,7 +151,7 @@ def test_request_history_restore_and_delete(qtbot, tmp_path, monkeypatch):
     widget.restore_history_entry(entry_item)  # confirmation dialog auto-answered Yes
 
     assert sorted(widget.diff_engine.get_file_names()) == sorted([str(file_a), str(file_b)])
-    assert widget.analysis_status_label.text() == "✅ Complete (cached)"
+    assert widget.analysis_status_label.text() == _("✅ Complete (cached)")
 
     widget.delete_selected_history_entry()  # confirmation dialog auto-answered Yes
 

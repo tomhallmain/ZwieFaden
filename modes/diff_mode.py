@@ -15,6 +15,7 @@ from diff.llm_analyzer import DiffLLMAnalyzer
 from modes.project_compare_widget import ProjectCompareTab
 from ui.formatting import markdown_to_html, DiffHighlighter
 from utils.app_info_cache import app_info_cache
+from utils.translations import _
 
 
 
@@ -81,7 +82,7 @@ class DiffTextEdit(QTextEdit):
         """Extend context menu with an optional strip-prefix copy action."""
         menu = self.createStandardContextMenu()
         menu.addSeparator()
-        menu.addAction("Copy (Strip First Column)", self.copy_strip_first_column)
+        menu.addAction(_("Copy (Strip First Column)"), self.copy_strip_first_column)
         menu.exec(event.globalPos())
 
     def copy_strip_first_column(self):
@@ -126,76 +127,76 @@ class DiffModeWidget(QWidget):
         row_one_layout = QHBoxLayout()
         row_two_layout = QHBoxLayout()
         
-        self.add_file_button = QPushButton("Add File")
+        self.add_file_button = QPushButton(_("Add File"))
         self.add_file_button.clicked.connect(self.add_file)
         row_one_layout.addWidget(self.add_file_button)
         
-        self.remove_file_button = QPushButton("Remove Selected")
+        self.remove_file_button = QPushButton(_("Remove Selected"))
         self.remove_file_button.clicked.connect(self.remove_selected_files)
-        self.remove_file_button.setToolTip("Remove selected file(s) from current diff set")
+        self.remove_file_button.setToolTip(_("Remove selected file(s) from current diff set"))
         row_one_layout.addWidget(self.remove_file_button)
 
         self.move_up_button = QPushButton("↑")
         self.move_up_button.clicked.connect(self.move_selected_files_up)
-        self.move_up_button.setToolTip("Move selected file(s) up")
+        self.move_up_button.setToolTip(_("Move selected file(s) up"))
         row_one_layout.addWidget(self.move_up_button)
 
         self.move_down_button = QPushButton("↓")
         self.move_down_button.clicked.connect(self.move_selected_files_down)
-        self.move_down_button.setToolTip("Move selected file(s) down")
+        self.move_down_button.setToolTip(_("Move selected file(s) down"))
         row_one_layout.addWidget(self.move_down_button)
 
-        self.clear_files_button = QPushButton("Clear Files")
+        self.clear_files_button = QPushButton(_("Clear Files"))
         self.clear_files_button.clicked.connect(self.clear_files)
         row_one_layout.addWidget(self.clear_files_button)
 
-        self.refresh_files_button = QPushButton("Refresh Files")
+        self.refresh_files_button = QPushButton(_("Refresh Files"))
         self.refresh_files_button.clicked.connect(self.refresh_files)
-        self.refresh_files_button.setToolTip("Reload file contents from disk and rerun diff")
+        self.refresh_files_button.setToolTip(_("Reload file contents from disk and rerun diff"))
         row_one_layout.addWidget(self.refresh_files_button)
         
-        row_one_layout.addWidget(QLabel("Compare:"))
+        row_one_layout.addWidget(QLabel(_("Compare:")))
         
         self.file_a_combo = QComboBox()
         self.file_a_combo.currentIndexChanged.connect(self.update_diff)
         row_one_layout.addWidget(self.file_a_combo)
         
-        row_one_layout.addWidget(QLabel("vs"))
+        row_one_layout.addWidget(QLabel(_("vs")))
         
         self.file_b_combo = QComboBox()
         self.file_b_combo.currentIndexChanged.connect(self.update_diff)
         row_one_layout.addWidget(self.file_b_combo)
         row_one_layout.addStretch()
 
-        row_two_layout.addWidget(QLabel("Saved Grouping:"))
+        row_two_layout.addWidget(QLabel(_("Saved Grouping:")))
         self.grouping_history_combo = QComboBox()
         self.grouping_history_combo.setMinimumWidth(320)
-        self.grouping_history_combo.setToolTip("Load a previously used file grouping")
+        self.grouping_history_combo.setToolTip(_("Load a previously used file grouping"))
         row_two_layout.addWidget(self.grouping_history_combo)
 
-        self.load_grouping_button = QPushButton("Load Grouping")
+        self.load_grouping_button = QPushButton(_("Load Grouping"))
         self.load_grouping_button.clicked.connect(self.load_selected_grouping)
         row_two_layout.addWidget(self.load_grouping_button)
 
-        self.save_grouping_button = QPushButton("Save Grouping")
+        self.save_grouping_button = QPushButton(_("Save Grouping"))
         self.save_grouping_button.clicked.connect(self.save_current_grouping_to_history)
-        self.save_grouping_button.setToolTip("Store current file grouping for later quick restore")
+        self.save_grouping_button.setToolTip(_("Store current file grouping for later quick restore"))
         row_two_layout.addWidget(self.save_grouping_button)
         
-        self.unified_diff_button = QPushButton("Show Unified Diff")
+        self.unified_diff_button = QPushButton(_("Show Unified Diff"))
         self.unified_diff_button.clicked.connect(self.show_unified_diff)
         row_two_layout.addWidget(self.unified_diff_button)
         
-        self.html_diff_button = QPushButton("Show HTML Diff")
+        self.html_diff_button = QPushButton(_("Show HTML Diff"))
         self.html_diff_button.clicked.connect(self.show_html_diff)
         row_two_layout.addWidget(self.html_diff_button)
 
-        self.highlight_whitespace_checkbox = QCheckBox("Highlight Whitespace-Only Diffs")
+        self.highlight_whitespace_checkbox = QCheckBox(_("Highlight Whitespace-Only Diffs"))
         self.highlight_whitespace_checkbox.setChecked(
             bool(app_info_cache.get(self.HIGHLIGHT_WHITESPACE_CACHE_KEY, False))
         )
         self.highlight_whitespace_checkbox.setToolTip(
-            "When disabled, trailing/blank-line whitespace-only changes are not highlighted."
+            _("When disabled, trailing/blank-line whitespace-only changes are not highlighted.")
         )
         self.highlight_whitespace_checkbox.stateChanged.connect(self._on_whitespace_highlight_changed)
         row_two_layout.addWidget(self.highlight_whitespace_checkbox)
@@ -207,14 +208,14 @@ class DiffModeWidget(QWidget):
         layout.addWidget(top_panel)
         
         # File list
-        file_list_label = QLabel("Added Files:")
+        file_list_label = QLabel(_("Added Files:"))
         self.file_list_label = file_list_label
         layout.addWidget(file_list_label)
         
         self.file_list_widget = QListWidget()
         self.file_list_widget.setMaximumHeight(100)
         self.file_list_widget.setSelectionMode(QListWidget.ExtendedSelection)
-        self.file_list_widget.setToolTip("Files added for comparison. Shows filename and directory context.")
+        self.file_list_widget.setToolTip(_("Files added for comparison. Shows filename and directory context."))
         layout.addWidget(self.file_list_widget)
         
         # Main diff display
@@ -223,7 +224,7 @@ class DiffModeWidget(QWidget):
         # Left side - Line-by-line diff
         left_widget = QWidget()
         left_layout = QVBoxLayout(left_widget)
-        self.diff_section_label = QLabel("Line-by-Line Diff:")
+        self.diff_section_label = QLabel(_("Line-by-Line Diff:"))
         left_layout.addWidget(self.diff_section_label)
         
         self.diff_text = DiffTextEdit()
@@ -240,7 +241,7 @@ class DiffModeWidget(QWidget):
         
         # File A display
         file_a_layout = QVBoxLayout()
-        self.file_a_label = QLabel("File A:")
+        self.file_a_label = QLabel(_("File A:"))
         file_a_layout.addWidget(self.file_a_label)
         
         self.file_a_text = QTextEdit()
@@ -250,7 +251,7 @@ class DiffModeWidget(QWidget):
         
         # File B display
         file_b_layout = QVBoxLayout()
-        self.file_b_label = QLabel("File B:")
+        self.file_b_label = QLabel(_("File B:"))
         file_b_layout.addWidget(self.file_b_label)
         
         self.file_b_text = QTextEdit()
@@ -269,23 +270,23 @@ class DiffModeWidget(QWidget):
         # Create tabbed interface
         tabs = QTabWidget()
         self.tabs = tabs
-        self.diff_view_tab_index = tabs.addTab(splitter, "Diff View")
+        self.diff_view_tab_index = tabs.addTab(splitter, _("Diff View"))
 
         # LLM Analysis tab
         llm_tab = self.create_llm_analysis_tab()
-        tabs.addTab(llm_tab, "LLM Analysis")
+        tabs.addTab(llm_tab, _("LLM Analysis"))
 
         # File Grouping tab
         grouping_tab = self.create_file_grouping_tab()
-        tabs.addTab(grouping_tab, "File Grouping")
+        tabs.addTab(grouping_tab, _("File Grouping"))
 
         # Request History tab
         history_tab = self.create_request_history_tab()
-        tabs.addTab(history_tab, "Request History")
+        tabs.addTab(history_tab, _("Request History"))
 
         # Project Compare tab
         self.project_compare_tab = ProjectCompareTab(self._open_pair_in_diff_view)
-        self.project_compare_tab_index = tabs.addTab(self.project_compare_tab, "Project Compare")
+        self.project_compare_tab_index = tabs.addTab(self.project_compare_tab, _("Project Compare"))
 
         # The top toolbar and file list operate on the current diff file set,
         # which Project Compare doesn't use (it works on two whole project
@@ -311,7 +312,7 @@ class DiffModeWidget(QWidget):
             try:
                 self._add_file_to_engine_and_list(filepath)
             except Exception as e:
-                QMessageBox.critical(self, "Error", f"Failed to add file: {str(e)}")
+                QMessageBox.critical(self, _("Error"), _("Failed to add file: {0}").format(str(e)))
                 return
         self.update_file_combos()
         self.update_base_file_combo()
@@ -323,8 +324,8 @@ class DiffModeWidget(QWidget):
     def add_file(self):
         """Add a file to compare."""
         start_directory = self._get_dialog_start_directory()
-        filename, _ = QFileDialog.getOpenFileName(
-            self, "Select file to compare", start_directory, "All Files (*)"
+        filename, _selected_filter = QFileDialog.getOpenFileName(
+            self, _("Select file to compare"), start_directory, _("All Files (*)")
         )
         if filename:
             try:
@@ -335,15 +336,15 @@ class DiffModeWidget(QWidget):
                 self.update_file_groups()  # Update grouping tab
                 self._cache_current_diff_session()
                 dir_context = os.path.dirname(filename) or "."
-                QMessageBox.information(self, "Success", f"Added file: {os.path.basename(filename)}\nFrom: {dir_context}")
+                QMessageBox.information(self, _("Success"), _("Added file: {0}\nFrom: {1}").format(os.path.basename(filename), dir_context))
             except Exception as e:
-                QMessageBox.critical(self, "Error", f"Failed to add file: {str(e)}")
+                QMessageBox.critical(self, _("Error"), _("Failed to add file: {0}").format(str(e)))
     
     def clear_files(self):
         """Clear all added files."""
         reply = QMessageBox.question(
-            self, "Confirm Clear",
-            "Are you sure you want to clear all files?",
+            self, _("Confirm Clear"),
+            _("Are you sure you want to clear all files?"),
             QMessageBox.Yes | QMessageBox.No
         )
         if reply == QMessageBox.Yes:
@@ -365,7 +366,7 @@ class DiffModeWidget(QWidget):
         """Remove selected files from the current diff grouping."""
         selected_items = self.file_list_widget.selectedItems()
         if not selected_items:
-            QMessageBox.information(self, "Remove Selected", "Select one or more files to remove.")
+            QMessageBox.information(self, _("Remove Selected"), _("Select one or more files to remove."))
             return
 
         selected_paths = {
@@ -427,7 +428,7 @@ class DiffModeWidget(QWidget):
         """Reload current files from disk and rerun the selected diff."""
         current_paths = self.diff_engine.get_file_names()
         if not current_paths:
-            QMessageBox.information(self, "Refresh Files", "No files to refresh.")
+            QMessageBox.information(self, _("Refresh Files"), _("No files to refresh."))
             return
 
         # Preserve current pair selection by file path.
@@ -462,9 +463,8 @@ class DiffModeWidget(QWidget):
         if missing_paths:
             QMessageBox.warning(
                 self,
-                "Refresh Files",
-                "Some files could not be refreshed because they no longer exist:\n"
-                + "\n".join(missing_paths)
+                _("Refresh Files"),
+                _("Some files could not be refreshed because they no longer exist:\n{0}").format("\n".join(missing_paths))
             )
 
         if not existing_paths:
@@ -473,9 +473,9 @@ class DiffModeWidget(QWidget):
         if self._has_cached_analysis_for_paths(existing_paths):
             reply = QMessageBox.question(
                 self,
-                "Rerun Analysis?",
-                "A previous LLM analysis exists for this same file grouping.\n"
-                "Do you want to rerun analysis with the refreshed file contents?",
+                _("Rerun Analysis?"),
+                _("A previous LLM analysis exists for this same file grouping.\n"
+                "Do you want to rerun analysis with the refreshed file contents?"),
                 QMessageBox.Yes | QMessageBox.No
             )
             if reply == QMessageBox.Yes:
@@ -581,38 +581,38 @@ class DiffModeWidget(QWidget):
         """Manually store the current file grouping for quick reload."""
         file_paths = self.diff_engine.get_file_names()
         if not file_paths:
-            QMessageBox.information(self, "Save Grouping", "No files in current grouping to save.")
+            QMessageBox.information(self, _("Save Grouping"), _("No files in current grouping to save."))
             return
         self._cache_file_grouping_history(file_paths)
         self._cache_current_diff_session()
         QMessageBox.information(
             self,
-            "Grouping Saved",
-            f"Saved grouping with {len(file_paths)} file(s)."
+            _("Grouping Saved"),
+            _("Saved grouping with {0} file(s).").format(len(file_paths))
         )
 
     def load_selected_grouping(self):
         """Load file grouping selected in the saved-grouping combo."""
         entry_id = self.grouping_history_combo.currentData()
         if not entry_id:
-            QMessageBox.information(self, "Load Grouping", "No saved grouping selected.")
+            QMessageBox.information(self, _("Load Grouping"), _("No saved grouping selected."))
             return
 
         history = app_info_cache.get(self.GROUPING_HISTORY_CACHE_KEY, {})
         entry = history.get(entry_id) if isinstance(history, dict) else None
         if not entry:
-            QMessageBox.warning(self, "Load Grouping", "Saved grouping entry was not found.")
+            QMessageBox.warning(self, _("Load Grouping"), _("Saved grouping entry was not found."))
             return
 
         file_paths = entry.get("file_paths", [])
         if not file_paths:
-            QMessageBox.warning(self, "Load Grouping", "Saved grouping has no files.")
+            QMessageBox.warning(self, _("Load Grouping"), _("Saved grouping has no files."))
             return
 
         reply = QMessageBox.question(
             self,
-            "Load Saved Grouping",
-            f"This will replace your current files with {len(file_paths)} saved file(s).\nContinue?",
+            _("Load Saved Grouping"),
+            _("This will replace your current files with {0} saved file(s).\nContinue?").format(len(file_paths)),
             QMessageBox.Yes | QMessageBox.No
         )
         if reply != QMessageBox.Yes:
@@ -626,7 +626,7 @@ class DiffModeWidget(QWidget):
             return
 
         self.grouping_history_combo.clear()
-        self.grouping_history_combo.addItem("Select saved grouping...", None)
+        self.grouping_history_combo.addItem(_("Select saved grouping..."), None)
 
         history = app_info_cache.get(self.GROUPING_HISTORY_CACHE_KEY, {})
         if not isinstance(history, dict) or not history:
@@ -646,13 +646,13 @@ class DiffModeWidget(QWidget):
                 dt = datetime.fromisoformat(timestamp)
                 stamp = dt.strftime("%Y-%m-%d %H:%M")
             except Exception:
-                stamp = timestamp or "unknown time"
+                stamp = timestamp or _("unknown time")
             short_label, full_label = self._build_grouping_display_labels(paths, max_items=3)
-            display_text = self._truncate_text(f"[{stamp}] {len(paths)} file(s): {short_label}", 120)
+            display_text = self._truncate_text(_("[{0}] {1} file(s): {2}").format(stamp, len(paths), short_label), 120)
             self.grouping_history_combo.addItem(display_text, entry_id)
             self.grouping_history_combo.setItemData(
                 self.grouping_history_combo.count() - 1,
-                f"[{stamp}] {len(paths)} file(s): {full_label}",
+                _("[{0}] {1} file(s): {2}").format(stamp, len(paths), full_label),
                 Qt.ToolTipRole
             )
 
@@ -905,11 +905,11 @@ class DiffModeWidget(QWidget):
             file_b_name = os.path.basename(file_b_path)
             file_a_dir = os.path.dirname(file_a_path) or "."
             file_b_dir = os.path.dirname(file_b_path) or "."
-            self.file_a_label.setText(f"File A: {file_a_name} ({file_a_dir})")
-            self.file_b_label.setText(f"File B: {file_b_name} ({file_b_dir})")
+            self.file_a_label.setText(_("File A: {0} ({1})").format(file_a_name, file_a_dir))
+            self.file_b_label.setText(_("File B: {0} ({1})").format(file_b_name, file_b_dir))
             
         except Exception as e:
-            QMessageBox.critical(self, "Error", f"Failed to generate diff: {str(e)}")
+            QMessageBox.critical(self, _("Error"), _("Failed to generate diff: {0}").format(str(e)))
     
     def show_unified_diff(self):
         """Show unified diff format."""
@@ -917,11 +917,11 @@ class DiffModeWidget(QWidget):
         file_b_idx = self.file_b_combo.currentData()
         
         if file_a_idx is None or file_b_idx is None:
-            QMessageBox.warning(self, "Warning", "Please select two files to compare.")
+            QMessageBox.warning(self, _("Warning"), _("Please select two files to compare."))
             return
         
         if file_a_idx == file_b_idx:
-            QMessageBox.warning(self, "Warning", "Please select two different files.")
+            QMessageBox.warning(self, _("Warning"), _("Please select two different files."))
             return
         
         try:
@@ -929,7 +929,7 @@ class DiffModeWidget(QWidget):
             self.diff_text.setPlainText(unified_diff)
             self._set_no_diff_indicator(False)
         except Exception as e:
-            QMessageBox.critical(self, "Error", f"Failed to generate unified diff: {str(e)}")
+            QMessageBox.critical(self, _("Error"), _("Failed to generate unified diff: {0}").format(str(e)))
     
     def show_html_diff(self):
         """Show HTML diff in a new window."""
@@ -937,11 +937,11 @@ class DiffModeWidget(QWidget):
         file_b_idx = self.file_b_combo.currentData()
         
         if file_a_idx is None or file_b_idx is None:
-            QMessageBox.warning(self, "Warning", "Please select two files to compare.")
+            QMessageBox.warning(self, _("Warning"), _("Please select two files to compare."))
             return
         
         if file_a_idx == file_b_idx:
-            QMessageBox.warning(self, "Warning", "Please select two different files.")
+            QMessageBox.warning(self, _("Warning"), _("Please select two different files."))
             return
         
         try:
@@ -957,18 +957,18 @@ class DiffModeWidget(QWidget):
             
             webbrowser.open(f'file://{temp_path}')
             QMessageBox.information(
-                self, "HTML Diff",
-                f"HTML diff opened in your default browser.\nTemporary file: {temp_path}"
+                self, _("HTML Diff"),
+                _("HTML diff opened in your default browser.\nTemporary file: {0}").format(temp_path)
             )
         except Exception as e:
-            QMessageBox.critical(self, "Error", f"Failed to generate HTML diff: {str(e)}")
+            QMessageBox.critical(self, _("Error"), _("Failed to generate HTML diff: {0}").format(str(e)))
 
     def _set_no_diff_indicator(self, no_diff: bool):
         """Update header indicator for identical file contents."""
         if no_diff:
-            self.diff_section_label.setText("Line-by-Line Diff: ✅ No differences")
+            self.diff_section_label.setText(_("Line-by-Line Diff: ✅ No differences"))
         else:
-            self.diff_section_label.setText("Line-by-Line Diff:")
+            self.diff_section_label.setText(_("Line-by-Line Diff:"))
     
     def create_llm_analysis_tab(self) -> QWidget:
         """Create the LLM analysis tab."""
@@ -979,15 +979,15 @@ class DiffModeWidget(QWidget):
         input_group = QWidget()
         input_layout = QVBoxLayout(input_group)
         
-        input_layout.addWidget(QLabel("Target Context:"))
+        input_layout.addWidget(QLabel(_("Target Context:")))
         self.target_context_input = QTextEdit()
         self.target_context_input.setPlaceholderText(
-            "Describe the target application/context where you want to use this tool module..."
+            _("Describe the target application/context where you want to use this tool module...")
         )
         self.target_context_input.setMaximumHeight(80)
         input_layout.addWidget(self.target_context_input)
         
-        input_layout.addWidget(QLabel("Specific Requirements (optional):"))
+        input_layout.addWidget(QLabel(_("Specific Requirements (optional):")))
         self.requirements_input = QTextEdit()
         default_requirements = "Please identify the module with the most up-to-date and complete basic logic, irrespective of custom logic native to each application context."
         self.requirements_input.setPlaceholderText(default_requirements)
@@ -997,17 +997,17 @@ class DiffModeWidget(QWidget):
         
         # Buttons
         button_layout = QHBoxLayout()
-        self.analyze_button = QPushButton("Analyze Versions")
+        self.analyze_button = QPushButton(_("Analyze Versions"))
         self.analyze_button.clicked.connect(self.run_llm_analysis)
         button_layout.addWidget(self.analyze_button)
         
-        self.generate_button = QPushButton("Generate Merged Version")
+        self.generate_button = QPushButton(_("Generate Merged Version"))
         self.generate_button.clicked.connect(self.generate_merged_version)
         button_layout.addWidget(self.generate_button)
         
         self.base_file_combo = QComboBox()
-        self.base_file_combo.setToolTip("Select base file for generation (optional)")
-        button_layout.addWidget(QLabel("Base File:"))
+        self.base_file_combo.setToolTip(_("Select base file for generation (optional)"))
+        button_layout.addWidget(QLabel(_("Base File:")))
         button_layout.addWidget(self.base_file_combo)
         button_layout.addStretch()
         
@@ -1021,7 +1021,7 @@ class DiffModeWidget(QWidget):
         
         self.llm_progress = QProgressBar()
         self.llm_progress.setVisible(False)
-        self.llm_progress.setFormat("Processing LLM request...")
+        self.llm_progress.setFormat(_("Processing LLM request..."))
         self.llm_progress.setTextVisible(True)
         status_layout.addWidget(self.llm_progress)
         status_layout.addStretch()
@@ -1037,7 +1037,7 @@ class DiffModeWidget(QWidget):
         analysis_widget = QWidget()
         analysis_layout = QVBoxLayout(analysis_widget)
         analysis_header_layout = QHBoxLayout()
-        analysis_header_layout.addWidget(QLabel("Analysis Results:"))
+        analysis_header_layout.addWidget(QLabel(_("Analysis Results:")))
         self.analysis_status_label = QLabel("")
         self.analysis_status_label.setStyleSheet("color: #4CAF50; font-weight: bold;")
         analysis_header_layout.addStretch()
@@ -1053,7 +1053,7 @@ class DiffModeWidget(QWidget):
         code_widget = QWidget()
         code_layout = QVBoxLayout(code_widget)
         code_header_layout = QHBoxLayout()
-        code_header_layout.addWidget(QLabel("Generated Code:"))
+        code_header_layout.addWidget(QLabel(_("Generated Code:")))
         self.code_status_label = QLabel("")
         self.code_status_label.setStyleSheet("color: #4CAF50; font-weight: bold;")
         code_header_layout.addStretch()
@@ -1064,7 +1064,7 @@ class DiffModeWidget(QWidget):
         code_layout.addWidget(self.generated_code)
         
         # Save button
-        save_button = QPushButton("Save Generated Code")
+        save_button = QPushButton(_("Save Generated Code"))
         save_button.clicked.connect(self.save_generated_code)
         code_layout.addWidget(save_button)
         
@@ -1080,8 +1080,8 @@ class DiffModeWidget(QWidget):
         """Run LLM analysis on the versions."""
         if self.diff_engine.get_file_count() < 2:
             QMessageBox.warning(
-                self, "Warning",
-                "Please add at least 2 files to analyze."
+                self, _("Warning"),
+                _("Please add at least 2 files to analyze.")
             )
             return
         
@@ -1093,8 +1093,8 @@ class DiffModeWidget(QWidget):
         # Show progress indicators
         self.llm_progress.setVisible(True)
         self.llm_progress.setRange(0, 0)  # Indeterminate
-        self.llm_status_label.setText("⏳ Processing analysis request...")
-        self.analysis_status_label.setText("⏳ Processing...")
+        self.llm_status_label.setText(_("⏳ Processing analysis request..."))
+        self.analysis_status_label.setText(_("⏳ Processing..."))
         self.analyze_button.setEnabled(False)
         
         # Prepare data
@@ -1151,12 +1151,12 @@ class DiffModeWidget(QWidget):
             })
         
         if result.get('error'):
-            error_text = f"❌ Error: {result['error']}"
+            error_text = _("❌ Error: {0}").format(result['error'])
             html_content = markdown_to_html(error_text)
             self.analysis_results.setHtml(html_content)
-            self.analysis_status_label.setText("❌ Error")
+            self.analysis_status_label.setText(_("❌ Error"))
         else:
-            analysis_text = result.get('analysis', 'No analysis available')
+            analysis_text = result.get('analysis', _('No analysis available'))
             recommendation = result.get('recommendation', {})
             
             display_text = analysis_text
@@ -1166,12 +1166,12 @@ class DiffModeWidget(QWidget):
                 filename = metadata['filename']
                 dir_context = metadata['directory_context']
                 # Use 1-based indexing for display
-                display_text += f"\n\n## Recommended File\n\n"
-                display_text += f"**File {idx+1}**: `{filename}` (from `{dir_context}`)\n"
+                display_text += "\n\n## " + _("Recommended File") + "\n\n"
+                display_text += _("**File {0}**: `{1}` (from `{2}`)").format(idx + 1, filename, dir_context) + "\n"
             
             html_content = markdown_to_html(display_text)
             self.analysis_results.setHtml(html_content)
-            self.analysis_status_label.setText("✅ Complete")
+            self.analysis_status_label.setText(_("✅ Complete"))
             
             # Update base file combo if recommendation exists
             if recommendation and recommendation.get('recommended_file_index') is not None:
@@ -1189,10 +1189,10 @@ class DiffModeWidget(QWidget):
     
     def _on_analysis_error(self, error_msg):
         """Handle error from LLM analysis."""
-        QMessageBox.critical(self, "Error", f"Analysis failed: {error_msg}")
-        html_content = markdown_to_html(f"Error: {error_msg}")
+        QMessageBox.critical(self, _("Error"), _("Analysis failed: {0}").format(error_msg))
+        html_content = markdown_to_html(_("Error: {0}").format(error_msg))
         self.analysis_results.setHtml(html_content)
-        self.analysis_status_label.setText("❌ Error")
+        self.analysis_status_label.setText(_("❌ Error"))
         
         # Clean up
         self.llm_progress.setVisible(False)
@@ -1204,16 +1204,16 @@ class DiffModeWidget(QWidget):
         """Generate a merged version using LLM."""
         if self.diff_engine.get_file_count() < 1:
             QMessageBox.warning(
-                self, "Warning",
-                "Please add at least 1 file to generate from."
+                self, _("Warning"),
+                _("Please add at least 1 file to generate from.")
             )
             return
         
         target_context = self.target_context_input.toPlainText().strip()
         if not target_context:
             QMessageBox.warning(
-                self, "Warning",
-                "Please provide a target context."
+                self, _("Warning"),
+                _("Please provide a target context.")
             )
             return
         
@@ -1225,9 +1225,9 @@ class DiffModeWidget(QWidget):
         # Show progress indicators
         self.llm_progress.setVisible(True)
         self.llm_progress.setRange(0, 0)  # Indeterminate
-        self.llm_progress.setFormat("Generating merged version...")
-        self.llm_status_label.setText("⏳ Generating code...")
-        self.code_status_label.setText("⏳ Processing...")
+        self.llm_progress.setFormat(_("Generating merged version..."))
+        self.llm_status_label.setText(_("⏳ Generating code..."))
+        self.code_status_label.setText(_("⏳ Processing..."))
         self.generate_button.setEnabled(False)
         
         # Prepare data
@@ -1274,18 +1274,18 @@ class DiffModeWidget(QWidget):
     def _on_generation_finished(self, result):
         """Handle successful completion of LLM code generation."""
         if result.get('error'):
-            error_text = f"❌ Error: {result['error']}"
+            error_text = _("❌ Error: {0}").format(result['error'])
             self.generated_code.setPlainText(error_text)
-            self.code_status_label.setText("❌ Error")
+            self.code_status_label.setText(_("❌ Error"))
         else:
-            code = result.get('code', 'No code generated')
+            code = result.get('code', _('No code generated'))
             self.generated_code.setPlainText(code)
-            self.code_status_label.setText("✅ Complete")
+            self.code_status_label.setText(_("✅ Complete"))
             
             if result.get('explanation'):
                 explanation = result['explanation']
                 if explanation != code:
-                    html_content = markdown_to_html(f"## Generation Explanation\n\n{explanation}")
+                    html_content = markdown_to_html(_("## Generation Explanation\n\n{0}").format(explanation))
                     self.analysis_results.setHtml(html_content)
             
             # Cache the request and response
@@ -1293,20 +1293,20 @@ class DiffModeWidget(QWidget):
         
         # Clean up
         self.llm_progress.setVisible(False)
-        self.llm_progress.setFormat("Processing LLM request...")
+        self.llm_progress.setFormat(_("Processing LLM request..."))
         self.llm_status_label.setText("")
         self.generate_button.setEnabled(True)
         self.llm_generation_worker = None
     
     def _on_generation_error(self, error_msg):
         """Handle error from LLM code generation."""
-        QMessageBox.critical(self, "Error", f"Generation failed: {error_msg}")
-        self.generated_code.setPlainText(f"Error: {error_msg}")
-        self.code_status_label.setText("❌ Error")
+        QMessageBox.critical(self, _("Error"), _("Generation failed: {0}").format(error_msg))
+        self.generated_code.setPlainText(_("Error: {0}").format(error_msg))
+        self.code_status_label.setText(_("❌ Error"))
         
         # Clean up
         self.llm_progress.setVisible(False)
-        self.llm_progress.setFormat("Processing LLM request...")
+        self.llm_progress.setFormat(_("Processing LLM request..."))
         self.llm_status_label.setText("")
         self.generate_button.setEnabled(True)
         self.llm_generation_worker = None
@@ -1322,26 +1322,26 @@ class DiffModeWidget(QWidget):
             self.base_file_combo.addItem(display_name, i)
             # Set tooltip with full path
             self.base_file_combo.setItemData(i, name, Qt.ToolTipRole)
-        self.base_file_combo.insertItem(0, "None (merge all)", None)
+        self.base_file_combo.insertItem(0, _("None (merge all)"), None)
         self.base_file_combo.setCurrentIndex(0)
     
     def save_generated_code(self):
         """Save the generated code to a file."""
         code = self.generated_code.toPlainText()
-        if not code or code.startswith("Error:"):
-            QMessageBox.warning(self, "Warning", "No code to save.")
+        if not code or code.startswith(_("Error: {0}").format("")):
+            QMessageBox.warning(self, _("Warning"), _("No code to save."))
             return
         
-        filename, _ = QFileDialog.getSaveFileName(
-            self, "Save Generated Code", "", "Python Files (*.py);;All Files (*)"
+        filename, _selected_filter = QFileDialog.getSaveFileName(
+            self, _("Save Generated Code"), "", _("Python Files (*.py);;All Files (*)")
         )
         if filename:
             try:
                 with open(filename, 'w', encoding='utf-8') as f:
                     f.write(code)
-                QMessageBox.information(self, "Success", f"Code saved to {filename}")
+                QMessageBox.information(self, _("Success"), _("Code saved to {0}").format(filename))
             except Exception as e:
-                QMessageBox.critical(self, "Error", f"Failed to save file: {str(e)}")
+                QMessageBox.critical(self, _("Error"), _("Failed to save file: {0}").format(str(e)))
     
     def create_file_grouping_tab(self) -> QWidget:
         """Create the file grouping tab that groups files by content (size + hash)."""
@@ -1349,29 +1349,29 @@ class DiffModeWidget(QWidget):
         layout = QVBoxLayout(tab)
         
         # Header
-        header_label = QLabel("Files grouped by content (size + hash). Identical files are grouped together.")
+        header_label = QLabel(_("Files grouped by content (size + hash). Identical files are grouped together."))
         header_label.setWordWrap(True)
         layout.addWidget(header_label)
         
         # Refresh button
-        refresh_button = QPushButton("Refresh Groups")
+        refresh_button = QPushButton(_("Refresh Groups"))
         refresh_button.clicked.connect(self.update_file_groups)
-        refresh_button.setToolTip("Recalculate file groups based on current files")
+        refresh_button.setToolTip(_("Recalculate file groups based on current files"))
         layout.addWidget(refresh_button)
         
         # Tree widget for collapsible groups
         self.grouping_tree = QTreeWidget()
-        self.grouping_tree.setHeaderLabels(["File / Group", "Size", "Hash", "Path"])
+        self.grouping_tree.setHeaderLabels([_("File / Group"), _("Size"), _("Hash"), _("Path")])
         self.grouping_tree.setColumnWidth(0, 300)
         self.grouping_tree.setColumnWidth(1, 100)
         self.grouping_tree.setColumnWidth(2, 150)
         self.grouping_tree.setColumnWidth(3, 400)
         self.grouping_tree.setAlternatingRowColors(True)
-        self.grouping_tree.setToolTip("Groups of identical files. Expand groups to see individual files.")
+        self.grouping_tree.setToolTip(_("Groups of identical files. Expand groups to see individual files."))
         layout.addWidget(self.grouping_tree)
         
         # Info label
-        self.grouping_info_label = QLabel("No files added yet.")
+        self.grouping_info_label = QLabel(_("No files added yet."))
         layout.addWidget(self.grouping_info_label)
         
         # Update groups when files are added
@@ -1386,14 +1386,14 @@ class DiffModeWidget(QWidget):
         self.grouping_tree.clear()
         
         if self.diff_engine.get_file_count() == 0:
-            self.grouping_info_label.setText("No files added yet.")
+            self.grouping_info_label.setText(_("No files added yet."))
             return
         
         # Calculate hash for each file
         file_hashes = {}
         file_sizes = {}
         
-        for i, (filepath, _) in enumerate(self.diff_engine.files):
+        for i, (filepath, _content) in enumerate(self.diff_engine.files):
             try:
                 with open(filepath, 'rb') as f:
                     content = f.read()
@@ -1425,7 +1425,7 @@ class DiffModeWidget(QWidget):
         for (size, hash_value), filepaths in sorted_groups:
             # Create group item
             group_item = QTreeWidgetItem(self.grouping_tree)
-            group_item.setText(0, f"Group {group_number} ({len(filepaths)} file{'s' if len(filepaths) > 1 else ''})")
+            group_item.setText(0, _("Group {0} ({1} file(s))").format(group_number, len(filepaths)))
             group_item.setText(1, self._format_size(size))
             group_item.setText(2, hash_value[:16] + "...")  # Show first 16 chars
             group_item.setText(3, "")
@@ -1453,13 +1453,12 @@ class DiffModeWidget(QWidget):
         # Update info label
         if unique_groups == total_files:
             self.grouping_info_label.setText(
-                f"All {total_files} file(s) are unique (no duplicates found)."
+                _("All {0} file(s) are unique (no duplicates found).").format(total_files)
             )
         else:
             duplicates = total_files - unique_groups
             self.grouping_info_label.setText(
-                f"Found {unique_groups} unique file group(s) from {total_files} file(s). "
-                f"{duplicates} duplicate(s) detected."
+                _("Found {0} unique file group(s) from {1} file(s). {2} duplicate(s) detected.").format(unique_groups, total_files, duplicates)
             )
     
     def _format_size(self, size_bytes: int) -> str:
@@ -1538,21 +1537,21 @@ class DiffModeWidget(QWidget):
         layout = QVBoxLayout(tab)
         
         # Header
-        header_label = QLabel("View and restore previous LLM requests. Double-click an entry to restore its configuration.")
+        header_label = QLabel(_("View and restore previous LLM requests. Double-click an entry to restore its configuration."))
         header_label.setWordWrap(True)
         layout.addWidget(header_label)
         
         # Buttons
         button_layout = QHBoxLayout()
-        refresh_button = QPushButton("Refresh History")
+        refresh_button = QPushButton(_("Refresh History"))
         refresh_button.clicked.connect(self.update_request_history)
         button_layout.addWidget(refresh_button)
         
-        delete_button = QPushButton("Delete Selected")
+        delete_button = QPushButton(_("Delete Selected"))
         delete_button.clicked.connect(self.delete_selected_history_entry)
         button_layout.addWidget(delete_button)
         
-        clear_all_button = QPushButton("Clear All History")
+        clear_all_button = QPushButton(_("Clear All History"))
         clear_all_button.clicked.connect(self.clear_all_history)
         button_layout.addWidget(clear_all_button)
         
@@ -1563,11 +1562,11 @@ class DiffModeWidget(QWidget):
         self.history_list_widget = QListWidget()
         self.history_list_widget.setAlternatingRowColors(True)
         self.history_list_widget.itemDoubleClicked.connect(self.restore_history_entry)
-        self.history_list_widget.setToolTip("Double-click an entry to restore its file configuration and view the cached response.")
+        self.history_list_widget.setToolTip(_("Double-click an entry to restore its file configuration and view the cached response."))
         layout.addWidget(self.history_list_widget)
         
         # Details panel
-        details_label = QLabel("Entry Details:")
+        details_label = QLabel(_("Entry Details:"))
         layout.addWidget(details_label)
         
         self.history_details = QTextEdit()
@@ -1592,7 +1591,7 @@ class DiffModeWidget(QWidget):
             history = app_info_cache.get(cache_key, {})
             
             if not history:
-                self.history_list_widget.addItem("No cached requests found.")
+                self.history_list_widget.addItem(_("No cached requests found."))
                 return
             
             # Sort by timestamp (newest first)
@@ -1616,24 +1615,24 @@ class DiffModeWidget(QWidget):
                 
                 # Create display text
                 file_count = len(file_paths)
-                type_display = "Analysis" if request_type == 'analysis' else "Generation"
+                type_display = _("Analysis") if request_type == 'analysis' else _("Generation")
                 
                 # Show first few filenames
                 if file_paths:
                     filenames = [os.path.basename(fp) for fp in file_paths[:3]]
                     files_display = ', '.join(filenames)
                     if len(file_paths) > 3:
-                        files_display += f" (+{len(file_paths) - 3} more)"
+                        files_display += _(" (+{0} more)").format(len(file_paths) - 3)
                 else:
-                    files_display = "No files"
+                    files_display = _("No files")
                 
-                display_text = f"[{time_display}] {type_display} - {file_count} file(s): {files_display}"
+                display_text = _("[{0}] {1} - {2} file(s): {3}").format(time_display, type_display, file_count, files_display)
                 
                 item = QListWidgetItem(display_text)
                 item.setData(Qt.UserRole, entry_id)  # Store entry ID
                 self.history_list_widget.addItem(item)
         except Exception as e:
-            self.history_list_widget.addItem(f"Error loading history: {str(e)}")
+            self.history_list_widget.addItem(_("Error loading history: {0}").format(str(e)))
     
     def show_history_entry_details(self):
         """Show details of the selected history entry."""
@@ -1648,46 +1647,46 @@ class DiffModeWidget(QWidget):
             history = app_info_cache.get(cache_key, {})
             
             if entry_id not in history:
-                self.history_details.setPlainText("Entry not found.")
+                self.history_details.setPlainText(_("Entry not found."))
                 return
             
             entry = history[entry_id]
             
             # Build details text
             details_lines = []
-            details_lines.append(f"Request Type: {entry.get('request_type', 'unknown')}")
-            details_lines.append(f"Timestamp: {entry.get('timestamp', 'unknown')}")
-            details_lines.append(f"\nFiles ({len(entry.get('file_paths', []))}):")
+            details_lines.append(_("Request Type: {0}").format(entry.get('request_type', _('unknown'))))
+            details_lines.append(_("Timestamp: {0}").format(entry.get('timestamp', _('unknown'))))
+            details_lines.append("\n" + _("Files ({0}):").format(len(entry.get('file_paths', []))))
             for i, filepath in enumerate(entry.get('file_paths', []), 1):
                 filename = os.path.basename(filepath)
                 dir_context = os.path.dirname(filepath) or "."
-                details_lines.append(f"  {i}. {filename} (from {dir_context})")
+                details_lines.append("  " + _("{0}. {1} (from {2})").format(i, filename, dir_context))
                 details_lines.append(f"     {filepath}")
             
             target_context = entry.get('target_context')
             if target_context:
-                details_lines.append(f"\nTarget Context: {target_context}")
+                details_lines.append("\n" + _("Target Context: {0}").format(target_context))
             
             requirements = entry.get('requirements')
             if requirements:
-                details_lines.append(f"\nRequirements: {requirements}")
+                details_lines.append("\n" + _("Requirements: {0}").format(requirements))
             
             base_file_index = entry.get('base_file_index')
             if base_file_index is not None:
-                details_lines.append(f"\nBase File Index: {base_file_index}")
+                details_lines.append("\n" + _("Base File Index: {0}").format(base_file_index))
             
             result = entry.get('result', {})
             if result.get('error'):
-                details_lines.append(f"\nResult: Error - {result.get('error')}")
+                details_lines.append("\n" + _("Result: Error - {0}").format(result.get('error')))
             else:
                 if entry.get('request_type') == 'analysis':
-                    details_lines.append(f"\nResult: Analysis completed successfully")
+                    details_lines.append("\n" + _("Result: Analysis completed successfully"))
                 else:
-                    details_lines.append(f"\nResult: Code generation completed successfully")
+                    details_lines.append("\n" + _("Result: Code generation completed successfully"))
             
             self.history_details.setPlainText('\n'.join(details_lines))
         except Exception as e:
-            self.history_details.setPlainText(f"Error loading details: {str(e)}")
+            self.history_details.setPlainText(_("Error loading details: {0}").format(str(e)))
     
     def restore_history_entry(self, item):
         """Restore a history entry's configuration."""
@@ -1697,21 +1696,20 @@ class DiffModeWidget(QWidget):
             history = app_info_cache.get(cache_key, {})
             
             if entry_id not in history:
-                QMessageBox.warning(self, "Error", "Entry not found in cache.")
+                QMessageBox.warning(self, _("Error"), _("Entry not found in cache."))
                 return
             
             entry = history[entry_id]
             file_paths = entry.get('file_paths', [])
             
             if not file_paths:
-                QMessageBox.warning(self, "Error", "No files found in this entry.")
+                QMessageBox.warning(self, _("Error"), _("No files found in this entry."))
                 return
             
             # Confirm restoration
             reply = QMessageBox.question(
-                self, "Restore Configuration",
-                f"This will replace your current file configuration with {len(file_paths)} file(s).\n"
-                f"Continue?",
+                self, _("Restore Configuration"),
+                _("This will replace your current file configuration with {0} file(s).\nContinue?").format(len(file_paths)),
                 QMessageBox.Yes | QMessageBox.No
             )
             
@@ -1729,13 +1727,13 @@ class DiffModeWidget(QWidget):
                         self._add_file_to_engine_and_list(filepath)
                     except Exception as e:
                         QMessageBox.warning(
-                            self, "Warning",
-                            f"Failed to add file {filepath}: {str(e)}"
+                            self, _("Warning"),
+                            _("Failed to add file {0}: {1}").format(filepath, str(e))
                         )
                 else:
                     QMessageBox.warning(
-                        self, "Warning",
-                        f"File no longer exists: {filepath}"
+                        self, _("Warning"),
+                        _("File no longer exists: {0}").format(filepath)
                     )
             
             # Update UI
@@ -1777,12 +1775,12 @@ class DiffModeWidget(QWidget):
             
             if request_type == 'analysis':
                 if result.get('error'):
-                    error_text = f"❌ Error: {result['error']}"
+                    error_text = _("❌ Error: {0}").format(result['error'])
                     html_content = markdown_to_html(error_text)
                     self.analysis_results.setHtml(html_content)
-                    self.analysis_status_label.setText("❌ Error (cached)")
+                    self.analysis_status_label.setText(_("❌ Error (cached)"))
                 else:
-                    analysis_text = result.get('analysis', 'No analysis available')
+                    analysis_text = result.get('analysis', _('No analysis available'))
                     recommendation = result.get('recommendation', {})
                     
                     display_text = analysis_text
@@ -1791,28 +1789,28 @@ class DiffModeWidget(QWidget):
                         file_metadata = entry.get('file_metadata', [])
                         if idx < len(file_metadata):
                             metadata = file_metadata[idx]
-                            filename = metadata.get('filename', 'unknown')
-                            dir_context = metadata.get('directory_context', 'unknown')
-                            display_text += f"\n\n## Recommended File\n\n"
-                            display_text += f"**File {idx+1}**: `{filename}` (from `{dir_context}`)\n"
+                            filename = metadata.get('filename', _('unknown'))
+                            dir_context = metadata.get('directory_context', _('unknown'))
+                            display_text += "\n\n## " + _("Recommended File") + "\n\n"
+                            display_text += _("**File {0}**: `{1}` (from `{2}`)").format(idx + 1, filename, dir_context) + "\n"
                     
                     html_content = markdown_to_html(display_text)
                     self.analysis_results.setHtml(html_content)
-                    self.analysis_status_label.setText("✅ Complete (cached)")
+                    self.analysis_status_label.setText(_("✅ Complete (cached)"))
             else:  # generation
                 if result.get('error'):
-                    error_text = f"❌ Error: {result['error']}"
+                    error_text = _("❌ Error: {0}").format(result['error'])
                     self.generated_code.setPlainText(error_text)
-                    self.code_status_label.setText("❌ Error (cached)")
+                    self.code_status_label.setText(_("❌ Error (cached)"))
                 else:
-                    code = result.get('code', 'No code generated')
+                    code = result.get('code', _('No code generated'))
                     self.generated_code.setPlainText(code)
-                    self.code_status_label.setText("✅ Complete (cached)")
+                    self.code_status_label.setText(_("✅ Complete (cached)"))
                     
                     if result.get('explanation'):
                         explanation = result['explanation']
                         if explanation != code:
-                            html_content = markdown_to_html(f"## Generation Explanation\n\n{explanation}")
+                            html_content = markdown_to_html(_("## Generation Explanation\n\n{0}").format(explanation))
                             self.analysis_results.setHtml(html_content)
             
             # Switch to LLM Analysis tab
@@ -1823,31 +1821,30 @@ class DiffModeWidget(QWidget):
             if parent:
                 # Find the tab index for LLM Analysis
                 for i in range(parent.count()):
-                    if parent.tabText(i) == "LLM Analysis":
+                    if parent.tabText(i) == _("LLM Analysis"):
                         parent.setCurrentIndex(i)
                         break
             
             QMessageBox.information(
-                self, "Restored",
-                f"Configuration restored from {entry.get('timestamp', 'unknown')}.\n"
-                f"Cached response displayed in LLM Analysis tab."
+                self, _("Restored"),
+                _("Configuration restored from {0}.\nCached response displayed in LLM Analysis tab.").format(entry.get('timestamp', _('unknown')))
             )
         except Exception as e:
-            QMessageBox.critical(self, "Error", f"Failed to restore entry: {str(e)}")
+            QMessageBox.critical(self, _("Error"), _("Failed to restore entry: {0}").format(str(e)))
     
     def delete_selected_history_entry(self):
         """Delete the selected history entry."""
         selected_items = self.history_list_widget.selectedItems()
         if not selected_items:
-            QMessageBox.warning(self, "Warning", "Please select an entry to delete.")
+            QMessageBox.warning(self, _("Warning"), _("Please select an entry to delete."))
             return
         
         try:
             entry_id = selected_items[0].data(Qt.UserRole)
             
             reply = QMessageBox.question(
-                self, "Confirm Delete",
-                "Are you sure you want to delete this entry?",
+                self, _("Confirm Delete"),
+                _("Are you sure you want to delete this entry?"),
                 QMessageBox.Yes | QMessageBox.No
             )
             
@@ -1864,13 +1861,13 @@ class DiffModeWidget(QWidget):
                 self.update_request_history()
                 self.history_details.clear()
         except Exception as e:
-            QMessageBox.critical(self, "Error", f"Failed to delete entry: {str(e)}")
+            QMessageBox.critical(self, _("Error"), _("Failed to delete entry: {0}").format(str(e)))
     
     def clear_all_history(self):
         """Clear all cached history entries."""
         reply = QMessageBox.question(
-            self, "Confirm Clear All",
-            "Are you sure you want to clear all cached history?\nThis cannot be undone.",
+            self, _("Confirm Clear All"),
+            _("Are you sure you want to clear all cached history?\nThis cannot be undone."),
             QMessageBox.Yes | QMessageBox.No
         )
         
@@ -1883,7 +1880,7 @@ class DiffModeWidget(QWidget):
             app_info_cache.store()
             self.update_request_history()
             self.history_details.clear()
-            QMessageBox.information(self, "Success", "All history cleared.")
+            QMessageBox.information(self, _("Success"), _("All history cleared."))
         except Exception as e:
-            QMessageBox.critical(self, "Error", f"Failed to clear history: {str(e)}")
+            QMessageBox.critical(self, _("Error"), _("Failed to clear history: {0}").format(str(e)))
 

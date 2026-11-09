@@ -10,6 +10,7 @@ from ui.theme import apply_dark_theme
 from utils.app_info_cache import app_info_cache
 from utils.constants import AppMode
 from utils.logging_setup import get_logger
+from utils.translations import _
 
 logger = get_logger(__name__)
 
@@ -20,7 +21,7 @@ class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Data Analysis & Diff Tool")
+        self.setWindowTitle(_("Data Analysis & Diff Tool"))
         self.setGeometry(100, 100, 1400, 900)
 
         # Create central widget and layout
@@ -30,8 +31,8 @@ class MainWindow(QMainWindow):
 
         # Create mode selector buttons (Diff left, Join right)
         mode_layout = QHBoxLayout()
-        self.diff_mode_btn = QPushButton("Diff Mode")
-        self.join_mode_btn = QPushButton("Join Mode")
+        self.diff_mode_btn = QPushButton(_("Diff Mode"))
+        self.join_mode_btn = QPushButton(_("Join Mode"))
 
         self.diff_mode_btn.setCheckable(True)
         self.join_mode_btn.setCheckable(True)
@@ -83,11 +84,11 @@ def main():
         try:
             window.join_widget.store_data()
         except Exception as e:
-            logger.warning("Failed to store join data on exit: %s", e)
+            logger.warning(_("Failed to store join data on exit: %s"), e)
         try:
             app_info_cache.store()
         except Exception as e:
-            logger.warning("Failed to save app cache on exit: %s", e)
+            logger.warning(_("Failed to save app cache on exit: %s"), e)
 
     app.aboutToQuit.connect(save_cache_on_quit)
 
